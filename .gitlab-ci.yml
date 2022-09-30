@@ -1,4 +1,10 @@
-run_tests:
-  image: gradle:7.5-jdk17
+stages:
+  - build
+
+build-java-project:
+  stage: build
   script:
-    - ./gradlew test
+    - gradle build
+  artifacts:
+    paths:
+      - /home/gitlab-runner/
