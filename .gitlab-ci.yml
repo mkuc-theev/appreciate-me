@@ -1,17 +1,28 @@
-stages:
-  - build
-  - test
+image: gradle:alpine
 
-build-java-project:
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+before_script:
+  - GRADLE_USER_HOME="$(pwd)/.gradle"
+  - export GRADLE_USER_HOME
+
+build:
   stage: build
-  script:
-    - gradle build
-  artifacts:
+  script: gradle --build-cache assemble
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
     paths:
-      - /home/gitlab-runner/
-  
-run_tests:
+      - build
+      - .gradle
+
+test:
   stage: test
-  image: gradle:7.5-jdk17
-  script:
-    - ./gradlew test
+  script: gradle check
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      - build
+      - .gradle
