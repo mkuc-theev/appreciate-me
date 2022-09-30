@@ -10,7 +10,6 @@ class GoodjobApplicationTests {
 
 	@Test
 	void contextLoads() {
-		assertTrue(true);
 	}
 
 }
