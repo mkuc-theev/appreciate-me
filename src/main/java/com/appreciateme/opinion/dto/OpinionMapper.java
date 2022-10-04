@@ -8,6 +8,7 @@ public class OpinionMapper {
 
     public static OpinionDTO toDto(Opinion opinion) {
         return OpinionDTO.builder()
+                .id(opinion.getId())
                 .opinionUserID(opinion.getOpinionUserID())
                 .reviewedUserID(opinion.getReviewedUserID())
                 .predefinedMessageID(opinion.getPredefinedMessageID())
