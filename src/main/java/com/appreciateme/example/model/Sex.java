@@ -1,4 +1,4 @@
-package com.goodjob.example.model;
+package com.appreciateme.example.model;
 
 public enum Sex {
     MALE,

@@ -1,13 +1,13 @@
-package com.goodjob;
+package com.appreciateme;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GoodjobApplication {
+public class AppreciateMeApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GoodjobApplication.class, args);
+		SpringApplication.run(AppreciateMeApplication.class, args);
 	}
 
 }

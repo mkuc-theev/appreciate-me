@@ -1,7 +1,7 @@
-package com.goodjob.example.controller;
+package com.appreciateme.example.controller;
 
-import com.goodjob.example.model.User;
-import com.goodjob.example.service.UserService;
+import com.appreciateme.example.model.User;
+import com.appreciateme.example.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

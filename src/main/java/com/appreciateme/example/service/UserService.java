@@ -1,7 +1,7 @@
-package com.goodjob.example.service;
+package com.appreciateme.example.service;
 
-import com.goodjob.example.model.User;
-import com.goodjob.example.repository.UserRepository;
+import com.appreciateme.example.model.User;
+import com.appreciateme.example.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
