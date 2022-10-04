@@ -1,7 +1,7 @@
 package com.appreciateme.opinion.service;
 
-import com.appreciateme.opinion.dto.OpinionRequest;
-import com.appreciateme.opinion.dto.OpinionResponse;
+import com.appreciateme.opinion.dto.OpinionDTO;
+import com.appreciateme.opinion.dto.OpinionMapper;
 import com.appreciateme.opinion.model.Opinion;
 import com.appreciateme.opinion.repository.OpinionRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,39 +17,24 @@ public class OpinionService {
 
     private final OpinionRepository repository;
 
-    private OpinionResponse mapToOpinionResponse(Opinion opinion) {
-        return OpinionResponse.builder()
-                .id(opinion.getId())
-                .opinionUserID(opinion.getOpinionUserID())
-                .reviewedUserID(opinion.getReviewedUserID())
-                .predefinedMessageID(opinion.getPredefinedMessageID())
-                .opinionMessage(opinion.getOpinionMessage())
-                .build();
-    }
-
-    public List<OpinionResponse> getAllOpinions() {
+    public List<OpinionDTO> getAllOpinions() {
         List<Opinion> opinions = repository.findAll();
 
         return opinions.stream()
-                .map(this::mapToOpinionResponse)
+                .map(OpinionMapper::toDto)
                 .toList();
     }
 
-    public OpinionResponse getOpinionById(String id) {
+    public OpinionDTO getOpinionById(String id) {
         Opinion opinion = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException(
                         String.format("[OpinionService > getOpinionById] Opinion with ID = %s not found", id)));
 
-        return mapToOpinionResponse(opinion);
+        return OpinionMapper.toDto(opinion);
     }
 
-    public void addOpinion(OpinionRequest opinionRequest) {
-        Opinion opinion = Opinion.builder()
-                .opinionUserID(opinionRequest.getOpinionUserID())
-                .reviewedUserID(opinionRequest.getReviewedUserID())
-                .predefinedMessageID(opinionRequest.getPredefinedMessageID())
-                .opinionMessage(opinionRequest.getOpinionMessage())
-                .build();
+    public void addOpinion(OpinionDTO opinionDTO) {
+        Opinion opinion = OpinionMapper.toOpinion(opinionDTO);
 
         repository.save(opinion);
         log.info("[OpinionService > createOpinion] opinion with ID = {} is saved correctly", opinion.getId());
@@ -57,8 +42,14 @@ public class OpinionService {
 
 
 
-    public void updateOpinion(OpinionRequest opinionRequest) {
+    public void updateOpinion(OpinionDTO opinionDTO) {
+        repository.findById(opinionDTO.getId())
+                .orElseThrow(() -> new RuntimeException(
+                        String.format("[]")));
 
+        Opinion opinion = OpinionMapper.toOpinion(opinionDTO);
+
+        repository.save(opinion);
     }
 
     public void clear() {

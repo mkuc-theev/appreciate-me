@@ -1,7 +1,6 @@
 package com.appreciateme.opinion.controller;
 
-import com.appreciateme.opinion.dto.OpinionRequest;
-import com.appreciateme.opinion.dto.OpinionResponse;
+import com.appreciateme.opinion.dto.OpinionDTO;
 import com.appreciateme.opinion.service.OpinionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,25 +25,25 @@ public class OpinionController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<OpinionResponse> getAll() {
+    public List<OpinionDTO> getAll() {
         return service.getAllOpinions();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public OpinionResponse getById(@PathVariable String id) {
+    public OpinionDTO getById(@PathVariable String id) {
         return service.getOpinionById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody OpinionRequest opinionRequest) {
+    public void add(@RequestBody OpinionDTO opinionRequest) {
         service.addOpinion(opinionRequest);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void update(@RequestBody OpinionRequest opinionRequest) {
+    public void update(@RequestBody OpinionDTO opinionRequest) {
         service.updateOpinion(opinionRequest);
     }
 

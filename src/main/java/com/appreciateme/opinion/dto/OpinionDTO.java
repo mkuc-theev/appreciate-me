@@ -7,11 +7,11 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class OpinionRequest {
+public class OpinionDTO {
 
-    private final String opinionUserID;
-    private final String reviewedUserID;
+    private String id;
+    private String opinionUserID;
+    private String reviewedUserID;
     private String predefinedMessageID;
     private String opinionMessage;
-
 }
