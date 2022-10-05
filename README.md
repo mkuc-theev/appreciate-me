@@ -1,6 +1,6 @@
 # Appreciate me
 
-
+[![pipeline status](https://gitlab.griddynamics.net/pl-java-internship-2022-q2/wonderful-project/badges/main/pipeline.svg)](https://gitlab.griddynamics.net/pl-java-internship-2022-q2/wonderful-project/-/commits/main)
 
 ## Getting started
 
