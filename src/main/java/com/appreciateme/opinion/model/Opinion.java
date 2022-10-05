@@ -13,14 +13,34 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Data
 public class Opinion {
 
+    /**
+     * Auto-generated identifier of opinion
+     */
     @Id
     private final String id;
-    @Field("opinionUserID")
+
+    /**
+     * ID of user which made specific opinion
+     */
+    @Field("opinionUser")
     private final String opinionUserID;
-    @Field("reviewedUserID")
+
+    /**
+     * ID of user which has been reviewed by
+     * user with ID specified in 'opinionUserId
+     */
+    @Field("reviewedUser")
     private final String reviewedUserID;
-    @Field("predefinedMessageID")
+
+    /**
+     * ID of one from the predefined opinion messages
+     */
+    @Field("predefinedMessage")
     private String predefinedMessageID;
+
+    /**
+     * Custom opinion message made by opinionUser
+     */
     @Field("opinionMessage")
     private String opinionMessage;
 
