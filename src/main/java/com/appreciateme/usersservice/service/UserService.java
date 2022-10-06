@@ -10,7 +10,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final UserRepository repository;
 
     public void add(User user) {
