@@ -19,4 +19,14 @@ public class UserService {
     public List<User> getAll() {
         return repository.findAll();
     }
+
+    public User getById(String id) {
+        return repository.findById(id).orElseThrow(() ->
+                new RuntimeException(String.format("Error 404! User with id: %s not found!", id))
+        );
+    }
+
+    public List<User> getByFirstNameAndLastName(String firstName, String lastName) {
+        return repository.findByFirstNameAndLastName(firstName, lastName);
+    }
 }
