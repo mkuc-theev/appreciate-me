@@ -37,7 +37,6 @@ public class UserController {
 
     @GetMapping(value = "/findByName")
     public ResponseEntity<List<User>> getByFirstNameAndLastName(@RequestParam String firstName, @RequestParam String lastName) {
-        System.out.println('x');
         return ResponseEntity.ok(userService.getByFirstNameAndLastName(firstName, lastName));
     }
 }
