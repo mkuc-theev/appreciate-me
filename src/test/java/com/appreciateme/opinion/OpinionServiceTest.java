@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,12 +22,15 @@ import static org.mockito.BDDMockito.then;
 
 public class OpinionServiceTest {
 
+    final long date = 1665394200L;
+
     final Opinion OPINION = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
             .opinionUserID("atyranski")
             .reviewedUserID("pbogdan")
             .predefinedMessageID("goodJob1")
             .opinionMessage("a really nice byczeq")
+            .date(LocalDate.ofEpochDay(date))
             .build();
 
     final List<Opinion> OPINION_LIST = List.of(
@@ -36,6 +40,7 @@ public class OpinionServiceTest {
                     .reviewedUserID("ykarychkovskyi")
                     .predefinedMessageID("goodJob2")
                     .opinionMessage("very cool mentor")
+                    .date(LocalDate.ofEpochDay(date))
                     .build(),
             Opinion.builder()
                     .id("633ca01f45ef711325f9d810")
@@ -43,6 +48,7 @@ public class OpinionServiceTest {
                     .reviewedUserID("abaranski")
                     .predefinedMessageID("goodJob3")
                     .opinionMessage("nice bald-beard bro")
+                    .date(LocalDate.ofEpochDay(date))
                     .build(),
             Opinion.builder()
                     .id("633d58a19e689e69d12e9e6b")
@@ -50,6 +56,7 @@ public class OpinionServiceTest {
                     .reviewedUserID("mkuc")
                     .predefinedMessageID("goodJob4")
                     .opinionMessage("great bass-boosted voice")
+                    .date(LocalDate.ofEpochDay(date))
                     .build()
     );
 

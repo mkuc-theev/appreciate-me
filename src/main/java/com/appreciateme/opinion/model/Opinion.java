@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.LocalDate;
+
 @Document(value = "opinions")
 @AllArgsConstructor
 @Builder
@@ -31,6 +33,12 @@ public class Opinion {
      */
     @Field("reviewedUser")
     private final String reviewedUserID;
+
+    /**
+     * Date of creating particular opinion
+     */
+    @Field("date")
+    private final LocalDate date;
 
     /**
      * ID of one from the predefined opinion messages

@@ -3,6 +3,7 @@ package com.appreciateme.opinion.dto;
 import com.appreciateme.opinion.model.Opinion;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -19,6 +20,12 @@ public class OpinionMapper {
                 .toList();
     }
 
+    public static List<Opinion> toList(List<OpinionDTO> opinionDTOs) {
+        return opinionDTOs.stream()
+                .map(OpinionMapper::toOpinion)
+                .toList();
+    }
+
     /**
      * Method mapping specified Opinion object into OpinionDTO object
      * @param opinion   Opinion object
@@ -31,6 +38,7 @@ public class OpinionMapper {
                 .reviewedUserID(opinion.getReviewedUserID())
                 .predefinedMessageID(opinion.getPredefinedMessageID())
                 .opinionMessage(opinion.getOpinionMessage())
+                .date(opinion.getDate() != null ? opinion.getDate().toEpochDay() : null)
                 .build();
     }
 
@@ -46,6 +54,7 @@ public class OpinionMapper {
                 .reviewedUserID(opinionDTO.getReviewedUserID())
                 .predefinedMessageID(opinionDTO.getPredefinedMessageID())
                 .opinionMessage(opinionDTO.getOpinionMessage())
+                .date(LocalDate.ofEpochDay(opinionDTO.getDate()))
                 .build();
     }
 

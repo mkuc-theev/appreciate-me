@@ -12,6 +12,10 @@ build:
   script: gradle --build-cache assemble
   tags:
     - shared
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 30 days
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push

@@ -78,6 +78,33 @@ public class OpinionService {
     }
 
     /**
+     * Change many opinions according to opinionDTO, which has non-null
+     * values in fields that should be changed
+     * @param opinionDTO    OpinionDTO object with non-null fields which should be changed
+     */
+    public void updateMany(List<OpinionDTO> opinionDTOs, OpinionDTO opinionDTO) {
+        System.out.println(opinionDTO.getDate());
+
+        opinionDTOs.forEach(opinion -> {
+            opinion.setOpinionUserID(opinionDTO.getOpinionUserID() != null
+                    ? opinionDTO.getOpinionUserID() : opinion.getOpinionUserID());
+            opinion.setReviewedUserID(opinionDTO.getReviewedUserID() != null
+                    ? opinionDTO.getReviewedUserID() : opinion.getReviewedUserID());
+            opinion.setPredefinedMessageID(opinionDTO.getPredefinedMessageID() != null
+                    ? opinionDTO.getPredefinedMessageID() : opinion.getPredefinedMessageID());
+            opinion.setOpinionMessage(opinionDTO.getOpinionMessage() != null
+                    ? opinionDTO.getOpinionMessage() : opinion.getOpinionMessage());
+            opinion.setDate(opinionDTO.getDate() != null
+                    ? opinionDTO.getDate() : opinion.getDate());
+        });
+
+        List<Opinion> opinions = OpinionMapper.toList(opinionDTOs);
+        for (Opinion opinion: opinions) {
+            repository.save(opinion);
+        }
+    }
+
+    /**
      * Edit existing opinion
      * @param opinionDTO    OpinionDTO which represent the latest state of existing object
      * @throws OpinionNotFoundException when there is no opinion with specified ID in database

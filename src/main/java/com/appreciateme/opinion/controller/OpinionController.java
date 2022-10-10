@@ -28,7 +28,6 @@ public class OpinionController {
     public List<OpinionDTO> getAll() {
         return service.getAllOpinions();
     }
-
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public OpinionDTO getById(@PathVariable String id) {
@@ -57,6 +56,13 @@ public class OpinionController {
     @ResponseStatus(HttpStatus.OK)
     public void update(@RequestBody OpinionDTO opinionRequest) {
         service.updateOpinion(opinionRequest);
+    }
+
+    @PutMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateMany(@RequestBody OpinionDTO opinionDTO) {
+        List<OpinionDTO> opinionDTOs = service.getAllOpinions();
+        service.updateMany(opinionDTOs, opinionDTO);
     }
 
     @DeleteMapping
