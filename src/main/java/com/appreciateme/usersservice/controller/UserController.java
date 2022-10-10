@@ -4,8 +4,10 @@ import com.appreciateme.usersservice.model.User;
 import com.appreciateme.usersservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,5 +40,10 @@ public class UserController {
     @GetMapping(value = "/findByName")
     public ResponseEntity<List<User>> getByFirstNameAndLastName(@RequestParam String firstName, @RequestParam String lastName) {
         return ResponseEntity.ok(userService.getByFirstNameAndLastName(firstName, lastName));
+    }
+
+    @GetMapping(value = "/findByEmail")
+    public ResponseEntity<List<User>> getByEmail(@RequestParam String email) {
+        return ResponseEntity.ok(userService.getByEmail(email));
     }
 }

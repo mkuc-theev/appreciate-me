@@ -29,4 +29,8 @@ public class UserService {
     public List<User> getByFirstNameAndLastName(String firstName, String lastName) {
         return repository.findByFirstNameAndLastName(firstName, lastName);
     }
+
+    public List<User> getByEmail(String email) {
+        return repository.findByEmail(email);
+    }
 }
