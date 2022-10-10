@@ -1,9 +1,3 @@
-image: gradle:alpine
-
-# Disable the Gradle daemon for Continuous Integration servers as correctness
-# is usually a priority over speed in CI environments. Using a fresh
-# runtime for each build is more reliable since the runtime is completely
-# isolated from any previous builds.
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
@@ -13,6 +7,7 @@ before_script:
 
 build:
   stage: build
+  image: gradle:alpine
   script: gradle --build-cache assemble
   tags:
     - shared
@@ -25,6 +20,11 @@ build:
 
 test:
   stage: test
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - docker run gradle:alpine
   script: gradle check
   tags:
     - shared
