@@ -1,3 +1,5 @@
+image: gradle:alpine
+
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
@@ -7,7 +9,6 @@ before_script:
 
 build:
   stage: build
-  image: gradle:alpine
   script: gradle --build-cache assemble
   tags:
     - shared
@@ -20,11 +21,8 @@ build:
 
 test:
   stage: test
-  image: docker:20.10.16
   services:
-    - docker:20.10.16-dind
-  before_script:
-    - docker run gradle:alpine
+    - docker:20.10.16
   script: gradle check
   tags:
     - shared
