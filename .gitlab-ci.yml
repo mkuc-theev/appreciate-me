@@ -21,8 +21,6 @@ build:
 
 test:
   stage: test
-  services:
-    - docker:20.10.16
   script: gradle check
   tags:
     - shared
