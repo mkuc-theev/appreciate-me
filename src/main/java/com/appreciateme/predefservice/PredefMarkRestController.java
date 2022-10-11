@@ -32,7 +32,7 @@ public class PredefMarkRestController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(value = "/byId")
+    @GetMapping(value = "/byID")
     public PredefMarkDTO getPredefById(@RequestParam(name = "id") String id) {
         return objectMapper.convertValue(predefMarkService.findByID(id).get(), PredefMarkDTO.class);
     }
