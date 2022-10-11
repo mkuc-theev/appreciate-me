@@ -1,6 +1,6 @@
 package com.appreciateme.opinion.controller;
 
-import com.appreciateme.opinion.dto.OpinionDTO;
+import com.appreciateme.opinion.model.Opinion;
 import com.appreciateme.opinion.service.OpinionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,44 +25,44 @@ public class OpinionController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<OpinionDTO> getAll() {
-        return service.getAllOpinions();
+    public List<Opinion> getAll() {
+        return service.getAll();
     }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public OpinionDTO getById(@PathVariable String id) {
-        return service.getOpinionById(id);
+    public Opinion getById(@PathVariable String id) {
+        return service.getById(id);
     }
 
     @GetMapping("opinionUser/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<OpinionDTO> getByOpinionUserId(@PathVariable String id) {
-        return service.getOpinionByOpinionUserId(id);
+    public List<Opinion> getByOpinionUserId(@PathVariable String id) {
+        return service.getByOpinionUserId(id);
     }
 
     @GetMapping("reviewedUser/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<OpinionDTO> getByReviewedUserId(@PathVariable String id) {
-        return service.getOpinionByReviewedUserId(id);
+    public List<Opinion> getByReviewedUserId(@PathVariable String id) {
+        return service.getByReviewedUserId(id);
+    }
+
+    @GetMapping("date/{date}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Opinion> getByDate(@PathVariable String date) {
+        return service.getByDate(date);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody OpinionDTO opinionRequest) {
-        service.addOpinion(opinionRequest);
+    public void add(@RequestBody Opinion opinionRequest) {
+        service.add(opinionRequest);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void update(@RequestBody OpinionDTO opinionRequest) {
-        service.updateOpinion(opinionRequest);
-    }
-
-    @PutMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateMany(@RequestBody OpinionDTO opinionDTO) {
-        List<OpinionDTO> opinionDTOs = service.getAllOpinions();
-        service.updateMany(opinionDTOs, opinionDTO);
+    public void update(@RequestBody Opinion opinionRequest) {
+        service.update(opinionRequest);
     }
 
     @DeleteMapping

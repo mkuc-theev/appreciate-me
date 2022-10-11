@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ import static org.mockito.BDDMockito.then;
 
 public class OpinionServiceTest {
 
-    final long date = 1665394200L;
+    final String date = "2020-10-10 13:30:10";
 
     final Opinion OPINION = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
@@ -30,7 +29,7 @@ public class OpinionServiceTest {
             .reviewedUserID("pbogdan")
             .predefinedMessageID("goodJob1")
             .opinionMessage("a really nice byczeq")
-            .date(LocalDate.ofEpochDay(date))
+            .date(date)
             .build();
 
     final List<Opinion> OPINION_LIST = List.of(
@@ -40,7 +39,7 @@ public class OpinionServiceTest {
                     .reviewedUserID("ykarychkovskyi")
                     .predefinedMessageID("goodJob2")
                     .opinionMessage("very cool mentor")
-                    .date(LocalDate.ofEpochDay(date))
+                    .date(date)
                     .build(),
             Opinion.builder()
                     .id("633ca01f45ef711325f9d810")
@@ -48,7 +47,7 @@ public class OpinionServiceTest {
                     .reviewedUserID("abaranski")
                     .predefinedMessageID("goodJob3")
                     .opinionMessage("nice bald-beard bro")
-                    .date(LocalDate.ofEpochDay(date))
+                    .date(date)
                     .build(),
             Opinion.builder()
                     .id("633d58a19e689e69d12e9e6b")
@@ -56,7 +55,7 @@ public class OpinionServiceTest {
                     .reviewedUserID("mkuc")
                     .predefinedMessageID("goodJob4")
                     .opinionMessage("great bass-boosted voice")
-                    .date(LocalDate.ofEpochDay(date))
+                    .date(date)
                     .build()
     );
 
@@ -70,15 +69,15 @@ public class OpinionServiceTest {
     @DisplayName("[ 1] given existing opinions - when getAllOpinions() - then return List<OpinionDTO>")
     public void givenExistingOpinions_whenGetAllOpinions_thenReturnListOpinionsDTO() {
         given(repository.findAll())
-                .willReturn(OPINION_LIST);
+                .willReturn(OPINION_DTO_LIST);
 
-        List<OpinionDTO> result = service.getAllOpinions();
+        List<Opinion> result = service.getAll();
 
         then(repository)
                 .should()
                 .findAll();
 
-        assertEquals(result, OPINION_DTO_LIST);
+        assertEquals(result, OPINION_LIST);
     }
 
     @Test
@@ -87,15 +86,15 @@ public class OpinionServiceTest {
         String id = "633ca00a45ef711325f9d80f";
 
         given(repository.findById(eq(id)))
-                .willReturn(Optional.of(OPINION));
+                .willReturn(Optional.of(OPINION_DTO));
 
-        OpinionDTO result = service.getOpinionById(id);
+        Opinion result = service.getById(id);
 
         then(repository)
                 .should()
                 .findById(eq(id));
 
-        assertEquals(OPINION_DTO, result);
+        assertEquals(OPINION, result);
     }
 
     @Test
@@ -108,7 +107,7 @@ public class OpinionServiceTest {
 
         assertThrows(
                 OpinionNotFoundException.class,
-                () -> service.getOpinionById(opinionId));
+                () -> service.getById(opinionId));
     }
 
     @Test
@@ -117,15 +116,15 @@ public class OpinionServiceTest {
         String opinionUserId = "atyranski";
 
         given(repository.findByOpinionUserId(eq(opinionUserId)))
-                .willReturn(OPINION_LIST);
+                .willReturn(OPINION_DTO_LIST);
 
-        List<OpinionDTO> result = service.getOpinionByOpinionUserId(opinionUserId);
+        List<Opinion> result = service.getByOpinionUserId(opinionUserId);
 
         then(repository)
                 .should()
                 .findByOpinionUserId(eq(opinionUserId));
 
-        assertEquals(OPINION_DTO_LIST, result);
+        assertEquals(OPINION_LIST, result);
     }
 
     @Test
@@ -136,15 +135,15 @@ public class OpinionServiceTest {
         List<OpinionDTO> opinionsDTO = OpinionMapper.toDtoList(opinions);
 
         given(repository.findByReviewedUserId(eq(reviewedId)))
-                .willReturn(opinions);
+                .willReturn(opinionsDTO);
 
-        List<OpinionDTO> result = service.getOpinionByReviewedUserId(reviewedId);
+        List<Opinion> result = service.getByReviewedUserId(reviewedId);
 
         then(repository)
                 .should()
                 .findByReviewedUserId(eq(reviewedId));
 
-        assertEquals(opinionsDTO, result);
+        assertEquals(opinions, result);
     }
 
 }

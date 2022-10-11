@@ -6,14 +6,14 @@ import com.appreciateme.opinion.model.Opinion;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OpinionMapperTest {
 
-    final long date = 1665394200L;
+    final String DATE_STRING = "2020-10-10 13:30:10";
+    final long DATE_TIMESTAMP = 1602329410000L;
 
     final Opinion OPINION = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
@@ -21,7 +21,7 @@ public class OpinionMapperTest {
             .reviewedUserID("pbogdan")
             .predefinedMessageID("goodJob1")
             .opinionMessage("a really nice byczeq")
-            .date(LocalDate.ofEpochDay(date))
+            .date(DATE_STRING)
             .build();
 
     final List<Opinion> OPINION_LIST = List.of(
@@ -31,7 +31,7 @@ public class OpinionMapperTest {
                     .reviewedUserID("ykarychkovskyi")
                     .predefinedMessageID("goodJob2")
                     .opinionMessage("very cool mentor")
-                    .date(LocalDate.ofEpochDay(date))
+                    .date(DATE_STRING)
                     .build(),
             Opinion.builder()
                     .id("633ca01f45ef711325f9d810")
@@ -39,7 +39,7 @@ public class OpinionMapperTest {
                     .reviewedUserID("abaranski")
                     .predefinedMessageID("goodJob3")
                     .opinionMessage("nice bald-beard bro")
-                    .date(LocalDate.ofEpochDay(date))
+                    .date(DATE_STRING)
                     .build(),
             Opinion.builder()
                     .id("633d58a19e689e69d12e9e6b")
@@ -47,7 +47,7 @@ public class OpinionMapperTest {
                     .reviewedUserID("mkuc")
                     .predefinedMessageID("goodJob4")
                     .opinionMessage("great bass-boosted voice")
-                    .date(LocalDate.ofEpochDay(date))
+                    .date(DATE_STRING)
                     .build()
     );
 
@@ -57,7 +57,7 @@ public class OpinionMapperTest {
             .reviewedUserID("pbogdan")
             .predefinedMessageID("goodJob1")
             .opinionMessage("a really nice byczeq")
-            .date(date)
+            .date(DATE_TIMESTAMP)
             .build();
 
     final List<OpinionDTO> OPINION_DTO_LIST = List.of(
@@ -67,7 +67,7 @@ public class OpinionMapperTest {
                     .reviewedUserID("ykarychkovskyi")
                     .predefinedMessageID("goodJob2")
                     .opinionMessage("very cool mentor")
-                    .date(date)
+                    .date(DATE_TIMESTAMP)
                     .build(),
             OpinionDTO.builder()
                     .id("633ca01f45ef711325f9d810")
@@ -75,7 +75,7 @@ public class OpinionMapperTest {
                     .reviewedUserID("abaranski")
                     .predefinedMessageID("goodJob3")
                     .opinionMessage("nice bald-beard bro")
-                    .date(date)
+                    .date(DATE_TIMESTAMP)
                     .build(),
             OpinionDTO.builder()
                     .id("633d58a19e689e69d12e9e6b")
@@ -83,7 +83,7 @@ public class OpinionMapperTest {
                     .reviewedUserID("mkuc")
                     .predefinedMessageID("goodJob4")
                     .opinionMessage("great bass-boosted voice")
-                    .date(date)
+                    .date(DATE_TIMESTAMP)
                     .build()
     );
 
@@ -109,5 +109,21 @@ public class OpinionMapperTest {
         List<OpinionDTO> opinionDTOList = OpinionMapper.toDtoList(OPINION_LIST);
 
         assertEquals(OPINION_DTO_LIST, opinionDTOList);
+    }
+
+    @Test
+    @DisplayName("[ 4] given long timestamp - when mapLongToStringDate() - return date as String")
+    void givenLongTimestamp_whenMapLongToStringDate_thenReturnDateAsString() {
+        String result = OpinionMapper.mapLongToStringDate(DATE_TIMESTAMP);
+
+        assertEquals(DATE_STRING, result);
+    }
+
+    @Test
+    @DisplayName("[ 5] given string date - when mapStringDateToLong() - return date as timestamp")
+    void givenStringDate_whenMapStringDateToLong_thenReturnDateAsTimestamp() {
+        long result = OpinionMapper.mapStringDateToLong(DATE_STRING);
+
+        assertEquals(DATE_TIMESTAMP, result);
     }
 }
