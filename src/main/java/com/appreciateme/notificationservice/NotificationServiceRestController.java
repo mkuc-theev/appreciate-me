@@ -30,22 +30,22 @@ public class NotificationServiceRestController {
                     return new ResponseEntity<>("This operation requires 2 email addresses. Received " + emailAddresses.size(), HttpStatus.BAD_REQUEST);
                 }
                 javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0), emailAddresses.get(1)), NotificationTemplate.NEW_USER);
-                return new ResponseEntity<>("New user notification sent successfully to user " + emailAddresses + ".", HttpStatus.OK);
+                return new ResponseEntity<>("New user notification sent successfully to user " + emailAddresses.get(0) + ".", HttpStatus.OK);
             case "deleted-user":
                 if (emailAddresses.size() != 2) {
                     return new ResponseEntity<>("This operation requires 2 email addresses. Received " + emailAddresses.size(), HttpStatus.BAD_REQUEST);
                 }
                 javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0), emailAddresses.get(1)), NotificationTemplate.DELETE_USER);
-                return new ResponseEntity<>("Deleted user notification sent successfully to user " + emailAddresses + ".", HttpStatus.OK);
+                return new ResponseEntity<>("Deleted user notification sent successfully to user " + emailAddresses.get(0) + ".", HttpStatus.OK);
             case "bump-got":
                 if (emailAddresses.size() != 2) {
                     return new ResponseEntity<>("This operation requires 2 email addresses. Received " + emailAddresses.size(), HttpStatus.BAD_REQUEST);
                 }
                 javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0), emailAddresses.get(1)), NotificationTemplate.BUMP_GOT);
-                return new ResponseEntity<>("New bump notification sent successfully to user " + emailAddresses + ".", HttpStatus.OK);
+                return new ResponseEntity<>("New bump notification sent successfully to user " + emailAddresses.get(0) + ".", HttpStatus.OK);
             case "reward-ready":
                 javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0)), NotificationTemplate.REWARD_READY);
-                return new ResponseEntity<>("New reward notification sent successfully to user " + emailAddresses + ".", HttpStatus.OK);
+                return new ResponseEntity<>("New reward notification sent successfully to user " + emailAddresses.get(0) + ".", HttpStatus.OK);
             case "test":
                 javaMailService.sendTestMessage(emailAddresses.get(0));
                 return new ResponseEntity<>("Test email sent.", HttpStatus.OK);
