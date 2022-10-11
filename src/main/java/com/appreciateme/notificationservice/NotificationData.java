@@ -24,12 +24,12 @@ public class NotificationData {
     NotificationData(String receivingEmail, String contextEmail)
             throws URISyntaxException, InterruptedException, IOException {
         HttpRequest receivingRequest = HttpRequest
-                .newBuilder(new URI("localhost:8001/users/findByEmail?email=" + receivingEmail))
+                .newBuilder(new URI("http://localhost:8001/users/findByEmail?email=" + receivingEmail))
                 .timeout(Duration.of(10, SECONDS))
                 .GET()
                 .build();
         HttpRequest contextRequest = HttpRequest
-                .newBuilder(new URI("localhost:8001/users/findByEmail?email=" + contextEmail))
+                .newBuilder(new URI("http://localhost:8001/users/findByEmail?email=" + contextEmail))
                 .timeout(Duration.of(10, SECONDS))
                 .GET()
                 .build();
