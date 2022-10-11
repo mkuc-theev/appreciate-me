@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class JavaMailService {
 
+    private final String myEmail = "app.appreciate.me@gmail.com";
     @Autowired
     JavaMailSender emailSender;
-
 
     public void sendTestMessage(String address) {
         SimpleMailMessage testMessage = new SimpleMailMessage();
@@ -23,7 +23,14 @@ public class JavaMailService {
         emailSender.send(testMessage);
     }
 
-    public void sendEmailNotification(NotificationData notificationData) {
+    public void sendEmailNotification(NotificationData notificationData, NotificationTemplate notificationTemplate) {
+        SimpleMailMessage notification = new SimpleMailMessage();
 
+        notification.setFrom(myEmail);
+        notification.setTo(notificationData.getReceivingEmail());
+        notification.setSubject(notificationTemplate.getTopic());
+        notification.setText(notificationTemplate.getMessage(notificationData));
+
+        emailSender.send(notification);
     }
 }
