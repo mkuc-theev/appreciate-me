@@ -3,47 +3,59 @@ package com.appreciateme.usersservice.controller;
 import com.appreciateme.usersservice.model.User;
 import com.appreciateme.usersservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-    private final ObjectMapper mapper = new ObjectMapper();
+  private final ObjectMapper mapper = new ObjectMapper();
+  @Autowired
+  private UserService userService;
 
-    @PostMapping(value = "/")
-    public ResponseEntity<?> add(@RequestBody User user) {
-        userService.add(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+  @PostMapping(value = "/")
+  public ResponseEntity<?> add(@RequestBody User user) {
+    if (userService.existsById(user.getId()) || user.getId() == null) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
+    userService.add(user);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
 
-    @GetMapping("/")
-    public ResponseEntity<List<User>> getAll() {
-        return ResponseEntity.ok(
-                userService.getAll());
-    }
+  @GetMapping("/")
+  public ResponseEntity<List<User>> getAll() {
+    return ResponseEntity.ok(
+        userService.getAll());
+  }
 
-    @GetMapping(value = "/findById")
-    public ResponseEntity<User> getById(@RequestParam String id) {
-        return ResponseEntity.ok(userService.getById(id));
+  @GetMapping(value = "/findById")
+  public ResponseEntity<User> getById(@RequestParam String id) {
+    if (userService.existsById(id)) {
+      return ResponseEntity.ok(userService.getById(id));
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+  }
 
-    @GetMapping(value = "/findByName")
-    public ResponseEntity<List<User>> getByFirstNameAndLastName(@RequestParam String firstName, @RequestParam String lastName) {
-        return ResponseEntity.ok(userService.getByFirstNameAndLastName(firstName, lastName));
-    }
+  @GetMapping(value = "/findByName")
+  public ResponseEntity<List<User>> getByFirstNameAndLastName(@RequestParam String firstName,
+      @RequestParam String lastName) {
+    List<User> foundUsers = userService.getByFirstNameAndLastName(firstName, lastName);
+    return foundUsers.size() == 0 ? ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        : ResponseEntity.ok(foundUsers);
+  }
 
-    @GetMapping(value = "/findByEmail")
-    public ResponseEntity<List<User>> getByEmail(@RequestParam String email) {
-        return ResponseEntity.ok(userService.getByEmail(email));
-    }
+  @GetMapping(value = "/findByEmail")
+  public ResponseEntity<User> getByEmail(@RequestParam String email) {
+    return ResponseEntity.ok(userService.getByEmail(email));
+  }
 }
