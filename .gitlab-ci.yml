@@ -28,6 +28,12 @@ test:
   script: gradle check
   tags:
     - shared
+  artifacts:
+    when: on_failure
+    paths:
+      - rspec.xml
+    reports:
+      junit: rspec.xml
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
