@@ -2,6 +2,7 @@ package com.appreciateme.opinion.controller;
 
 import com.appreciateme.opinion.model.Opinion;
 import com.appreciateme.opinion.service.OpinionService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,26 +56,28 @@ public class OpinionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody Opinion opinionRequest) {
-        service.add(opinionRequest);
+    public Opinion add(@RequestBody Opinion opinionRequest)
+            throws JsonProcessingException {
+
+        return service.add(opinionRequest);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void update(@RequestBody Opinion opinionRequest) {
-        service.update(opinionRequest);
+    public Opinion update(@RequestBody Opinion opinionRequest) {
+        return service.update(opinionRequest);
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public void clear() {
-        service.clear();
+    public boolean clear() {
+        return service.clear();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable String id) {
-        service.delete(id);
+    public boolean delete(@PathVariable String id) {
+        return service.delete(id);
     }
 
 }
