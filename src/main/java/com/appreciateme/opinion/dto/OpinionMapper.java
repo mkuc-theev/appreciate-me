@@ -8,11 +8,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Component
 public class OpinionMapper {
 
-    private static final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final DateFormat formatter;
+
+    static {
+        formatter = new SimpleDateFormat(DATE_FORMAT);
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+    }
 
     /**
      * Mapping list of Opinions into list of OpinionDTOs
