@@ -13,9 +13,8 @@ import java.util.List;
 public class OpinionMapper {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    static DateTimeFormatter formatter = DateTimeFormatter
-            .ofPattern(DATE_FORMAT)
-            .withZone(ZoneId.of("Europe/Warsaw"));
+    private static final ZoneId ZONE = ZoneId.of("Europe/Warsaw");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     /**
      * Mapping list of Opinions into list of OpinionDTOs
@@ -77,9 +76,9 @@ public class OpinionMapper {
      * @return              timestamp representation as long
      */
     public static long mapStringDateToLong(String dateString) {
-        LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatter);
+        LocalDateTime localDateTime = LocalDateTime.parse(dateString, FORMATTER);
 
-        return localDateTime.atZone(ZoneId.systemDefault())
+        return localDateTime.atZone(ZONE)
                 .toInstant()
                 .toEpochMilli();
     }
@@ -92,9 +91,9 @@ public class OpinionMapper {
     public static String mapLongToStringDate(long dateTimestamp) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(dateTimestamp),
-                ZoneId.systemDefault());
+                ZONE);
 
-        return localDateTime.format(formatter);
+        return localDateTime.format(FORMATTER);
     }
 
 }
