@@ -1,12 +1,16 @@
 package com.appreciateme.opinion.dto;
 
 import com.appreciateme.opinion.model.Opinion;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date; // TODO WYWALIĆ
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -14,12 +18,8 @@ import java.util.TimeZone;
 public class OpinionMapper {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private static final DateFormat formatter;
+    static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
-    static {
-        formatter = new SimpleDateFormat(DATE_FORMAT);
-        formatter.setTimeZone(TimeZone.getTimeZone("GMT+2"));
-    }
 
     /**
      * Mapping list of Opinions into list of OpinionDTOs
@@ -81,15 +81,11 @@ public class OpinionMapper {
      * @return              timestamp representation as long
      */
     public static long mapStringDateToLong(String dateString) {
-        try {
-            Date date = formatter.parse(dateString);
+        LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatter);
 
-            return date.getTime();
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return 0L;
+        return localDateTime.atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli();
     }
 
     /**
@@ -98,9 +94,11 @@ public class OpinionMapper {
      * @return              string date of statically defined format
      */
     public static String mapLongToStringDate(long dateTimestamp) {
-        Date date = new Date(dateTimestamp);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(dateTimestamp),
+                TimeZone.getDefault().toZoneId());
 
-        return formatter.format(date);
+        return localDateTime.format(formatter);
     }
 
 }
