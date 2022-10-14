@@ -3,29 +3,33 @@ package com.appreciateme.usersservice.model;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 @Builder
+@Data
+@Document(collection = "user")
 public class User {
 
   @Id
   private String id;
-  @NonNull
   private String firstName;
-  @NonNull
   private String lastName;
-  @NonNull
   private String email;
   private int age;
   private Sex sex;
   private BigDecimal accountBalance;
 
+  public static boolean isUserCorrect(User user) {
+    return user.getId() != null && !user.getId().isEmpty()
+        && user.getFirstName() != null && !user.getFirstName().isEmpty()
+        && user.getLastName() != null && !user.getLastName().isEmpty()
+        && user.getEmail() != null && !user.getEmail().isEmpty()
+        && user.getAge() >= 0
+        && user.getSex() != null
+        && user.getAccountBalance() != null
+        && user.getAccountBalance().compareTo(BigDecimal.ZERO) < 0;
+  }
 }

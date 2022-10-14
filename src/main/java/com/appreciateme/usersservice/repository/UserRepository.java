@@ -9,9 +9,12 @@ import org.springframework.data.repository.query.Param;
 public interface UserRepository extends MongoRepository<User, String> {
 
   @Query("{'firstName': :#{#first}, 'lastName': :#{#last}}")
-  List<User> findByFirstNameAndLastName(@Param("first") String first,
-      @Param("last") String last);
+  List<User> findByFirstNameAndLastName(
+      @Param("first") String first,
+      @Param("last") String last
+  );
 
   @Query("{'email': :#{#email}}")
   User findByEmail(@Param("email") String email);
+
 }
