@@ -20,26 +20,26 @@ public class Opinion {
      * Auto-generated identifier of opinion
      */
     @Field("id")
-    private final String id;
+    private String id;
 
     /**
      * ID of user which made specific opinion
      */
     @Field("opinionUser")
-    private final String opinionUserID;
+    private String opinionUserID;
 
     /**
      * ID of user which has been reviewed by
      * user with ID specified in 'opinionUserId
      */
     @Field("reviewedUser")
-    private final String reviewedUserID;
+    private String reviewedUserID;
 
     /**
      * Date of creating particular opinion
      */
     @Field("date")
-    private final String date;
+    private String date;
 
     /**
      * ID of one from the predefined opinion messages
@@ -74,7 +74,7 @@ public class Opinion {
             return false;
         }
 
-        if (opinion.getId() == null || opinion.getId().isEmpty()) {
+        if (opinion.getId() != null && opinion.getId().isEmpty()) {
             return false;
         }
 
@@ -86,6 +86,14 @@ public class Opinion {
             return false;
         }
 
-        return opinion.getDate() != null && !opinion.getDate().isEmpty() && isDateFormatCorrect(opinion.getDate());
+        if (opinion.getDate() != null && opinion.getDate().isEmpty()) {
+            return false;
+        }
+
+        if (opinion.getDate() != null && !opinion.getDate().isEmpty()) {
+            return isDateFormatCorrect(opinion.getDate());
+        }
+
+        return true;
     }
 }

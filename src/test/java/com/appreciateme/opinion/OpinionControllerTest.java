@@ -3,7 +3,7 @@ package com.appreciateme.opinion;
 import com.appreciateme.opinion.controller.OpinionController;
 import com.appreciateme.opinion.controller.OpinionService;
 import com.appreciateme.opinion.model.OpinionDTO;
-import com.appreciateme.opinion.model.OpinionMapper;
+import com.appreciateme.opinion.model.OpinionUtils;
 import com.appreciateme.opinion.exception.IncorrectOpinionException;
 import com.appreciateme.opinion.exception.OpinionNotFoundException;
 import com.appreciateme.opinion.model.Opinion;
@@ -265,7 +265,7 @@ public class OpinionControllerTest {
                 .opinionMessage("1234")
                 .build();
 
-        final Opinion incorrectOpinion = OpinionMapper.toOpinion(incorrectOpinionDTO);
+        final Opinion incorrectOpinion = OpinionUtils.mapToOpinion(incorrectOpinionDTO);
         final String endpoint = String.format("/%s", DOMAIN);
         final String expectedMessage = "Provided opinion is incorrect";
 
@@ -319,9 +319,9 @@ public class OpinionControllerTest {
         final String endpoint = String.format("/%s", DOMAIN);
         final String expectedMessage = String.format("Opinion with ID = %s not found", id);
 
-        OpinionDTO opinionDTO = OpinionMapper.toDto(OPINION_1);
+        OpinionDTO opinionDTO = OpinionUtils.mapToDto(OPINION_1);
         opinionDTO.setId(id);
-        Opinion opinion = OpinionMapper.toOpinion(opinionDTO);
+        Opinion opinion = OpinionUtils.mapToOpinion(opinionDTO);
 
         when(service.update(opinion))
                 .thenThrow(new OpinionNotFoundException(id));

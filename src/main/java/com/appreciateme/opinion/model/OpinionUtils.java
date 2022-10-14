@@ -9,20 +9,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
-public class OpinionMapper {
+public class OpinionUtils {
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private static final ZoneId ZONE = ZoneId.of("Europe/Warsaw");
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
+    public static final ZoneId ZONE = ZoneId.of("Europe/Warsaw");
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     /**
      * Mapping list of Opinions into list of OpinionDTOs
      * @param opinions  List of Opinions
      * @return          List of OpinionDTOs
      */
-    public static List<OpinionDTO> toDtoList(List<Opinion> opinions) {
+    public static List<OpinionDTO> mapToDtoList(List<Opinion> opinions) {
         return opinions.stream()
-                .map(OpinionMapper::toDto)
+                .map(OpinionUtils::mapToDto)
                 .toList();
     }
 
@@ -31,9 +31,9 @@ public class OpinionMapper {
      * @param opinionDTOs   list of OpinionDTOs
      * @return              list of Opinions
      */
-    public static List<Opinion> toOpinionList(List<OpinionDTO> opinionDTOs) {
+    public static List<Opinion> mapToOpinionList(List<OpinionDTO> opinionDTOs) {
         return opinionDTOs.stream()
-                .map(OpinionMapper::toOpinion)
+                .map(OpinionUtils::mapToOpinion)
                 .toList();
     }
 
@@ -42,7 +42,7 @@ public class OpinionMapper {
      * @param opinion   Opinion object
      * @return          OpinionDTO object
      */
-    public static OpinionDTO toDto(Opinion opinion) {
+    public static OpinionDTO mapToDto(Opinion opinion) {
         return OpinionDTO.builder()
                 .id(opinion.getId())
                 .opinionUserID(opinion.getOpinionUserID())
@@ -58,7 +58,7 @@ public class OpinionMapper {
      * @param opinionDTO    OpinionDTO object
      * @return              Opinion object
      */
-    public static Opinion toOpinion(OpinionDTO opinionDTO) {
+    public static Opinion mapToOpinion(OpinionDTO opinionDTO) {
         return Opinion.builder()
                 .id(opinionDTO.getId())
                 .opinionUserID(opinionDTO.getOpinionUserID())
@@ -93,6 +93,19 @@ public class OpinionMapper {
                 ZONE);
 
         return localDateTime.format(FORMATTER);
+    }
+
+    /**
+     * Static method to set a date of provided opinion to current time
+     * @param opinion       opinion which date should be set to current time
+     */
+    public static void setCurrentDate(Opinion opinion) {
+        String date = LocalDateTime.ofInstant(
+                Instant.now(),
+                ZONE)
+                .format(FORMATTER);
+
+        opinion.setDate(date);
     }
 
 }

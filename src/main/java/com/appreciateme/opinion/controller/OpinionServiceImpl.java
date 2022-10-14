@@ -1,7 +1,7 @@
 package com.appreciateme.opinion.controller;
 
 import com.appreciateme.opinion.model.OpinionDTO;
-import com.appreciateme.opinion.model.OpinionMapper;
+import com.appreciateme.opinion.model.OpinionUtils;
 import com.appreciateme.opinion.exception.IncorrectOpinionException;
 import com.appreciateme.opinion.exception.OpinionNotFoundException;
 import com.appreciateme.opinion.model.Opinion;
@@ -21,7 +21,7 @@ public class OpinionServiceImpl implements OpinionService {
     public List<Opinion> getAll() {
         List<OpinionDTO> opinions = repository.findAll();
 
-        return OpinionMapper.toOpinionList(opinions);
+        return OpinionUtils.mapToOpinionList(opinions);
     }
 
     public Opinion getById(String id)
@@ -30,26 +30,26 @@ public class OpinionServiceImpl implements OpinionService {
         OpinionDTO opinionDTO = repository.findById(id)
                 .orElseThrow(() -> new OpinionNotFoundException(id));
 
-        return OpinionMapper.toOpinion(opinionDTO);
+        return OpinionUtils.mapToOpinion(opinionDTO);
     }
 
     public List<Opinion> getByOpinionUserId(String id) {
         List<OpinionDTO> opinionDTOs = repository.findByOpinionUserId(id);
 
-        return OpinionMapper.toOpinionList(opinionDTOs);
+        return OpinionUtils.mapToOpinionList(opinionDTOs);
     }
 
     public List<Opinion> getByReviewedUserId(String id) {
         List<OpinionDTO> opinionDTOs = repository.findByReviewedUserId(id);
 
-        return OpinionMapper.toOpinionList(opinionDTOs);
+        return OpinionUtils.mapToOpinionList(opinionDTOs);
     }
 
     public List<Opinion> getByDate(String date) {
-        long timestamp = OpinionMapper.mapStringDateToLong(date);
+        long timestamp = OpinionUtils.mapStringDateToLong(date);
         List<OpinionDTO> opinionDTOs = repository.findByDate(timestamp);
 
-        return OpinionMapper.toOpinionList(opinionDTOs);
+        return OpinionUtils.mapToOpinionList(opinionDTOs);
     }
 
     public Opinion add(Opinion opinion) {
@@ -57,9 +57,13 @@ public class OpinionServiceImpl implements OpinionService {
             throw new IncorrectOpinionException();
         }
 
-        OpinionDTO opinionDTO = OpinionMapper.toDto(opinion);
+        if (opinion.getDate() == null) {
+            OpinionUtils.setCurrentDate(opinion);
+        }
 
-        return OpinionMapper.toOpinion(repository.save(opinionDTO));
+        OpinionDTO opinionDTO = OpinionUtils.mapToDto(opinion);
+
+        return OpinionUtils.mapToOpinion(repository.save(opinionDTO));
     }
 
     public Opinion update(Opinion opinion)
@@ -68,9 +72,9 @@ public class OpinionServiceImpl implements OpinionService {
         repository.findById(opinion.getId())
                 .orElseThrow(() -> new OpinionNotFoundException(opinion.getId()));
 
-        OpinionDTO opinionDTO = OpinionMapper.toDto(opinion);
+        OpinionDTO opinionDTO = OpinionUtils.mapToDto(opinion);
 
-        return OpinionMapper.toOpinion(repository.save(opinionDTO));
+        return OpinionUtils.mapToOpinion(repository.save(opinionDTO));
     }
 
     public boolean clear() {

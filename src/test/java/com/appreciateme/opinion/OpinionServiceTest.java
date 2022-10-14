@@ -2,7 +2,7 @@ package com.appreciateme.opinion;
 
 import com.appreciateme.opinion.controller.OpinionService;
 import com.appreciateme.opinion.model.OpinionDTO;
-import com.appreciateme.opinion.model.OpinionMapper;
+import com.appreciateme.opinion.model.OpinionUtils;
 import com.appreciateme.opinion.exception.OpinionNotFoundException;
 import com.appreciateme.opinion.model.Opinion;
 import com.appreciateme.opinion.controller.OpinionRepository;
@@ -53,9 +53,9 @@ public class OpinionServiceTest {
             .date(DATE_STRING)
             .build();
 
-    final OpinionDTO OPINION_DTO_1 = OpinionMapper.toDto(OPINION_1);
-    final OpinionDTO OPINION_DTO_2 = OpinionMapper.toDto(OPINION_2);
-    final OpinionDTO OPINION_DTO_3 = OpinionMapper.toDto(OPINION_3);
+    final OpinionDTO OPINION_DTO_1 = OpinionUtils.mapToDto(OPINION_1);
+    final OpinionDTO OPINION_DTO_2 = OpinionUtils.mapToDto(OPINION_2);
+    final OpinionDTO OPINION_DTO_3 = OpinionUtils.mapToDto(OPINION_3);
 
     private static final OpinionRepository repository = Mockito.mock(OpinionRepository.class);
     private static final OpinionService service = new OpinionServiceImpl(repository);
@@ -132,7 +132,7 @@ public class OpinionServiceTest {
     public void givenExistingOpinionsForUser_whenGetOpinionByReviewedUserId_thenReturnListOpinionDTO() {
         final String reviewedId = "pbogdan";
         final List<Opinion> opinions = List.of(OPINION_1);
-        final List<OpinionDTO> opinionsDTO = OpinionMapper.toDtoList(opinions);
+        final List<OpinionDTO> opinionsDTO = OpinionUtils.mapToDtoList(opinions);
 
         given(repository.findByReviewedUserId(eq(reviewedId)))
                 .willReturn(opinionsDTO);
@@ -181,7 +181,7 @@ public class OpinionServiceTest {
                 .opinionMessage("1234")
                 .build();
 
-        final Opinion incorrectOpinion = OpinionMapper.toOpinion(incorrectOpinionDTO);
+        final Opinion incorrectOpinion = OpinionUtils.mapToOpinion(incorrectOpinionDTO);
         final boolean result = Opinion.isOpinionCorrect(incorrectOpinion);
 
         assertFalse(result);
