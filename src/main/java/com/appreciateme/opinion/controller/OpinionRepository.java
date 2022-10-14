@@ -1,6 +1,6 @@
-package com.appreciateme.opinion.repository;
+package com.appreciateme.opinion.controller;
 
-import com.appreciateme.opinion.dto.OpinionDTO;
+import com.appreciateme.opinion.model.OpinionDTO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -26,9 +26,9 @@ public interface OpinionRepository extends MongoRepository<OpinionDTO, String> {
 
     /**
      * Get a list of opinions made in specified date
-     * @param epochDay  day as long (epoch date format)
+     * @param date  day as long (epoch date format)
      * @return      list of opinions made at this particular date
      */
     @Query("{'date': ?0}")
-    List<OpinionDTO> findByDate(String date);
+    List<OpinionDTO> findByDate(long date);
 }

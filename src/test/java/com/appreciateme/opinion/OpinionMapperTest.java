@@ -1,14 +1,12 @@
 package com.appreciateme.opinion;
 
-import com.appreciateme.opinion.dto.OpinionDTO;
-import com.appreciateme.opinion.dto.OpinionMapper;
+import com.appreciateme.opinion.model.OpinionDTO;
+import com.appreciateme.opinion.model.OpinionMapper;
 import com.appreciateme.opinion.model.Opinion;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.ZoneId;
 import java.util.List;
-import java.util.TimeZone;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

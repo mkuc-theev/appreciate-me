@@ -1,11 +1,12 @@
 package com.appreciateme.opinion;
 
-import com.appreciateme.opinion.dto.OpinionDTO;
-import com.appreciateme.opinion.dto.OpinionMapper;
+import com.appreciateme.opinion.controller.OpinionService;
+import com.appreciateme.opinion.model.OpinionDTO;
+import com.appreciateme.opinion.model.OpinionMapper;
 import com.appreciateme.opinion.exception.OpinionNotFoundException;
 import com.appreciateme.opinion.model.Opinion;
-import com.appreciateme.opinion.repository.OpinionRepository;
-import com.appreciateme.opinion.service.OpinionService;
+import com.appreciateme.opinion.controller.OpinionRepository;
+import com.appreciateme.opinion.controller.OpinionServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -57,7 +58,7 @@ public class OpinionServiceTest {
     final OpinionDTO OPINION_DTO_3 = OpinionMapper.toDto(OPINION_3);
 
     private static final OpinionRepository repository = Mockito.mock(OpinionRepository.class);
-    private static final OpinionService service = new OpinionService(repository);
+    private static final OpinionService service = new OpinionServiceImpl(repository);
 
     @Test
     @DisplayName("[ 1] given existing opinions - when getAllOpinions() - then return List<OpinionDTO>")
@@ -149,7 +150,7 @@ public class OpinionServiceTest {
     @DisplayName("[ 6] given String with date in correct format - when isDateFormatCorrect - then return true")
     void givenStringWithDateInCorrectFormat_whenIsDateFormatCorrect_thenReturnTrue() {
         final String date = "2020-10-10 23:59:59";
-        final boolean result = OpinionService.isDateFormatCorrect(date);
+        final boolean result = Opinion.isDateFormatCorrect(date);
 
         assertTrue(result);
     }
@@ -158,7 +159,7 @@ public class OpinionServiceTest {
     @DisplayName("[ 7] given String with date in incorrect format - when isDateFormatCorrect - then return false")
     void givenStringWithDateInIncorrectFormat_whenIsDateFormatCorrect_thenReturnFalse() {
         final String date = "2120-20-10 00:60:60";
-        boolean result = OpinionService.isDateFormatCorrect(date);
+        boolean result = Opinion.isDateFormatCorrect(date);
 
         assertFalse(result);
     }
@@ -166,7 +167,7 @@ public class OpinionServiceTest {
     @Test
     @DisplayName("[ 8] given correct Opinion - when isOpinionCorrect - then return true")
     void givenCorrectOpinion_whenIsOpinionCorrect_thenReturnTrue() {
-        final boolean result = OpinionService.isOpinionCorrect(OPINION_1);
+        final boolean result = Opinion.isOpinionCorrect(OPINION_1);
 
         assertTrue(result);
     }
@@ -181,7 +182,7 @@ public class OpinionServiceTest {
                 .build();
 
         final Opinion incorrectOpinion = OpinionMapper.toOpinion(incorrectOpinionDTO);
-        final boolean result = OpinionService.isOpinionCorrect(incorrectOpinion);
+        final boolean result = Opinion.isOpinionCorrect(incorrectOpinion);
 
         assertFalse(result);
     }

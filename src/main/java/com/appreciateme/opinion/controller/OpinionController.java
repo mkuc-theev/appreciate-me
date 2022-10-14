@@ -1,7 +1,6 @@
 package com.appreciateme.opinion.controller;
 
 import com.appreciateme.opinion.model.Opinion;
-import com.appreciateme.opinion.service.OpinionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -56,9 +55,7 @@ public class OpinionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Opinion add(@RequestBody Opinion opinionRequest)
-            throws JsonProcessingException {
-
+    public Opinion add(@RequestBody Opinion opinionRequest) {
         return service.add(opinionRequest);
     }
 

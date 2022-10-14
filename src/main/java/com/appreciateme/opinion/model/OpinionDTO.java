@@ -1,4 +1,4 @@
-package com.appreciateme.opinion.dto;
+package com.appreciateme.opinion.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

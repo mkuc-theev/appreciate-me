@@ -1,6 +1,5 @@
-package com.appreciateme.opinion.dto;
+package com.appreciateme.opinion.model;
 
-import com.appreciateme.opinion.model.Opinion;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;

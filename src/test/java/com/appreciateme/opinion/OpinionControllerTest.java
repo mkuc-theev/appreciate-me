@@ -1,12 +1,12 @@
 package com.appreciateme.opinion;
 
 import com.appreciateme.opinion.controller.OpinionController;
-import com.appreciateme.opinion.dto.OpinionDTO;
-import com.appreciateme.opinion.dto.OpinionMapper;
+import com.appreciateme.opinion.controller.OpinionService;
+import com.appreciateme.opinion.model.OpinionDTO;
+import com.appreciateme.opinion.model.OpinionMapper;
 import com.appreciateme.opinion.exception.IncorrectOpinionException;
 import com.appreciateme.opinion.exception.OpinionNotFoundException;
 import com.appreciateme.opinion.model.Opinion;
-import com.appreciateme.opinion.service.OpinionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
