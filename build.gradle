@@ -24,6 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework:spring-context-support'
 	implementation 'net.sf.jason:jason:2.3'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
