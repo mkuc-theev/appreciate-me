@@ -31,8 +31,8 @@ public class JavaMailService {
 
         notification.setFrom(myEmail);
         notification.setTo(notificationData.getReceivingEmail());
-        notification.setSubject(notificationTemplate.getTopic());
-        notification.setText(notificationTemplate.getMessage(notificationData));
+        notification.setSubject(notificationTemplate.getSubject());
+        notification.setText(notificationTemplate.getText(notificationData));
 
         emailSender.send(notification);
     }
