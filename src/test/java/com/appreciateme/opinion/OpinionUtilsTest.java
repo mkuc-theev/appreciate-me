@@ -19,7 +19,6 @@ public class OpinionUtilsTest {
             .id("633ca00a45ef711325f9d80f")
             .opinionUserID("atyranski")
             .reviewedUserID("pbogdan")
-            .predefinedMessageID("goodJob1")
             .opinionMessage("a really nice byczeq")
             .date(DATE_STRING)
             .build();
@@ -28,7 +27,6 @@ public class OpinionUtilsTest {
             .id("633ca00a45ef711325f9d80f")
             .opinionUserID("atyranski")
             .reviewedUserID("ykarychkovskyi")
-            .predefinedMessageID("goodJob2")
             .opinionMessage("very cool mentor")
             .date(DATE_STRING)
             .build();
@@ -37,7 +35,6 @@ public class OpinionUtilsTest {
             .id("633ca01f45ef711325f9d810")
             .opinionUserID("atyranski")
             .reviewedUserID("abaranski")
-            .predefinedMessageID("goodJob3")
             .opinionMessage("nice bald-beard bro")
             .date(DATE_STRING)
             .build();
@@ -46,7 +43,6 @@ public class OpinionUtilsTest {
             .id("633ca00a45ef711325f9d80f")
             .opinionUserID("atyranski")
             .reviewedUserID("pbogdan")
-            .predefinedMessageID("goodJob1")
             .opinionMessage("a really nice byczeq")
             .date(DATE_TIMESTAMP)
             .build();
@@ -55,7 +51,6 @@ public class OpinionUtilsTest {
             .id("633ca00a45ef711325f9d80f")
             .opinionUserID("atyranski")
             .reviewedUserID("ykarychkovskyi")
-            .predefinedMessageID("goodJob2")
             .opinionMessage("very cool mentor")
             .date(DATE_TIMESTAMP)
             .build();
@@ -64,7 +59,6 @@ public class OpinionUtilsTest {
             .id("633ca01f45ef711325f9d810")
             .opinionUserID("atyranski")
             .reviewedUserID("abaranski")
-            .predefinedMessageID("goodJob3")
             .opinionMessage("nice bald-beard bro")
             .date(DATE_TIMESTAMP)
             .build();

@@ -16,7 +16,6 @@ public class OpinionDTO {
     private String id;
     private String opinionUserID;
     private String reviewedUserID;
-    private String predefinedMessageID;
     private String opinionMessage;
     private long date;
 }

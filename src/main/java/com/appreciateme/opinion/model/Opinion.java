@@ -42,12 +42,6 @@ public class Opinion {
     private String date;
 
     /**
-     * ID of one from the predefined opinion messages
-     */
-    @Field("predefinedMessage")
-    private String predefinedMessageID;
-
-    /**
      * Custom opinion message made by opinionUser
      */
     @Field("opinionMessage")

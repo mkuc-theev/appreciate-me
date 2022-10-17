@@ -27,35 +27,50 @@ public class OpinionServiceTest {
     final String DATE_STRING = "2020-10-10 13:30:10";
 
     final Opinion OPINION_1 = Opinion.builder()
-            .id("633ca00a45ef711325f9d80f")
+//            .id("633ca00a45ef711325f9d80f")
             .opinionUserID("atyranski")
             .reviewedUserID("pbogdan")
-            .predefinedMessageID("goodJob1")
             .opinionMessage("a really nice byczeq")
             .date(DATE_STRING)
             .build();
 
     final Opinion OPINION_2 = Opinion.builder()
-            .id("633ca00a45ef711325f9d80f")
+//            .id("633ca00a45ef711325f9d80f")
             .opinionUserID("atyranski")
             .reviewedUserID("ykarychkovskyi")
-            .predefinedMessageID("goodJob2")
             .opinionMessage("very cool mentor")
             .date(DATE_STRING)
             .build();
 
     final Opinion OPINION_3 = Opinion.builder()
-            .id("633ca01f45ef711325f9d810")
+//            .id("633ca01f45ef711325f9d810")
             .opinionUserID("atyranski")
             .reviewedUserID("abaranski")
-            .predefinedMessageID("goodJob3")
             .opinionMessage("nice bald-beard bro")
             .date(DATE_STRING)
             .build();
 
-    final OpinionDTO OPINION_DTO_1 = OpinionUtils.mapToDto(OPINION_1);
-    final OpinionDTO OPINION_DTO_2 = OpinionUtils.mapToDto(OPINION_2);
-    final OpinionDTO OPINION_DTO_3 = OpinionUtils.mapToDto(OPINION_3);
+    final OpinionDTO OPINION_DTO_1 = OpinionDTO.builder()
+            .id("633ca00a45ef711325f9d80f")
+            .opinionUserID(OPINION_1.getOpinionUserID())
+            .reviewedUserID(OPINION_1.getReviewedUserID())
+            .opinionMessage(OPINION_1.getOpinionMessage())
+            .date(OpinionUtils.mapStringDateToLong(OPINION_1.getDate()))
+            .build();
+    final OpinionDTO OPINION_DTO_2 = OpinionDTO.builder()
+            .id("633ca00a45ef711325f9d80f")
+            .opinionUserID(OPINION_2.getOpinionUserID())
+            .reviewedUserID(OPINION_2.getReviewedUserID())
+            .opinionMessage(OPINION_2.getOpinionMessage())
+            .date(OpinionUtils.mapStringDateToLong(OPINION_2.getDate()))
+            .build();
+    final OpinionDTO OPINION_DTO_3 = OpinionDTO.builder()
+            .id("633ca01f45ef711325f9d810")
+            .opinionUserID(OPINION_3.getOpinionUserID())
+            .reviewedUserID(OPINION_3.getReviewedUserID())
+            .opinionMessage(OPINION_3.getOpinionMessage())
+            .date(OpinionUtils.mapStringDateToLong(OPINION_3.getDate()))
+            .build();
 
     private static final OpinionRepository repository = Mockito.mock(OpinionRepository.class);
     private static final OpinionService service = new OpinionServiceImpl(repository);
@@ -63,8 +78,8 @@ public class OpinionServiceTest {
     @Test
     @DisplayName("[ 1] given existing opinions - when getAllOpinions() - then return List<OpinionDTO>")
     public void givenExistingOpinions_whenGetAllOpinions_thenReturnListOpinionsDTO() {
-        final List<Opinion> opinions = List.of(OPINION_1, OPINION_2, OPINION_3);
         final List<OpinionDTO> opinionDTOs = List.of(OPINION_DTO_1, OPINION_DTO_2, OPINION_DTO_3);
+        final List<Opinion> opinions = OpinionUtils.mapToOpinionList(opinionDTOs);
 
         given(repository.findAll())
                 .willReturn(opinionDTOs);
@@ -82,6 +97,7 @@ public class OpinionServiceTest {
     @DisplayName("[ 2] given existing opinion id - when getOpinionById() - then return OpinionDTO")
     public void givenExistingOpinionId_whenGetOpinionById_thenReturnOpinionDTO() {
         final String id = "633ca00a45ef711325f9d80f";
+        final Opinion expectedOpinion = OpinionUtils.mapToOpinion(OPINION_DTO_1);
 
         given(repository.findById(eq(id)))
                 .willReturn(Optional.of(OPINION_DTO_1));
@@ -92,7 +108,7 @@ public class OpinionServiceTest {
                 .should()
                 .findById(eq(id));
 
-        assertEquals(OPINION_1, result);
+        assertEquals(expectedOpinion, result);
     }
 
     @Test
@@ -112,8 +128,8 @@ public class OpinionServiceTest {
     @DisplayName("[ 4] given existing opinions of user - when getOpinionByOpinionUserId() - then return List<OpinionDTO>")
     public void givenExistingOpinionsOfUser_whenGetOpinionByOpinionUserId_thenReturnListOpinionDTO() {
         final String opinionUserId = "atyranski";
-        final List<Opinion> opinions = List.of(OPINION_1, OPINION_2, OPINION_3);
         final List<OpinionDTO> opinionDTOs = List.of(OPINION_DTO_1, OPINION_DTO_2, OPINION_DTO_3);
+        final List<Opinion> opinions = OpinionUtils.mapToOpinionList(opinionDTOs);
 
         given(repository.findByOpinionUserId(eq(opinionUserId)))
                 .willReturn(opinionDTOs);

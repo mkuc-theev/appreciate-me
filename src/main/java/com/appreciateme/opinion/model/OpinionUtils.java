@@ -47,7 +47,6 @@ public class OpinionUtils {
                 .id(opinion.getId())
                 .opinionUserID(opinion.getOpinionUserID())
                 .reviewedUserID(opinion.getReviewedUserID())
-                .predefinedMessageID(opinion.getPredefinedMessageID())
                 .opinionMessage(opinion.getOpinionMessage())
                 .date(mapStringDateToLong(opinion.getDate()))
                 .build();
@@ -63,7 +62,6 @@ public class OpinionUtils {
                 .id(opinionDTO.getId())
                 .opinionUserID(opinionDTO.getOpinionUserID())
                 .reviewedUserID(opinionDTO.getReviewedUserID())
-                .predefinedMessageID(opinionDTO.getPredefinedMessageID())
                 .opinionMessage(opinionDTO.getOpinionMessage())
                 .date(mapLongToStringDate(opinionDTO.getDate()))
                 .build();

@@ -41,7 +41,6 @@ public class OpinionControllerTest {
             .id("633ca00a45ef711325f9d80f")
             .opinionUserID("atyranski")
             .reviewedUserID("pbogdan")
-            .predefinedMessageID("goodJob1")
             .opinionMessage("a really nice byczeq")
             .date(DATE)
             .build();
@@ -50,7 +49,6 @@ public class OpinionControllerTest {
             .id("633ca00a45ef711325f9d80f")
             .opinionUserID("atyranski")
             .reviewedUserID("ykarychkovskyi")
-            .predefinedMessageID("goodJob2")
             .opinionMessage("very cool mentor")
             .date(DATE)
             .build();
@@ -67,7 +65,6 @@ public class OpinionControllerTest {
             .id("633d58a19e689e69d12e9e6b")
             .opinionUserID("atyranski")
             .reviewedUserID("mkuc")
-            .predefinedMessageID("goodJob4")
             .date(DATE)
             .build();
 
@@ -98,7 +95,6 @@ public class OpinionControllerTest {
                 .andExpect(jsonPath("$[0].id").value(OPINION_1.getId()))
                 .andExpect(jsonPath("$[0].opinionUserID").value(OPINION_1.getOpinionUserID()))
                 .andExpect(jsonPath("$[0].reviewedUserID").value(OPINION_1.getReviewedUserID()))
-                .andExpect(jsonPath("$[0].predefinedMessageID").value(OPINION_1.getPredefinedMessageID()))
                 .andExpect(jsonPath("$[0].opinionMessage").value(OPINION_1.getOpinionMessage()))
                 .andExpect(jsonPath("$[0].date").value(OPINION_1.getDate()))
                 .andExpect(jsonPath("$[1].id").value(OPINION_2.getId()))
@@ -124,7 +120,6 @@ public class OpinionControllerTest {
                 .andExpect(jsonPath("$.id").value(OPINION_1.getId()))
                 .andExpect(jsonPath("$.opinionUserID").value(OPINION_1.getOpinionUserID()))
                 .andExpect(jsonPath("$.reviewedUserID").value(OPINION_1.getReviewedUserID()))
-                .andExpect(jsonPath("$.predefinedMessageID").value(OPINION_1.getPredefinedMessageID()))
                 .andExpect(jsonPath("$.opinionMessage").value(OPINION_1.getOpinionMessage()))
                 .andExpect(jsonPath("$.date").value(OPINION_1.getDate()));
     }
@@ -172,7 +167,6 @@ public class OpinionControllerTest {
                 .andExpect(jsonPath("$[0].id").value(OPINION_1.getId()))
                 .andExpect(jsonPath("$[0].opinionUserID").value(OPINION_1.getOpinionUserID()))
                 .andExpect(jsonPath("$[0].reviewedUserID").value(OPINION_1.getReviewedUserID()))
-                .andExpect(jsonPath("$[0].predefinedMessageID").value(OPINION_1.getPredefinedMessageID()))
                 .andExpect(jsonPath("$[0].opinionMessage").value(OPINION_1.getOpinionMessage()))
                 .andExpect(jsonPath("$[0].date").value(OPINION_1.getDate()))
                 .andExpect(jsonPath("$[1].id").value(OPINION_2.getId()))
@@ -199,7 +193,6 @@ public class OpinionControllerTest {
                 .andExpect(jsonPath("$[0].id").value(OPINION_3.getId()))
                 .andExpect(jsonPath("$[0].opinionUserID").value(OPINION_3.getOpinionUserID()))
                 .andExpect(jsonPath("$[0].reviewedUserID").value(OPINION_3.getReviewedUserID()))
-                .andExpect(jsonPath("$[0].predefinedMessageID").value(OPINION_3.getPredefinedMessageID()))
                 .andExpect(jsonPath("$[0].opinionMessage").value(OPINION_3.getOpinionMessage()))
                 .andExpect(jsonPath("$[0].date").value(OPINION_3.getDate()));
     }
@@ -222,7 +215,6 @@ public class OpinionControllerTest {
                 .andExpect(jsonPath("$[0].id").value(OPINION_1.getId()))
                 .andExpect(jsonPath("$[0].opinionUserID").value(OPINION_1.getOpinionUserID()))
                 .andExpect(jsonPath("$[0].reviewedUserID").value(OPINION_1.getReviewedUserID()))
-                .andExpect(jsonPath("$[0].predefinedMessageID").value(OPINION_1.getPredefinedMessageID()))
                 .andExpect(jsonPath("$[0].opinionMessage").value(OPINION_1.getOpinionMessage()))
                 .andExpect(jsonPath("$[0].date").value(OPINION_1.getDate()))
                 .andExpect(jsonPath("$[1].id").value(OPINION_2.getId()))
@@ -236,22 +228,22 @@ public class OpinionControllerTest {
             throws Exception {
 
         final String endpoint = String.format("/%s", DOMAIN);
+        final Opinion opinionToCreate = Opinion.builder()
+                .opinionUserID(OPINION_1.getOpinionUserID())
+                .reviewedUserID(OPINION_1.getReviewedUserID())
+                .opinionMessage(OPINION_1.getOpinionMessage())
+                .build();
 
-        when(service.add(OPINION_1))
-                .thenReturn(OPINION_1);
+        when(service.add(opinionToCreate))
+                .thenReturn(OPINION_1.getId());
 
         mockMvc.perform(post(endpoint)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(OPINION_1)))
+                        .content(objectMapper.writeValueAsString(opinionToCreate)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.id").value(OPINION_1.getId()))
-                .andExpect(jsonPath("$.opinionUserID").value(OPINION_1.getOpinionUserID()))
-                .andExpect(jsonPath("$.reviewedUserID").value(OPINION_1.getReviewedUserID()))
-                .andExpect(jsonPath("$.predefinedMessageID").value(OPINION_1.getPredefinedMessageID()))
-                .andExpect(jsonPath("$.opinionMessage").value(OPINION_1.getOpinionMessage()))
-                .andExpect(jsonPath("$.date").value(OPINION_1.getDate()));
+                .andExpect(jsonPath("$").value(OPINION_1.getId()));
     }
 
     @Test
@@ -305,7 +297,6 @@ public class OpinionControllerTest {
                 .andExpect(jsonPath("$.id").value(OPINION_1.getId()))
                 .andExpect(jsonPath("$.opinionUserID").value(OPINION_1.getOpinionUserID()))
                 .andExpect(jsonPath("$.reviewedUserID").value(OPINION_1.getReviewedUserID()))
-                .andExpect(jsonPath("$.predefinedMessageID").value(OPINION_1.getPredefinedMessageID()))
                 .andExpect(jsonPath("$.opinionMessage").value(OPINION_1.getOpinionMessage()))
                 .andExpect(jsonPath("$.date").value(OPINION_1.getDate()));
     }

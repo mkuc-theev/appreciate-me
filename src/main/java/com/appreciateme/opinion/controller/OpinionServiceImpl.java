@@ -52,7 +52,7 @@ public class OpinionServiceImpl implements OpinionService {
         return OpinionUtils.mapToOpinionList(opinionDTOs);
     }
 
-    public Opinion add(Opinion opinion) {
+    public String add(Opinion opinion) {
         if (!Opinion.isOpinionCorrect(opinion)) {
             throw new IncorrectOpinionException();
         }
@@ -63,7 +63,7 @@ public class OpinionServiceImpl implements OpinionService {
 
         OpinionDTO opinionDTO = OpinionUtils.mapToDto(opinion);
 
-        return OpinionUtils.mapToOpinion(repository.save(opinionDTO));
+        return repository.save(opinionDTO).getId();
     }
 
     public Opinion update(Opinion opinion)

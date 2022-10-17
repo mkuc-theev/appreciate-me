@@ -54,7 +54,7 @@ public class OpinionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Opinion add(@RequestBody Opinion opinionRequest) {
+    public String add(@RequestBody Opinion opinionRequest) {
         return service.add(opinionRequest);
     }
 

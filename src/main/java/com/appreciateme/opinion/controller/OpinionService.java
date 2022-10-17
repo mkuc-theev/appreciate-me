@@ -48,7 +48,7 @@ public interface OpinionService {
      * @param opinion    OpinionDTO object which should be inserted
      * @return           saved Opinion
      */
-    Opinion add(Opinion opinion);
+    String add(Opinion opinion);
 
     /**
      * Edit existing opinion
