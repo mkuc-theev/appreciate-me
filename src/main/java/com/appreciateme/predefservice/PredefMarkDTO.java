@@ -1,12 +1,16 @@
 package com.appreciateme.predefservice;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "predefs")
 public class PredefMarkDTO {
+    @Id
     private String id;
     private String name;
     private String content;
 
     public PredefMarkDTO() {
-        id = null;
     }
 
     public PredefMarkDTO(String name, String content) {

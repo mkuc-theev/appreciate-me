@@ -12,23 +12,23 @@ public class PredefMarkServiceImpl implements PredefMarkService {
     private PredefMarkRepository predefMarkRepository;
 
     @Override
-    public List<PredefMark> findAll() {
+    public List<PredefMarkDTO> findAll() {
         return predefMarkRepository.findAll();
     }
 
     @Override
-    public Optional<PredefMark> findByName(String name) {
+    public Optional<PredefMarkDTO> findByName(String name) {
         return predefMarkRepository.findByName(name);
     }
 
     @Override
-    public Optional<PredefMark> findByID(String id) {
+    public Optional<PredefMarkDTO> findByID(String id) {
         return predefMarkRepository.findById(id);
     }
 
     @Override
-    public PredefMark saveOrUpdatePredef(PredefMark predefMark) {
-        return predefMarkRepository.save(predefMark);
+    public PredefMarkDTO saveOrUpdatePredef(PredefMarkDTO predefMarkDTO) {
+        return predefMarkRepository.save(predefMarkDTO);
     }
 
     @Override

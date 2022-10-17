@@ -5,13 +5,13 @@ import java.util.Optional;
 
 public interface PredefMarkService {
 
-    List<PredefMark> findAll();
+    List<PredefMarkDTO> findAll();
 
-    Optional<PredefMark> findByName(String name);
+    Optional<PredefMarkDTO> findByName(String name);
 
-    Optional<PredefMark> findByID(String id);
+    Optional<PredefMarkDTO> findByID(String id);
 
-    PredefMark saveOrUpdatePredef(PredefMark predefMark);
+    PredefMarkDTO saveOrUpdatePredef(PredefMarkDTO predefMarkDTO);
 
     void deletePredefByID(String id);
 

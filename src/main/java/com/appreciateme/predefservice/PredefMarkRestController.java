@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,31 +22,37 @@ public class PredefMarkRestController {
 
     @Autowired
     private PredefMarkService predefMarkService;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @GetMapping(value = "/")
-    public List<PredefMarkDTO> getAllPredefs() {
-        return predefMarkService
+    @ResponseBody
+    public ResponseEntity<?> getAllPredefs() {
+        List<PredefMark> predefMarkList = predefMarkService
                 .findAll()
                 .stream()
-                .map(p -> objectMapper.convertValue(p, PredefMarkDTO.class))
+                .map(p -> objectMapper.convertValue(p, PredefMark.class))
                 .collect(Collectors.toList());
+        return new ResponseEntity<>(predefMarkList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/byID")
-    public PredefMarkDTO getPredefById(@RequestParam(name = "id") String id) {
-        return objectMapper.convertValue(predefMarkService.findByID(id).get(), PredefMarkDTO.class);
+    @ResponseBody
+    public ResponseEntity<?> getPredefById(@RequestParam(name = "id") String id) {
+        return new ResponseEntity<>(objectMapper.convertValue(predefMarkService.findByID(id).get(), PredefMark.class), HttpStatus.OK);
     }
 
     @GetMapping(value = "/byName")
-    public PredefMarkDTO getPredefByName(@RequestParam(name = "name") String name) {
-        return objectMapper.convertValue(predefMarkService.findByName(name).get(), PredefMarkDTO.class);
+    @ResponseBody
+    public ResponseEntity<?> getPredefByName(@RequestParam(name = "name") String name) {
+        return new ResponseEntity<>(objectMapper.convertValue(predefMarkService.findByName(name).get(), PredefMark.class), HttpStatus.OK);
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<?> saveOrUpdatePredef(@RequestBody PredefMarkDTO predefMarkDTO) {
-        predefMarkService.saveOrUpdatePredef(objectMapper.convertValue(predefMarkDTO, PredefMark.class));
-        return new ResponseEntity("Template added successfully.", HttpStatus.OK);
+    public ResponseEntity<?> saveOrUpdatePredef(@RequestBody PredefMark predefMark) {
+        return new ResponseEntity(predefMarkService
+                .saveOrUpdatePredef(objectMapper
+                        .convertValue(predefMark, PredefMarkDTO.class))
+                .getId(), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/deleteID")
