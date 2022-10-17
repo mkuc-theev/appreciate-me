@@ -7,12 +7,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JavaMailService {
-
     private final String myEmail = "app.appreciate.me@gmail.com";
     @Autowired
     JavaMailSender emailSender;
 
+    @Autowired
+    UsersServiceData usersServiceData;
+
     public void sendTestMessage(String address) {
+        System.out.println(usersServiceData.getURI());
         SimpleMailMessage testMessage = new SimpleMailMessage();
 
         testMessage.setFrom("app.appreciate.me@gmail.com");

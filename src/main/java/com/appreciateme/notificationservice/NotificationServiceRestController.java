@@ -20,6 +20,9 @@ public class NotificationServiceRestController {
     @Autowired
     JavaMailService javaMailService;
 
+    @Autowired
+    UsersServiceData usersServiceData;
+
     @PostMapping(value = "/send")
     public ResponseEntity<?> sendNotification(@RequestParam(name = "type") String type, @RequestBody List<String> emailAddresses)
             throws InterruptedException, IOException, URISyntaxException {
@@ -29,22 +32,22 @@ public class NotificationServiceRestController {
                 if (emailAddresses.size() != 2) {
                     return new ResponseEntity<>("This operation requires 2 email addresses. Received " + emailAddresses.size(), HttpStatus.BAD_REQUEST);
                 }
-                javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0), emailAddresses.get(1)), NotificationTemplate.NEW_USER);
+                javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0), emailAddresses.get(1), usersServiceData.getURI()), NotificationTemplate.NEW_USER);
                 return new ResponseEntity<>("New user notification sent successfully to user " + emailAddresses.get(0) + ".", HttpStatus.OK);
             case "deleted-user":
                 if (emailAddresses.size() != 2) {
                     return new ResponseEntity<>("This operation requires 2 email addresses. Received " + emailAddresses.size(), HttpStatus.BAD_REQUEST);
                 }
-                javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0), emailAddresses.get(1)), NotificationTemplate.DELETE_USER);
+                javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0), emailAddresses.get(1), usersServiceData.getURI()), NotificationTemplate.DELETE_USER);
                 return new ResponseEntity<>("Deleted user notification sent successfully to user " + emailAddresses.get(0) + ".", HttpStatus.OK);
             case "bump-got":
                 if (emailAddresses.size() != 2) {
                     return new ResponseEntity<>("This operation requires 2 email addresses. Received " + emailAddresses.size(), HttpStatus.BAD_REQUEST);
                 }
-                javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0), emailAddresses.get(1)), NotificationTemplate.BUMP_GOT);
+                javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0), emailAddresses.get(1), usersServiceData.getURI()), NotificationTemplate.BUMP_GOT);
                 return new ResponseEntity<>("New bump notification sent successfully to user " + emailAddresses.get(0) + ".", HttpStatus.OK);
             case "reward-ready":
-                javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0)), NotificationTemplate.REWARD_READY);
+                javaMailService.sendEmailNotification(new NotificationData(emailAddresses.get(0), usersServiceData.getURI()), NotificationTemplate.REWARD_READY);
                 return new ResponseEntity<>("New reward notification sent successfully to user " + emailAddresses.get(0) + ".", HttpStatus.OK);
             case "test":
                 javaMailService.sendTestMessage(emailAddresses.get(0));

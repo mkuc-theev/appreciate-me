@@ -15,21 +15,22 @@ import java.util.Map;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 public class NotificationData {
-    private final String receivingEmail;
-    private final String receivingFirstName;
-    private final String receivingLastName;
+    private String receivingEmail;
+    private String receivingFirstName;
+    private String receivingLastName;
     private String contextFirstName = null;
     private String contextLastName = null;
 
-    NotificationData(String receivingEmail, String contextEmail)
+
+    NotificationData(String receivingEmail, String contextEmail, String userServiceURI)
             throws URISyntaxException, InterruptedException, IOException {
         HttpRequest receivingRequest = HttpRequest
-                .newBuilder(new URI("http://localhost:8001/users/findByEmail?email=" + receivingEmail))
+                .newBuilder(new URI(userServiceURI + "/users/findByEmail?email=" + receivingEmail))
                 .timeout(Duration.of(10, SECONDS))
                 .GET()
                 .build();
         HttpRequest contextRequest = HttpRequest
-                .newBuilder(new URI("http://localhost:8001/users/findByEmail?email=" + contextEmail))
+                .newBuilder(new URI(userServiceURI + "/users/findByEmail?email=" + contextEmail))
                 .timeout(Duration.of(10, SECONDS))
                 .GET()
                 .build();
@@ -55,10 +56,10 @@ public class NotificationData {
         contextLastName = (String) contextResponseBody.get("lastName");
     }
 
-    NotificationData(String receivingEmail)
+    NotificationData(String receivingEmail, String userServiceURI)
             throws URISyntaxException, InterruptedException, IOException {
         HttpRequest receivingRequest = HttpRequest
-                .newBuilder(new URI("localhost:8001/users/findByEmail?email=" + receivingEmail))
+                .newBuilder(new URI(userServiceURI + "/users/findByEmail?email=" + receivingEmail))
                 .timeout(Duration.of(10, SECONDS))
                 .GET()
                 .build();
