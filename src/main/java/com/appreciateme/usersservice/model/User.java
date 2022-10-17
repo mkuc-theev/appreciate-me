@@ -22,14 +22,19 @@ public class User {
   private Sex sex;
   private BigDecimal accountBalance;
 
+  /**
+   * Check if given user has all necessary information.
+   *
+   * @param user Object of User class to be checked
+   * @return true if each field of an object satisfies the constraints, false otherwise
+   */
   public static boolean isUserCorrect(User user) {
-    return user.getId() != null && !user.getId().isEmpty()
-        && user.getFirstName() != null && !user.getFirstName().isEmpty()
+    return user.getFirstName() != null && !user.getFirstName().isEmpty()
         && user.getLastName() != null && !user.getLastName().isEmpty()
         && user.getEmail() != null && !user.getEmail().isEmpty()
         && user.getAge() >= 0
         && user.getSex() != null
         && user.getAccountBalance() != null
-        && user.getAccountBalance().compareTo(BigDecimal.ZERO) < 0;
+        && user.getAccountBalance().compareTo(BigDecimal.ZERO) > 0;
   }
 }

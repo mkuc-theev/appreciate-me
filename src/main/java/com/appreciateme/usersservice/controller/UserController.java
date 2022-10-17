@@ -2,7 +2,6 @@ package com.appreciateme.usersservice.controller;
 
 import com.appreciateme.usersservice.model.User;
 import com.appreciateme.usersservice.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
-  private final ObjectMapper mapper = new ObjectMapper();
   @Autowired
   private UserService userService;
 
@@ -59,7 +57,11 @@ public class UserController {
 
   @GetMapping(value = "/findByEmail")
   public ResponseEntity<User> getByEmail(@RequestParam String email) {
-    return ResponseEntity.ok(userService.getByEmail(email));
+    if(userService.existsByEmail(email)) {
+      return ResponseEntity.ok(userService.getByEmail(email));
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @DeleteMapping(value = "/{id}")

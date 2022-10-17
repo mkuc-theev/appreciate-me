@@ -21,9 +21,8 @@ public class UserService {
   }
 
   public User getById(String id) {
-    return repository.findById(id).orElseThrow(() ->
-        new RuntimeException(String.format("Error 404! User with id: %s not found!", id))
-    );
+    return repository.findById(id).orElseThrow(
+        () -> new RuntimeException(String.format("Error 404! User with id: %s not found!", id)));
   }
 
   public List<User> getByFirstNameAndLastName(String firstName, String lastName) {
@@ -38,5 +37,9 @@ public class UserService {
     return repository.existsById(id);
   }
 
-  public void deleteById(String id) { repository.deleteById(id); }
+  public boolean existsByEmail(String email) { return repository.existsByEmail(email);}
+
+  public void deleteById(String id) {
+    repository.deleteById(id);
+  }
 }
