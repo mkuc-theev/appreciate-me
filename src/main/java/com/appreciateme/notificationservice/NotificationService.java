@@ -1,4 +1,4 @@
-package com.appreciateme;
+package com.appreciateme.notificationservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

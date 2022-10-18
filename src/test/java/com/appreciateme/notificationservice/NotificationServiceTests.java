@@ -1,4 +1,4 @@
-package com.appreciateme.predefservice;
+package com.appreciateme.notificationservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
