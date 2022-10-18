@@ -1,8 +1,3 @@
-# Read Me First
-The following was discovered as part of building this project:
-
-* The original package name 'com.appreciateme.people-manage-microservice' is invalid and this project uses 'com.appreciateme.usersservice' instead.
-
 # Getting Started
 
 ### Reference Documentation
