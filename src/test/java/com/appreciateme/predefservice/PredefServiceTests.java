@@ -1,4 +1,4 @@
-package com.appreciateme.prefefservice;
+package com.appreciateme.predefservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
