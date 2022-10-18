@@ -1,6 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/appreciate-me-users-service
+      uri: mongodb://localhost:27017/appreciate-me-main-service
+
 server:
-  port: 8001
+  port: 8002
