@@ -8,7 +8,7 @@ spring:
           auth: 'true'
     host: smtp.gmail.com
     username: app.appreciate.me
-    password: ENC(wTwvZy4Rud5L7uArE2XM0cf7O7F0O1KmZsyFtyvUaz4=)
+    password: placeholder
     port: '587'
   data:
     mongodb:
