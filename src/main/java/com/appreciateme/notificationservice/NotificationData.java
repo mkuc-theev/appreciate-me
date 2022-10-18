@@ -18,8 +18,8 @@ public class NotificationData {
     private String receivingEmail;
     private String receivingFirstName;
     private String receivingLastName;
-    private String contextFirstName = null;
-    private String contextLastName = null;
+    private String contextFirstName;
+    private String contextLastName;
 
 
     NotificationData(String receivingEmail, String contextEmail, String userServiceURI)
