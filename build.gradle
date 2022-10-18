@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.4'
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	id 'java'
+	id 'application'
 }
 
 group = 'com.appreciateme'
@@ -12,6 +13,10 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+}
+
+application {
+	mainClass = 'com.appreciateme.AppreciateMeApplication'
 }
 
 repositories {
