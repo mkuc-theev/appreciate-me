@@ -23,3 +23,6 @@ services:
   user:
     host: 'localhost'
     port: '8001'
+
+server:
+  port: 8002
