@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/users/findByEmail?email=recipient@example.com"
+  },
+  "response": {
+    "status": 200,
+    "body": "{\"firstName\": \"John\",\"lastName\": \"Doe\",\"email\": \"recipient@example.com\",\"id\": \"0\",\"age\": 45,\"sex\": \"MALE\",\"accountBalance\": 9}",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
