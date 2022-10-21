@@ -13,16 +13,14 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/appreciate-me-main-service
+  main:
+    allow-bean-definition-overriding: true
 
 jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
-
-services:
-  user:
-    host: 'localhost'
-    port: '8001'
+    password: WdEzSEoFIfRN5mj6zV5cLJCKJnbvFTL2
 
 server:
   port: 8002

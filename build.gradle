@@ -15,10 +15,6 @@ configurations {
 	}
 }
 
-application {
-	mainClass = 'com.appreciateme.AppreciateMeApplication'
-}
-
 repositories {
 	mavenCentral()
 }
@@ -36,6 +32,16 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'junit:junit:4.13.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation project(':service-user')
+	implementation project(':service-opinion')
+	implementation project(':service-predef')
+	implementation project(':service-notification')
+
+}
+
+application {
+	mainClass = 'com.appreciateme.Main'
 }
 
 tasks.named('test') {

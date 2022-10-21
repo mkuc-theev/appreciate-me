@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.appreciateme.opinion.OpinionServiceTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2022-10-20T13:28:37" hostname="C12422" time="0.01">
+  <properties/>
+  <testcase name="[ 3] given not existing opinion id - when getOpinionById() then throw OpinionNotFoundException" classname="com.appreciateme.opinion.OpinionServiceTest" time="0.002"/>
+  <testcase name="[ 7] given String with date in incorrect format - when isDateFormatCorrect - then return false" classname="com.appreciateme.opinion.OpinionServiceTest" time="0.0"/>
+  <testcase name="[ 8] given correct Opinion - when isOpinionCorrect - then return true" classname="com.appreciateme.opinion.OpinionServiceTest" time="0.0"/>
+  <testcase name="[ 5] given existing opinions for user - when getOpinionByReviewedUserId() - then return List&lt;OpinionDTO&gt;" classname="com.appreciateme.opinion.OpinionServiceTest" time="0.003"/>
+  <testcase name="[ 6] given String with date in correct format - when isDateFormatCorrect - then return true" classname="com.appreciateme.opinion.OpinionServiceTest" time="0.0"/>
+  <testcase name="[ 1] given existing opinions - when getAllOpinions() - then return List&lt;OpinionDTO&gt;" classname="com.appreciateme.opinion.OpinionServiceTest" time="0.0"/>
+  <testcase name="[ 9] given incorrect Opinion - when isOpinionCorrect - then return true" classname="com.appreciateme.opinion.OpinionServiceTest" time="0.0"/>
+  <testcase name="[ 2] given existing opinion id - when getOpinionById() - then return OpinionDTO" classname="com.appreciateme.opinion.OpinionServiceTest" time="0.001"/>
+  <testcase name="[ 4] given existing opinions of user - when getOpinionByOpinionUserId() - then return List&lt;OpinionDTO&gt;" classname="com.appreciateme.opinion.OpinionServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

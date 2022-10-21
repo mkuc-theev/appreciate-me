@@ -1,0 +1,29 @@
+spring:
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    host: smtp.gmail.com
+    username: app.appreciate.me
+    password: ENC(wTwvZy4Rud5L7uArE2XM0cf7O7F0O1KmZsyFtyvUaz4=)
+    port: '587'
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/appreciate-me-main-service
+
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    password: WdEzSEoFIfRN5mj6zV5cLJCKJnbvFTL2
+
+services:
+  user:
+    host: 'localhost'
+    port: '8001'
+
+server:
+  port: 8004
