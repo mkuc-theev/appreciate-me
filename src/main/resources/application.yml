@@ -23,6 +23,18 @@ services:
   user:
     host: 'localhost'
     port: '8001'
+  opinion:
+    host: 'localhost'
+    port: '8002'
+  predef:
+    host: 'localhost'
+    port: '8003'
+  notification:
+    host: 'localhost'
+    port: '8004'
+  tag:
+    host: 'localhost'
+    port: '8005'
 
 server:
   port: 8002
