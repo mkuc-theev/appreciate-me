@@ -1,3 +1,7 @@
+dependencies {
+    implementation project(':common')
+}
+
 application {
     mainClass = 'com.appreciateme.tagservice.TagServiceMain'
 }

@@ -1,7 +1,6 @@
 spring:
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/appreciate-me-main-service
+  config:
+    import: classpath:application-common.yml
 
 server:
-  port: 8002
+  port: ${services.opinions.port}

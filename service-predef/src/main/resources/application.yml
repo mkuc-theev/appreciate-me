@@ -3,4 +3,4 @@ spring:
     import: classpath:application-common.yml
 
 server:
-  port: ${services.users.port}
+  port: ${services.predefs.port}

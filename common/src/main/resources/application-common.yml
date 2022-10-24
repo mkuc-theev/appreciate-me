@@ -22,5 +22,19 @@ jasypt:
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
     password: WdEzSEoFIfRN5mj6zV5cLJCKJnbvFTL2
 
-server:
-  port: 8002
+services:
+  users:
+    host: 'localhost'
+    port: '8001'
+  opinions:
+    host: 'localhost'
+    port: '8002'
+  predefs:
+    host: 'localhost'
+    port: '8003'
+  notifications:
+    host: 'localhost'
+    port: '8004'
+  tags:
+    host: 'localhost'
+    port: '8005'

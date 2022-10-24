@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class UsersServiceData {
-    @Value("${services.user.host}")
+    @Value("${services.users.host}")
     private  String host;
-    @Value("${services.user.port}")
+    @Value("${services.users.port}")
     private String port;
     @Bean
     public String getURI() {
