@@ -1,1 +1,8 @@
 rootProject.name = 'appreciateme'
+
+include 'service-user'
+include 'service-opinion'
+include 'service-predef'
+include 'service-notification'
+include 'service-tags'
+include 'common'

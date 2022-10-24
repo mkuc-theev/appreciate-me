@@ -1,0 +1,23 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/appreciate-me-main-service
+  main:
+    allow-bean-definition-overriding: true
+
+services:
+  users:
+    host: 'localhost'
+    port: '8001'
+  opinions:
+    host: 'localhost'
+    port: '8002'
+  predefs:
+    host: 'localhost'
+    port: '8003'
+  notifications:
+    host: 'localhost'
+    port: '8004'
+  tags:
+    host: 'localhost'
+    port: '8005'

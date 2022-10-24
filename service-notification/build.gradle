@@ -1,0 +1,3 @@
+application {
+    mainClass = 'com.appreciateme.notificationservice.NotificationServiceApplication'
+}
