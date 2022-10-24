@@ -1,7 +1,0 @@
-spring:
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/appreciate-me-main-service
-
-server:
-  port: 8002
