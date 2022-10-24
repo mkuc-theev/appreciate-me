@@ -4,4 +4,4 @@ include 'service-user'
 include 'service-opinion'
 include 'service-predef'
 include 'service-notification'
-
+include 'common'

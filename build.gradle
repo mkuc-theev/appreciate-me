@@ -1,49 +1,51 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.4'
-	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
-	id 'java'
-	id 'application'
+	id 'org.springframework.boot' version '2.7.4' apply false
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE' apply false
 }
 
-group = 'com.appreciateme'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+allprojects {
+	repositories {
+		mavenCentral()
 	}
 }
 
-repositories {
-	mavenCentral()
+subprojects {
+	group = 'com.appreciateme'
+	version = '0.0.1-SNAPSHOT'
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework:spring-context-support'
-	implementation 'net.sf.jason:jason:2.3'
-	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+configure(subprojects.findAll {it.name != 'common'}) {
 
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'junit:junit:4.13.2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'java'
+	apply plugin: 'application'
 
-	implementation project(':service-user')
-	implementation project(':service-opinion')
-	implementation project(':service-predef')
-	implementation project(':service-notification')
+	sourceCompatibility = '17'
 
-}
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
 
-application {
-	mainClass = 'com.appreciateme.Main'
-}
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-mail'
+		implementation 'org.springframework:spring-context-support'
+		implementation 'net.sf.jason:jason:2.3'
+		implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
-tasks.named('test') {
-	useJUnitPlatform()
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		testImplementation 'junit:junit:4.13.2'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	}
+
+	tasks.named('test') {
+		useJUnitPlatform()
+	}
 }
