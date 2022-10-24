@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="ISO-8859-1"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,5 +8,11 @@
   <title>appreciate.me</title>
 </head>
 <body>
+  <div class="user-container">
+    <div class="user" th:each="user: ${users}">
+      <span th:text="user.firstName"> First Name </span>
+      <span th:text="user.lastName"> Last Name</span><br>
+    </div>
+  </div>
 </body>
 </html>

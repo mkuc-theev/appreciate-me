@@ -1,8 +1,16 @@
+
 plugins {
     id 'org.springframework.boot' apply false
     id 'io.spring.dependency-management'
     id 'java'
 }
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 
 dependencyManagement {
     imports {
@@ -12,5 +20,10 @@ dependencyManagement {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }
 
