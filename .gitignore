@@ -51,3 +51,9 @@ atlassian-ide-plugin.xml
 
 # VS Code
 .vscode/
+/service-notification/build/
+/service-opinion/build/
+/service-predef/build/
+/service-user/build/
+/common/build/
+/service-tags/build/

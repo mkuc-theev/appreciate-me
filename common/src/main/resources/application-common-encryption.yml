@@ -1,0 +1,19 @@
+spring:
+  config:
+    import: classpath:application-common.yml
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    host: smtp.gmail.com
+    username: app.appreciate.me
+    password: ENC(wTwvZy4Rud5L7uArE2XM0cf7O7F0O1KmZsyFtyvUaz4=)
+    port: '587'
+
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator

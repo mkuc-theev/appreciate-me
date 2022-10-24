@@ -1,0 +1,17 @@
+spring:
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    host: smtp.gmail.com
+    username: app.appreciate.me
+    password: 'somethingIrrelevant'
+    port: '587'
+
+services:
+  users:
+    host: 'localhost'
+    port: '8001'
