@@ -8,11 +8,18 @@
   <title>appreciate.me</title>
 </head>
 <body>
+  <div class="top-bar">appreciate.me</div><br>
   <div class="user-container">
+    <div class="users-top-bar">
+      <span><b>User list</b></span>
+      <button type="button" class="button add-user-button" title="Add a user">&#10010;</button>
+    </div>
     <div class="user" th:each="user: ${users}">
-      <span th:text="user.firstName"> First Name </span>
-      <span th:text="user.lastName"> Last Name</span><br>
+      <span th:text="${user.getFirstName}">First Name </span>
+      <span th:text="${user.getLastName}">Last Name</span>
+      <button type="button" class="button write-opinion-button" title="Give this user a fist bump">&#9998;</button>
+      <button type="button" class="button remove-user-button" title="Remove this user">&#10006;</button>
     </div>
   </div>
 </body>
-</html>
+</html>.

@@ -1,7 +1,15 @@
+:root {
+    --main-bg-color: #12232E;
+    --main-fg-color: #007CC7;
+    --light-fg-color: #4DA8DA;
+    --shadow-fg-color: #203647;
+  }
+
+
 body {
-    background-color: #12232E;
-    padding: 2%;
-    margin: auto;
+    background-color: var(--main-bg-color);
+    padding: 0;
+    margin: 0;
 }
 p {
      color: white;
@@ -12,4 +20,101 @@ h1 {
     color: white;
     font-family: Ubuntu;
     font-size: 42px;
+}
+
+.top-bar {
+    height: fit-content;
+    width: 100%;
+    padding: 1vw;
+    background-color: #203647;
+    color: white;
+    font-family: Ubuntu;
+    font-size: 2vw;
+}
+
+.user-container {
+    display: flexbox;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: var(--light-fg-color);
+    border-radius: 10px;
+    margin: auto;
+    width: 50%;
+
+}
+.user {
+    display: block;
+    align-items: center;
+    box-sizing: content-box;
+    padding: 5px;
+    padding-left: 10px;
+    margin: 10px;
+    background-color: var(--main-fg-color);
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px 1px var(--shadow-fg-color);
+    width: auto;
+
+    color: white;
+    font-family: Ubuntu;
+    font-size: 24px;
+}
+
+.users-top-bar {
+    display: flexbox;
+    align-items: center;
+    box-sizing: content-box;
+    padding: 5px;
+    padding-left: 10px;
+    margin: 10px;
+    background-color: var(--light-fg-color);
+    width: auto;
+
+    color: white;
+    font-family: Ubuntu;
+    font-size: 24px;
+
+}
+
+.button {
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    transition-duration: 150ms;
+}
+
+.write-opinion-button {
+    border-radius: 0px 5px 5px 0px;
+    height: 29px;
+    width: 29px;
+    float: right;
+    background-color: #4CAF50;
+}
+
+.remove-user-button {
+    border-radius: 5px 0px 0px 5px;
+    height: 29px;
+    width: 29px;
+    float: right;
+    background-color: #f44336;
+}
+
+.add-user-button {
+    border-radius: 5px;
+    height: 29px;
+    width: 29px;
+    float: right;
+    background-color: var(--main-fg-color);
+}
+
+.add-user-button:hover {
+    background-color: #00619e;
+}
+
+.write-opinion-button:hover {
+    background-color: #2ba630;
+}
+
+.remove-user-button:hover {
+    background-color: #d4372b;
 }
