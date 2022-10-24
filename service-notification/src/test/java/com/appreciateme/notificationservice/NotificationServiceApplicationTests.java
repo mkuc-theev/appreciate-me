@@ -1,4 +1,4 @@
-package com.appreciate.menotificationservice;
+package com.appreciateme.notificationservice;
 
 import com.appreciateme.notificationservice.NotificationServiceApplication;
 import org.junit.jupiter.api.Test;

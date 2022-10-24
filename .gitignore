@@ -56,3 +56,4 @@ atlassian-ide-plugin.xml
 /service-predef/build/
 /service-user/build/
 /common/build/
+/service-tags/build/
