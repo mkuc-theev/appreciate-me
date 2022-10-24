@@ -6,3 +6,5 @@ include 'service-predef'
 include 'service-notification'
 include 'service-tags'
 include 'common'
+include 'service-web'
+

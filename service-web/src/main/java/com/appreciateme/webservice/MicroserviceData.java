@@ -5,44 +5,44 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MicroserviceData {
-    @Value("${services.user.host}")
-    private String userHost;
-    @Value("${services.user.port}")
-    private String userPort;
-    @Value("${services.opinion.host}")
-    private String opinionHost;
-    @Value("${services.opinion.port}")
-    private String opinionPort;
-    @Value("${services.predef.host}")
-    private String predefHost;
-    @Value("${services.predef.port}")
-    private String predefPort;
-    @Value("${services.notification.host}")
-    private String notificationHost;
-    @Value("${services.notification.port}")
-    private String notificationPort;
-    @Value("${services.tag.post}")
-    private String tagHost;
-    @Value("${services.tag.port}")
-    private String tagPort;
+    @Value("${services.users.host}")
+    private String usersHost;
+    @Value("${services.users.port}")
+    private String usersPort;
+    @Value("${services.opinions.host}")
+    private String opinionsHost;
+    @Value("${services.opinions.port}")
+    private String opinionsPort;
+    @Value("${services.predefs.host}")
+    private String predefsHost;
+    @Value("${services.predefs.port}")
+    private String predefsPort;
+    @Value("${services.notifications.host}")
+    private String notificationsHost;
+    @Value("${services.notifications.port}")
+    private String notificationsPort;
+    @Value("${services.tags.port}")
+    private String tagsHost;
+    @Value("${services.tags.port}")
+    private String tagsPort;
 
-    public String getUserURI() {
-        return "http://%s:%s".formatted(userHost, userPort);
+    public String getUsersURI() {
+        return "http://%s:%s".formatted(usersHost, usersPort);
     }
 
-    public String getOpinionURI() {
-        return "http://%s:%s".formatted(opinionHost, opinionPort);
+    public String getOpinionsURI() {
+        return "http://%s:%s".formatted(opinionsHost, opinionsPort);
     }
 
-    public String getPredefURI() {
-        return "http://%s:%s".formatted(predefHost, predefPort);
+    public String getPredefsURI() {
+        return "http://%s:%s".formatted(predefsHost, predefsPort);
     }
 
-    public String getNotificationURI() {
-        return "http://%s:%s".formatted(notificationHost, notificationPort);
+    public String getNotificationsURI() {
+        return "http://%s:%s".formatted(notificationsHost, notificationsPort);
     }
 
-    public String getTagURI() {
-        return "http://%s:%s".formatted(tagHost, tagPort);
+    public String getTagsURI() {
+        return "http://%s:%s".formatted(tagsHost, tagsPort);
     }
 }
