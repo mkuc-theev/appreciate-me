@@ -1,6 +1,6 @@
 spring:
   config:
-    import: classpath:application-common.yml
+    import: classpath:application-common-encryption.yml
 
 server:
   port: ${services.notifications.port}

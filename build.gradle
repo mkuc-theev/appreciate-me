@@ -37,14 +37,17 @@ configure(subprojects.findAll {it.name != 'common'}) {
 		implementation 'net.sf.jason:jason:2.3'
 		implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'com.github.tomakehurst:wiremock:2.27.2'
-	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner:3.1.4'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		testImplementation 'com.github.tomakehurst:wiremock:2.27.2'
+		testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner:3.1.4'
+		testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+
+		implementation project(':common')
+		testImplementation project(':common')
 }
 
 	tasks.named('test') {
