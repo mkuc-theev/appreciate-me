@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -23,7 +21,6 @@ public class User {
   private String email;
   private int age;
   private Sex sex;
-  private BigDecimal accountBalance;
 
   /**
    * Check if given user has all necessary information.
@@ -36,8 +33,6 @@ public class User {
         && user.getLastName() != null && !user.getLastName().isEmpty()
         && user.getEmail() != null && !user.getEmail().isEmpty()
         && user.getAge() >= 0
-        && user.getSex() != null
-        && user.getAccountBalance() != null
-        && user.getAccountBalance().compareTo(BigDecimal.ZERO) > 0;
+        && user.getSex() != null;
   }
 }

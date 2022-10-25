@@ -40,6 +40,7 @@ configure(subprojects.findAll {it.name != 'common'}) {
 		implementation 'org.thymeleaf:thymeleaf:3.0.15.RELEASE'
 		implementation 'org.thymeleaf:thymeleaf-spring5:3.0.15.RELEASE'
 		implementation 'org.json:json:20220924'
+		implementation 'javax.validation:validation-api:2.0.1.Final'
 
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
@@ -58,7 +59,6 @@ configure(subprojects.findAll {it.name != 'common'}) {
 		useJUnitPlatform()
 	}
 }
-
 tasks.withType(JavaCompile) {
 	options.compilerArgs << '-Xlint:unchecked'
 	options.deprecation = true
