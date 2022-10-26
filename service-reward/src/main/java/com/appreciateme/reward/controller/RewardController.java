@@ -1,6 +1,6 @@
-package com.appreciateme.opinion.controller;
+package com.appreciateme.reward.controller;
 
-import com.appreciateme.opinion.model.Opinion;
+import com.appreciateme.reward.model.Reward;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,63 +10,53 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/opinions")
+@RequestMapping("/rewards")
 @RequiredArgsConstructor
-public class OpinionController {
+public class RewardController {
 
-    private final OpinionService service;
+    private final RewardService service;
 
 // GET
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Opinion> getAll() {
+    public List<Reward> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Opinion getById(@PathVariable String id) {
+    public Reward getById(@PathVariable String id) {
         return service.getById(id);
     }
 
-    @GetMapping("unused/reviewedUser/{userId}")
+    @GetMapping("user/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Opinion> getAllUnusedByReviewedUserId(@PathVariable String userId) {
-        return service.getAllUnusedByReviewedUserId(userId);
+    public List<Reward> getAllForUser(@PathVariable String userId) {
+        return service.getAllForUser(userId);
     }
 
-    @GetMapping("unused/reviewedUser/amount/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    public Integer getAmountOfUnusedOpinionsByReviewedUserId(@PathVariable String userId) {
-        return service.getAllUnusedByReviewedUserId(userId).size();
-    }
 
 // POST
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String add(@RequestBody Opinion opinionRequest) {
-        return service.add(opinionRequest);
+    public String add(@RequestBody Reward reward) {
+        return service.add(reward);
     }
+
 
 // PUT
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public Opinion update(@RequestBody Opinion opinionRequest) {
-        return service.update(opinionRequest);
+    public Reward update(@RequestBody Reward reward) {
+        return service.update(reward);
     }
 
-    @PutMapping("/use/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Opinion> useOpinionsToClaimReward(@PathVariable String userId, @RequestParam int amount) {
-        return service.useOpinions(userId, amount);
-    }
 
 // DELETE
     @DeleteMapping

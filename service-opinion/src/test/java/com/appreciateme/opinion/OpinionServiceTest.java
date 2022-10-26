@@ -1,12 +1,11 @@
 package com.appreciateme.opinion;
 
-import com.appreciateme.opinion.controller.OpinionService;
 import com.appreciateme.opinion.model.OpinionDTO;
 import com.appreciateme.opinion.model.OpinionUtils;
 import com.appreciateme.opinion.exception.OpinionNotFoundException;
 import com.appreciateme.opinion.model.Opinion;
 import com.appreciateme.opinion.controller.OpinionRepository;
-import com.appreciateme.opinion.controller.OpinionServiceImpl;
+import com.appreciateme.opinion.controller.OpinionService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -73,7 +72,7 @@ public class OpinionServiceTest {
             .build();
 
     private static final OpinionRepository repository = Mockito.mock(OpinionRepository.class);
-    private static final OpinionService service = new OpinionServiceImpl(repository);
+    private static final OpinionService service = new OpinionService(repository);
 
     @Test
     @DisplayName("[ 1] given existing opinions - when getAllOpinions() - then return List<OpinionDTO>")

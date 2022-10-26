@@ -1,7 +1,6 @@
 package com.appreciateme.opinion;
 
 import com.appreciateme.opinion.controller.OpinionController;
-import com.appreciateme.opinion.controller.OpinionService;
 import com.appreciateme.opinion.model.OpinionDTO;
 import com.appreciateme.opinion.model.OpinionUtils;
 import com.appreciateme.opinion.exception.IncorrectOpinionException;
@@ -39,7 +38,7 @@ public class OpinionControllerTest {
 
     final Opinion OPINION_1 = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
+            .opinionUserId("atyranski")
             .reviewedUserID("pbogdan")
             .opinionMessage("a really nice byczeq")
             .date(DATE)
@@ -47,7 +46,7 @@ public class OpinionControllerTest {
 
     final Opinion OPINION_2 = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
+            .opinionUserId("atyranski")
             .reviewedUserID("ykarychkovskyi")
             .opinionMessage("very cool mentor")
             .date(DATE)

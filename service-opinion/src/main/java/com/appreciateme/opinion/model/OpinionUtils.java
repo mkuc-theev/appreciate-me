@@ -45,10 +45,11 @@ public class OpinionUtils {
     public static OpinionDTO mapToDto(Opinion opinion) {
         return OpinionDTO.builder()
                 .id(opinion.getId())
-                .opinionUserID(opinion.getOpinionUserID())
-                .reviewedUserID(opinion.getReviewedUserID())
+                .opinionUserId(opinion.getOpinionUserId())
+                .reviewedUserId(opinion.getReviewedUserId())
                 .opinionMessage(opinion.getOpinionMessage())
                 .date(mapStringDateToLong(opinion.getDate()))
+                .used(opinion.isUsed())
                 .build();
     }
 
@@ -60,10 +61,11 @@ public class OpinionUtils {
     public static Opinion mapToOpinion(OpinionDTO opinionDTO) {
         return Opinion.builder()
                 .id(opinionDTO.getId())
-                .opinionUserID(opinionDTO.getOpinionUserID())
-                .reviewedUserID(opinionDTO.getReviewedUserID())
+                .opinionUserId(opinionDTO.getOpinionUserId())
+                .reviewedUserId(opinionDTO.getReviewedUserId())
                 .opinionMessage(opinionDTO.getOpinionMessage())
                 .date(mapLongToStringDate(opinionDTO.getDate()))
+                .used(opinionDTO.isUsed())
                 .build();
     }
 
