@@ -22,12 +22,22 @@ public class RewardService {
 
     private final RewardRepository repository;
 
+    /**
+     * Get a list of all rewards
+     * @return      list of all rewards as Reward
+     */
     public List<Reward> getAll() {
         List<RewardDTO> rewards = repository.findAll();
 
         return RewardUtils.mapToRewardList(rewards);
     }
 
+    /**
+     * Get one reward by its identifier
+     * @param id    identifier of specific reward
+     * @return      particular reward as Reward
+     * @throws RewardNotFoundException
+     */
     public Reward getById(String id)
             throws RewardNotFoundException {
 
@@ -37,6 +47,12 @@ public class RewardService {
         return RewardUtils.mapToReward(rewardDTO);
     }
 
+    /**
+     * List all rewards that can be claimed by user with provided id.
+     * This method send request to Opinion Microservice to get number of unused opinions.
+     * @param userId    identifier of user
+     * @return          list of rewards for particular user
+     */
     public List<Reward> getAllForUser(String userId) {
         Integer opinionsAmount = getOpinionsAmountForUser(userId)
                 .orElseThrow(FailedToGetRewardsException::new);
@@ -51,9 +67,14 @@ public class RewardService {
         return Optional.ofNullable(restTemplate.getForObject(url, Integer.class));
     }
 
+    /**
+     * Insert new reward into database
+     * @param reward    Reward object which should be inserted
+     * @return          id of created Reward object
+     */
     public String add(Reward reward) {
         if (reward.getDateFrom() == null) {
-            reward.setDateFrom(RewardUtils.setCurrentDate());
+            reward.setDateFrom(RewardUtils.getCurrentDate());
         }
 
         RewardCorrectnessStatus status = Reward.isCorrect(reward);
@@ -67,6 +88,12 @@ public class RewardService {
         return repository.save(rewardDTO).getId();
     }
 
+    /**
+     * Edit existing reward
+     * @param reward    Reward object which represents the latest state of existing object
+     * @return          updated reward as Reward
+     * @throws RewardNotFoundException  when there is no reward with specified ID in database
+     */
     public Reward update(Reward reward)
             throws RewardNotFoundException {
 
@@ -78,12 +105,21 @@ public class RewardService {
         return RewardUtils.mapToReward(repository.save(rewardDTO));
     }
 
+    /**
+     * Remove whole collection of opinions from database
+     * @return      true if succeed
+     */
     public boolean clear() {
         repository.deleteAll();
 
         return true;
     }
 
+    /**
+     * Remove one reward with specified id
+     * @param id    identifier of specific reward
+     * @return      true if succeed
+     */
     public boolean delete(String id) {
         repository.findById(id)
                 .orElseThrow(() -> new RewardNotFoundException(id));

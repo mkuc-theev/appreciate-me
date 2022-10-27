@@ -1,5 +1,6 @@
 package com.appreciateme.opinion;
 
+import com.appreciateme.opinion.model.OpinionCorrectnessStatus;
 import com.appreciateme.opinion.model.OpinionDTO;
 import com.appreciateme.opinion.model.OpinionUtils;
 import com.appreciateme.opinion.exception.OpinionNotFoundException;
@@ -27,46 +28,46 @@ public class OpinionServiceTest {
 
     final Opinion OPINION_1 = Opinion.builder()
 //            .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
-            .reviewedUserID("pbogdan")
+            .opinionUserId("atyranski")
+            .reviewedUserId("pbogdan")
             .opinionMessage("a really nice byczeq")
             .date(DATE_STRING)
             .build();
 
     final Opinion OPINION_2 = Opinion.builder()
 //            .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
-            .reviewedUserID("ykarychkovskyi")
+            .opinionUserId("atyranski")
+            .reviewedUserId("ykarychkovskyi")
             .opinionMessage("very cool mentor")
             .date(DATE_STRING)
             .build();
 
     final Opinion OPINION_3 = Opinion.builder()
 //            .id("633ca01f45ef711325f9d810")
-            .opinionUserID("atyranski")
-            .reviewedUserID("abaranski")
+            .opinionUserId("atyranski")
+            .reviewedUserId("abaranski")
             .opinionMessage("nice bald-beard bro")
             .date(DATE_STRING)
             .build();
 
     final OpinionDTO OPINION_DTO_1 = OpinionDTO.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID(OPINION_1.getOpinionUserID())
-            .reviewedUserID(OPINION_1.getReviewedUserID())
+            .opinionUserId(OPINION_1.getOpinionUserId())
+            .reviewedUserId(OPINION_1.getReviewedUserId())
             .opinionMessage(OPINION_1.getOpinionMessage())
             .date(OpinionUtils.mapStringDateToLong(OPINION_1.getDate()))
             .build();
     final OpinionDTO OPINION_DTO_2 = OpinionDTO.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID(OPINION_2.getOpinionUserID())
-            .reviewedUserID(OPINION_2.getReviewedUserID())
+            .opinionUserId(OPINION_2.getOpinionUserId())
+            .reviewedUserId(OPINION_2.getReviewedUserId())
             .opinionMessage(OPINION_2.getOpinionMessage())
             .date(OpinionUtils.mapStringDateToLong(OPINION_2.getDate()))
             .build();
     final OpinionDTO OPINION_DTO_3 = OpinionDTO.builder()
             .id("633ca01f45ef711325f9d810")
-            .opinionUserID(OPINION_3.getOpinionUserID())
-            .reviewedUserID(OPINION_3.getReviewedUserID())
+            .opinionUserId(OPINION_3.getOpinionUserId())
+            .reviewedUserId(OPINION_3.getReviewedUserId())
             .opinionMessage(OPINION_3.getOpinionMessage())
             .date(OpinionUtils.mapStringDateToLong(OPINION_3.getDate()))
             .build();
@@ -124,45 +125,26 @@ public class OpinionServiceTest {
     }
 
     @Test
-    @DisplayName("[ 4] given existing opinions of user - when getOpinionByOpinionUserId() - then return List<OpinionDTO>")
-    public void givenExistingOpinionsOfUser_whenGetOpinionByOpinionUserId_thenReturnListOpinionDTO() {
-        final String opinionUserId = "atyranski";
-        final List<OpinionDTO> opinionDTOs = List.of(OPINION_DTO_1, OPINION_DTO_2, OPINION_DTO_3);
-        final List<Opinion> opinions = OpinionUtils.mapToOpinionList(opinionDTOs);
-
-        given(repository.findByOpinionUserId(eq(opinionUserId)))
-                .willReturn(opinionDTOs);
-
-        final List<Opinion> result = service.getByOpinionUserId(opinionUserId);
-
-        then(repository)
-                .should()
-                .findByOpinionUserId(eq(opinionUserId));
-
-        assertEquals(opinions, result);
-    }
-
-    @Test
-    @DisplayName("[ 5] given existing opinions for user - when getOpinionByReviewedUserId() - then return List<OpinionDTO>")
+    @DisplayName("[ 4] given existing opinions for user - when getOpinionByReviewedUserId() - then return List<OpinionDTO>")
     public void givenExistingOpinionsForUser_whenGetOpinionByReviewedUserId_thenReturnListOpinionDTO() {
         final String reviewedId = "pbogdan";
         final List<Opinion> opinions = List.of(OPINION_1);
         final List<OpinionDTO> opinionsDTO = OpinionUtils.mapToDtoList(opinions);
 
-        given(repository.findByReviewedUserId(eq(reviewedId)))
+        given(repository.findAllUnusedByReviewedUserId(eq(reviewedId)))
                 .willReturn(opinionsDTO);
 
-        List<Opinion> result = service.getByReviewedUserId(reviewedId);
+        List<Opinion> result = service.getAllUnusedByReviewedUserId(reviewedId);
 
         then(repository)
                 .should()
-                .findByReviewedUserId(eq(reviewedId));
+                .findAllUnusedByReviewedUserId(eq(reviewedId));
 
         assertEquals(opinions, result);
     }
 
     @Test
-    @DisplayName("[ 6] given String with date in correct format - when isDateFormatCorrect - then return true")
+    @DisplayName("[ 5] given String with date in correct format - when isDateFormatCorrect - then return true")
     void givenStringWithDateInCorrectFormat_whenIsDateFormatCorrect_thenReturnTrue() {
         final String date = "2020-10-10 23:59:59";
         final boolean result = Opinion.isDateFormatCorrect(date);
@@ -171,7 +153,7 @@ public class OpinionServiceTest {
     }
 
     @Test
-    @DisplayName("[ 7] given String with date in incorrect format - when isDateFormatCorrect - then return false")
+    @DisplayName("[ 6] given String with date in incorrect format - when isDateFormatCorrect - then return false")
     void givenStringWithDateInIncorrectFormat_whenIsDateFormatCorrect_thenReturnFalse() {
         final String date = "2120-20-10 00:60:60";
         boolean result = Opinion.isDateFormatCorrect(date);
@@ -180,26 +162,26 @@ public class OpinionServiceTest {
     }
 
     @Test
-    @DisplayName("[ 8] given correct Opinion - when isOpinionCorrect - then return true")
+    @DisplayName("[ 7] given correct Opinion - when isOpinionCorrect - then return true")
     void givenCorrectOpinion_whenIsOpinionCorrect_thenReturnTrue() {
-        final boolean result = Opinion.isOpinionCorrect(OPINION_1);
+        final OpinionCorrectnessStatus result = Opinion.isOpinionCorrect(OPINION_1);
 
-        assertTrue(result);
+        assertEquals(OpinionCorrectnessStatus.CORRECT, result);
     }
 
     @Test
-    @DisplayName("[ 9] given incorrect Opinion - when isOpinionCorrect - then return true")
-    void givenIncorrectOpinion_whenIsOpinionCorrect_thenReturnTrue() {
+    @DisplayName("[ 8] given Opinion without rewievedUserId - when isOpinionCorrect - then return true")
+    void givenOpinionWithoutRewievedUserId_whenIsOpinionCorrect_thenReturnTrue() {
         final OpinionDTO incorrectOpinionDTO = OpinionDTO.builder()
                 .id("1234")
-                .opinionUserID("1234")
+                .opinionUserId("1234")
                 .opinionMessage("1234")
                 .build();
 
         final Opinion incorrectOpinion = OpinionUtils.mapToOpinion(incorrectOpinionDTO);
-        final boolean result = Opinion.isOpinionCorrect(incorrectOpinion);
+        final OpinionCorrectnessStatus result = Opinion.isOpinionCorrect(incorrectOpinion);
 
-        assertFalse(result);
+        assertEquals(OpinionCorrectnessStatus.REVIEWED_USER_ID_EMPTY, result);
     }
 
 }

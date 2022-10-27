@@ -25,12 +25,22 @@ public class AwardingService {
 
     private final AwardingRepository repository;
 
+    /**
+     * Get a list of all associations of users to their rewards
+     * @return      list of all awardings as Awarding
+     */
     public List<Awarding> getAll() {
         List<AwardingDTO> opinions = repository.findAll();
 
         return AwardingUtils.mapToAwardingList(opinions);
     }
 
+    /**
+     * Get one awarding by its identifier
+     * @param id    awarding identifier
+     * @return      particular awarding
+     * @throws AwardingNotFoundException    when there is no awarding with specified ID
+     */
     public Awarding getById(String id)
             throws AwardingNotFoundException {
 
@@ -40,6 +50,12 @@ public class AwardingService {
         return AwardingUtils.mapToAwarding(awardingDTO);
     }
 
+    /**
+     * Add provided reward to Awarding object for particular user, or create new if doesn't exist.
+     * This method make a request to OpinionMicroservice to get number of unused opinions for this user.
+     * @param userId    identifier of user, who wants to get this reward
+     * @param reward    Reward object which should be added to particular user's Awarding object
+     */
     public void claimReward(String userId, Reward reward) {
         Integer userOpinionsAmount = obtainOpinionsAmountFromOpinionServiceForUser(userId)
                 .orElseThrow(FailedToGetOpinionsAmountException::new);
@@ -78,6 +94,11 @@ public class AwardingService {
         restTemplate.put(url, null);
     }
 
+    /**
+     * Mark particular reward owned by particular user as used
+     * @param userId        user identifier
+     * @param rewardId      reward identifier
+     */
     public void useReward(String userId, String rewardId) {
         AwardingDTO awardingDTO = repository.findById(userId)
                 .orElseThrow(() -> new AwardingNotFoundException(userId));
@@ -91,12 +112,21 @@ public class AwardingService {
         repository.save(awardingDTO);
     }
 
+    /**
+     * Remove whole collection of opinions from database
+     * @return      true if succeed
+     */
     public boolean clear() {
         repository.deleteAll();
 
         return true;
     }
 
+    /**
+     * Remove one awarding with specified id
+     * @param id    identifier of specific awarding
+     * @return      true if succeed
+     */
     public boolean delete(String id) {
         repository.findById(id)
                 .orElseThrow(() -> new AwardingNotFoundException(id));

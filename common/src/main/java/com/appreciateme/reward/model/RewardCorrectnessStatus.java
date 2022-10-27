@@ -5,9 +5,9 @@ import java.util.Map;
 
 public enum RewardCorrectnessStatus {
 
-    CORRECT("Reward is correct"),
+    CORRECT("reward is correct"),
     EMPTY_REWARD("reward is null"),
-    EMPTY_ID("Id is empty or null"),
+    EMPTY_ID("ID is empty or null"),
     EMPTY_COMPANY_NAME("CompanyName is empty or null"),
     NEGATIVE_VALUE("value of reward is negative (should be >= 0)"),
     NONPOSITIVE_REQUIRED_OPINION_AMOUNT("requiredOpinionAmount is less than 1 (should be at least 1)"),

@@ -1,6 +1,7 @@
 package com.appreciateme.opinion;
 
 import com.appreciateme.opinion.controller.OpinionController;
+import com.appreciateme.opinion.controller.OpinionService;
 import com.appreciateme.opinion.model.OpinionDTO;
 import com.appreciateme.opinion.model.OpinionUtils;
 import com.appreciateme.opinion.exception.IncorrectOpinionException;
@@ -39,32 +40,36 @@ public class OpinionControllerTest {
     final Opinion OPINION_1 = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
             .opinionUserId("atyranski")
-            .reviewedUserID("pbogdan")
+            .reviewedUserId("pbogdan")
             .opinionMessage("a really nice byczeq")
             .date(DATE)
+            .used(false)
             .build();
 
     final Opinion OPINION_2 = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
             .opinionUserId("atyranski")
-            .reviewedUserID("ykarychkovskyi")
+            .reviewedUserId("ykarychkovskyi")
             .opinionMessage("very cool mentor")
             .date(DATE)
+            .used(false)
             .build();
 
     final Opinion OPINION_3 = Opinion.builder()
             .id("633ca01f45ef711325f9d810")
-            .opinionUserID("atyranski")
-            .reviewedUserID("abaranski")
+            .opinionUserId("atyranski")
+            .reviewedUserId("abaranski")
             .opinionMessage("nice bald-beard bro")
             .date(DATE)
+            .used(false)
             .build();
 
     final Opinion OPINION_4 = Opinion.builder()
             .id("633d58a19e689e69d12e9e6b")
-            .opinionUserID("atyranski")
-            .reviewedUserID("mkuc")
+            .opinionUserId("atyranski")
+            .reviewedUserId("mkuc")
             .date(DATE)
+            .used(false)
             .build();
 
     @Autowired
@@ -92,8 +97,8 @@ public class OpinionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(4)))
                 .andExpect(jsonPath("$[0].id").value(OPINION_1.getId()))
-                .andExpect(jsonPath("$[0].opinionUserID").value(OPINION_1.getOpinionUserID()))
-                .andExpect(jsonPath("$[0].reviewedUserID").value(OPINION_1.getReviewedUserID()))
+                .andExpect(jsonPath("$[0].opinionUserId").value(OPINION_1.getOpinionUserId()))
+                .andExpect(jsonPath("$[0].reviewedUserId").value(OPINION_1.getReviewedUserId()))
                 .andExpect(jsonPath("$[0].opinionMessage").value(OPINION_1.getOpinionMessage()))
                 .andExpect(jsonPath("$[0].date").value(OPINION_1.getDate()))
                 .andExpect(jsonPath("$[1].id").value(OPINION_2.getId()))
@@ -117,8 +122,8 @@ public class OpinionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.id").value(OPINION_1.getId()))
-                .andExpect(jsonPath("$.opinionUserID").value(OPINION_1.getOpinionUserID()))
-                .andExpect(jsonPath("$.reviewedUserID").value(OPINION_1.getReviewedUserID()))
+                .andExpect(jsonPath("$.opinionUserId").value(OPINION_1.getOpinionUserId()))
+                .andExpect(jsonPath("$.reviewedUserId").value(OPINION_1.getReviewedUserId()))
                 .andExpect(jsonPath("$.opinionMessage").value(OPINION_1.getOpinionMessage()))
                 .andExpect(jsonPath("$.date").value(OPINION_1.getDate()));
     }
@@ -148,41 +153,15 @@ public class OpinionControllerTest {
     }
 
     @Test
-    @DisplayName("[ 4] given List<Opinion> - when GET /opinions/opinionUser/:id - then returns status OK")
-    void givenOpinion_whenGetOpinionsOpinionUserId_thenReturnStatusOk()
-            throws Exception {
-
-        final String id = OPINION_1.getId();
-        final List<Opinion> opinions = List.of(OPINION_1, OPINION_2, OPINION_3, OPINION_4);
-        final String endpoint = String.format("/%s/opinionUser/%s", DOMAIN, id);
-
-        when(service.getByOpinionUserId(id))
-                .thenReturn(opinions);
-
-        mockMvc.perform(get(endpoint)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(4)))
-                .andExpect(jsonPath("$[0].id").value(OPINION_1.getId()))
-                .andExpect(jsonPath("$[0].opinionUserID").value(OPINION_1.getOpinionUserID()))
-                .andExpect(jsonPath("$[0].reviewedUserID").value(OPINION_1.getReviewedUserID()))
-                .andExpect(jsonPath("$[0].opinionMessage").value(OPINION_1.getOpinionMessage()))
-                .andExpect(jsonPath("$[0].date").value(OPINION_1.getDate()))
-                .andExpect(jsonPath("$[1].id").value(OPINION_2.getId()))
-                .andExpect(jsonPath("$[2].id").value(OPINION_3.getId()))
-                .andExpect(jsonPath("$[3].id").value(OPINION_4.getId()));
-    }
-
-    @Test
-    @DisplayName("[ 5] given List<Opinion> - when GET /opinions/reviewedUser/:id - then returns status OK")
+    @DisplayName("[ 4] given List<Opinion> - when GET /opinions/reviewedUser/:id - then returns status OK")
     void givenOpinion_whenGetOpinionsReviewedUserId_thenReturnStatusOk()
             throws Exception {
 
-        final String id = OPINION_3.getReviewedUserID();
+        final String id = OPINION_3.getReviewedUserId();
         final List<Opinion> opinions = List.of(OPINION_3);
-        final String endpoint = String.format("/%s/reviewedUser/%s", DOMAIN, id);
+        final String endpoint = String.format("/%s/unused/reviewedUser/%s", DOMAIN, id);
 
-        when(service.getByReviewedUserId(id))
+        when(service.getAllUnusedByReviewedUserId(id))
                 .thenReturn(opinions);
 
         mockMvc.perform(get(endpoint)
@@ -190,46 +169,21 @@ public class OpinionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id").value(OPINION_3.getId()))
-                .andExpect(jsonPath("$[0].opinionUserID").value(OPINION_3.getOpinionUserID()))
-                .andExpect(jsonPath("$[0].reviewedUserID").value(OPINION_3.getReviewedUserID()))
+                .andExpect(jsonPath("$[0].opinionUserId").value(OPINION_3.getOpinionUserId()))
+                .andExpect(jsonPath("$[0].reviewedUserId").value(OPINION_3.getReviewedUserId()))
                 .andExpect(jsonPath("$[0].opinionMessage").value(OPINION_3.getOpinionMessage()))
                 .andExpect(jsonPath("$[0].date").value(OPINION_3.getDate()));
     }
 
     @Test
-    @DisplayName("[ 6] given List<Opinion> - when GET /opinions/date/:date - then returns status OK")
-    void givenOpinion_whenGetOpinionsDate_thenReturnStatusOk()
-            throws Exception {
-
-        final List<Opinion> opinions = List.of(OPINION_1, OPINION_2, OPINION_3, OPINION_4);
-        final String endpoint = String.format("/%s/date/%s", DOMAIN, DATE);
-
-        when(service.getByDate(DATE))
-                .thenReturn(opinions);
-
-        mockMvc.perform(get(endpoint)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(4)))
-                .andExpect(jsonPath("$[0].id").value(OPINION_1.getId()))
-                .andExpect(jsonPath("$[0].opinionUserID").value(OPINION_1.getOpinionUserID()))
-                .andExpect(jsonPath("$[0].reviewedUserID").value(OPINION_1.getReviewedUserID()))
-                .andExpect(jsonPath("$[0].opinionMessage").value(OPINION_1.getOpinionMessage()))
-                .andExpect(jsonPath("$[0].date").value(OPINION_1.getDate()))
-                .andExpect(jsonPath("$[1].id").value(OPINION_2.getId()))
-                .andExpect(jsonPath("$[2].id").value(OPINION_3.getId()))
-                .andExpect(jsonPath("$[3].id").value(OPINION_4.getId()));
-    }
-
-    @Test
-    @DisplayName("[ 7] given Opinion - when POST /opinions - then returns status CREATED")
+    @DisplayName("[ 5] given Opinion - when POST /opinions - then returns status CREATED")
     void givenOpinion_whenPostOpinions_thenReturnStatusCreated()
             throws Exception {
 
         final String endpoint = String.format("/%s", DOMAIN);
         final Opinion opinionToCreate = Opinion.builder()
-                .opinionUserID(OPINION_1.getOpinionUserID())
-                .reviewedUserID(OPINION_1.getReviewedUserID())
+                .opinionUserId(OPINION_1.getOpinionUserId())
+                .reviewedUserId(OPINION_1.getReviewedUserId())
                 .opinionMessage(OPINION_1.getOpinionMessage())
                 .build();
 
@@ -246,13 +200,13 @@ public class OpinionControllerTest {
     }
 
     @Test
-    @DisplayName("[ 8] given incorrect opinion - when POST /opinions - then throw IncorrectOpinionException")
+    @DisplayName("[ 6] given incorrect opinion - when POST /opinions - then throw IncorrectOpinionException")
     void givenIncorrectOpinion_whenPostOpinions_thenThrowIncorrectOpinionException()
             throws Exception {
 
         final OpinionDTO incorrectOpinionDTO = OpinionDTO.builder()
                 .id("1234")
-                .opinionUserID("1234")
+                .opinionUserId("1234")
                 .opinionMessage("1234")
                 .build();
 
@@ -278,7 +232,7 @@ public class OpinionControllerTest {
     }
 
     @Test
-    @DisplayName("[ 9] given Opinion - when PUT /opinions - then returns status OK")
+    @DisplayName("[ 7] given Opinion - when PUT /opinions - then returns status OK")
     void givenOpinion_whenPutOpinions_thenReturnStatusOk()
             throws Exception {
 
@@ -294,14 +248,14 @@ public class OpinionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.id").value(OPINION_1.getId()))
-                .andExpect(jsonPath("$.opinionUserID").value(OPINION_1.getOpinionUserID()))
-                .andExpect(jsonPath("$.reviewedUserID").value(OPINION_1.getReviewedUserID()))
+                .andExpect(jsonPath("$.opinionUserId").value(OPINION_1.getOpinionUserId()))
+                .andExpect(jsonPath("$.reviewedUserId").value(OPINION_1.getReviewedUserId()))
                 .andExpect(jsonPath("$.opinionMessage").value(OPINION_1.getOpinionMessage()))
                 .andExpect(jsonPath("$.date").value(OPINION_1.getDate()));
     }
 
     @Test
-    @DisplayName("[ 10] given opinion with not existing id - when PUT /opinions - then throw OpinionNotFoundException")
+    @DisplayName("[ 8] given opinion with not existing id - when PUT /opinions - then throw OpinionNotFoundException")
     void givenOpinionWithNotExistingId_whenPutOpinions_thenThrowOpinionNotFoundException()
             throws Exception {
 
@@ -331,7 +285,7 @@ public class OpinionControllerTest {
     }
 
     @Test
-    @DisplayName("[11] given none - when DELETE /opinions - then returns status OK")
+    @DisplayName("[ 9] given none - when DELETE /opinions - then returns status OK")
     void givenNone_whenDeleteOpinions_thenReturnStatusOk()
             throws Exception {
 
@@ -343,7 +297,7 @@ public class OpinionControllerTest {
     }
 
     @Test
-    @DisplayName("[12] given Opinion - when DELETE /opinions/:id - then returns status OK")
+    @DisplayName("[10] given Opinion - when DELETE /opinions/:id - then returns status OK")
     void givenOpinion_whenDeleteOpinionsId_thenReturnStatusOk()
             throws Exception {
 
@@ -356,7 +310,7 @@ public class OpinionControllerTest {
     }
 
     @Test
-    @DisplayName("[13] given not existing opinion id - when DELETE /opinions/:id - then throw OpinionNotFoundException")
+    @DisplayName("[11] given not existing opinion id - when DELETE /opinions/:id - then throw OpinionNotFoundException")
     void givenNotExistingOpinionId_whenDeleteOpinionsId_thenThrowOpinionNotFoundException()
             throws Exception {
 

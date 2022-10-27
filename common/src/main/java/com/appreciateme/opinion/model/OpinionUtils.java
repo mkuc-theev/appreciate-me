@@ -16,9 +16,9 @@ public class OpinionUtils {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     /**
-     * Mapping list of Opinions into list of OpinionDTOs
-     * @param opinions  List of Opinions
-     * @return          List of OpinionDTOs
+     * Map list of Opinions into list of OpinionDTOs
+     * @param opinions  list of Opinions
+     * @return          same list of OpinionDTOs
      */
     public static List<OpinionDTO> mapToDtoList(List<Opinion> opinions) {
         return opinions.stream()
@@ -27,7 +27,7 @@ public class OpinionUtils {
     }
 
     /**
-     * Mapping list of OpinionDTOs into list of Opinions
+     * Map list of OpinionDTOs into list of Opinions
      * @param opinionDTOs   list of OpinionDTOs
      * @return              list of Opinions
      */
@@ -38,7 +38,7 @@ public class OpinionUtils {
     }
 
     /**
-     * Mapping specified Opinion object into OpinionDTO object
+     * Map specified Opinion object into OpinionDTO object
      * @param opinion   Opinion object
      * @return          OpinionDTO object
      */
@@ -54,7 +54,7 @@ public class OpinionUtils {
     }
 
     /**
-     * Mapping specified OpinionDTO object into Opinion object
+     * Map specified OpinionDTO object into Opinion object
      * @param opinionDTO    OpinionDTO object
      * @return              Opinion object
      */
@@ -70,7 +70,7 @@ public class OpinionUtils {
     }
 
     /**
-     * Mapping date as a string to timestamp representation as long
+     * Map date as a string to timestamp representation as long
      * @param dateString    string date of statically defined format
      * @return              timestamp representation as long
      */
@@ -83,7 +83,7 @@ public class OpinionUtils {
     }
 
     /**
-     * Mapping date as long timestamp to string representation of statically defined format
+     * Map date as long timestamp to string representation of statically defined format
      * @param dateTimestamp timestamp representation as long
      * @return              string date of statically defined format
      */
@@ -96,7 +96,7 @@ public class OpinionUtils {
     }
 
     /**
-     * Static method to set a date of provided opinion to current time
+     * Set a date of provided opinion to current time
      * @param opinion       opinion which date should be set to current time
      */
     public static void setCurrentDate(Opinion opinion) {

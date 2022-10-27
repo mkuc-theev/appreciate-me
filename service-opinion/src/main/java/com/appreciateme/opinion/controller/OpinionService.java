@@ -1,5 +1,6 @@
 package com.appreciateme.opinion.controller;
 
+import com.appreciateme.opinion.model.OpinionCorrectnessStatus;
 import com.appreciateme.opinion.model.OpinionDTO;
 import com.appreciateme.opinion.model.OpinionUtils;
 import com.appreciateme.opinion.exception.IncorrectOpinionException;
@@ -19,8 +20,8 @@ public class OpinionService {
     private final OpinionRepository repository;
 
     /**
-     * Get a list of all opinions from the database
-     * @return      List of all opinions as OpinionDTO
+     * Get a list of all opinions
+     * @return      list of all opinions as Opinion
      */
     public List<Opinion> getAll() {
         List<OpinionDTO> opinions = repository.findAll();
@@ -31,8 +32,8 @@ public class OpinionService {
     /**
      * Get one opinion by its identifier
      * @param id    identifier of specific opinion
-     * @return      opinion with specified ID as OpinionDTO
-     * @throws OpinionNotFoundException when there is no opinion with specified ID in database
+     * @return      particular opinion
+     * @throws OpinionNotFoundException when there is no opinion with specified ID
      */
     public Opinion getById(String id)
             throws OpinionNotFoundException {
@@ -44,9 +45,9 @@ public class OpinionService {
     }
 
     /**
-     * Get a list of all opinions of particular user
+     * Get a list of all opinions made for particular user
      * @param id    identifier of specific user
-     * @return      list of opinions as OpinionDTO
+     * @return      list of opinions
      */
     public List<Opinion> getAllUnusedByReviewedUserId(String id) {
         List<OpinionDTO> opinionDTOs = repository.findAllUnusedByReviewedUserId(id);
@@ -56,12 +57,14 @@ public class OpinionService {
 
     /**
      * Insert new opinion into database
-     * @param opinion    OpinionDTO object which should be inserted
-     * @return           saved Opinion
+     * @param opinion    Opinion object which should be inserted
+     * @return           id of created Opinion object
      */
     public String add(Opinion opinion) {
-        if (!Opinion.isOpinionCorrect(opinion)) {
-            throw new IncorrectOpinionException();
+        OpinionCorrectnessStatus status = Opinion.isOpinionCorrect(opinion);
+
+        if (!status.equals(OpinionCorrectnessStatus.CORRECT)) {
+            throw new IncorrectOpinionException(status);
         }
 
         if (opinion.getDate() == null) {
@@ -77,9 +80,9 @@ public class OpinionService {
 
     /**
      * Edit existing opinion
-     * @param opinion    OpinionDTO which represent the latest state of existing object
+     * @param opinion    Opinion object which represent the latest state of existing object
+     * @return           updated opinion as Opinion
      * @throws OpinionNotFoundException when there is no opinion with specified ID in database
-     * @return           updated Opinion
      */
     public Opinion update(Opinion opinion)
             throws OpinionNotFoundException {
@@ -92,6 +95,12 @@ public class OpinionService {
         return OpinionUtils.mapToOpinion(repository.save(opinionDTO));
     }
 
+    /**
+     * Mark N unused opinions for user with specified Id as used
+     * @param userId        id of user (reviewedUserId column)
+     * @param amount        amount of N unused opinions that should be marked as used
+     * @return              list of edited opinions
+     */
     public List<Opinion> useOpinions(String userId, int amount) {
         List<OpinionDTO> opinions = repository.useOpinionsForUser(userId, amount);
 

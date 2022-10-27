@@ -33,6 +33,12 @@ public interface OpinionRepository extends MongoRepository<OpinionDTO, String> {
     @Query("{'date': ?0}")
     List<OpinionDTO> findAllByDate(long date);
 
+    /**
+     * Get list of N unused opinions for specified user, then mark them as used
+     * @param userId            user identifier
+     * @param opinionsAmount    number N of opinions that should be marked as used
+     * @return                  list of N marked as used opinions
+     */
     @Aggregation(pipeline = {
             "{ $match: { 'reviewedUserId': ?0, 'used': false } }",
             "{ $limit: ?1 }",

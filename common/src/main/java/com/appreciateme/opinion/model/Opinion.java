@@ -60,35 +60,35 @@ public class Opinion {
     }
 
     /**
-     * Verify provided Opinion is not a null, has id, opinionUserId, ReviewedUserId and date
+     * Verify correctness provided Opinion
      * @param opinion   opinion object to check
-     * @return          true if opinion is correct, false if not
+     * @return          OpinionCorrectnessStatus value according to state
      */
-    public static boolean isOpinionCorrect(Opinion opinion) {
+    public static OpinionCorrectnessStatus isOpinionCorrect(Opinion opinion) {
         if (opinion == null) {
-            return false;
+            return OpinionCorrectnessStatus.EMPTY_OPINION;
         }
 
         if (opinion.getId() != null && opinion.getId().isEmpty()) {
-            return false;
+            return OpinionCorrectnessStatus.EMPTY_ID;
         }
 
         if (opinion.getOpinionUserId() == null || opinion.getOpinionUserId().isEmpty()) {
-            return false;
+            return OpinionCorrectnessStatus.OPINION_USER_ID_EMPTY;
         }
 
         if (opinion.getReviewedUserId() == null || opinion.getReviewedUserId().isEmpty()) {
-            return false;
+            return OpinionCorrectnessStatus.REVIEWED_USER_ID_EMPTY;
         }
 
         if (opinion.getDate() != null && opinion.getDate().isEmpty()) {
-            return false;
+            return OpinionCorrectnessStatus.EMPTY_DATE;
         }
 
-        if (opinion.getDate() != null && !opinion.getDate().isEmpty()) {
-            return isDateFormatCorrect(opinion.getDate());
+        if (opinion.getDate() != null && !opinion.getDate().isEmpty() && !isDateFormatCorrect(opinion.getDate())) {
+            return OpinionCorrectnessStatus.INCORRECT_DATE;
         }
 
-        return true;
+        return OpinionCorrectnessStatus.CORRECT;
     }
 }

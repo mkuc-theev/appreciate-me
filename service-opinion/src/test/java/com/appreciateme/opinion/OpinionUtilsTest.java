@@ -17,48 +17,48 @@ public class OpinionUtilsTest {
 
     final Opinion OPINION_1 = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
-            .reviewedUserID("pbogdan")
+            .opinionUserId("atyranski")
+            .reviewedUserId("pbogdan")
             .opinionMessage("a really nice byczeq")
             .date(DATE_STRING)
             .build();
 
     final Opinion OPINION_2 = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
-            .reviewedUserID("ykarychkovskyi")
+            .opinionUserId("atyranski")
+            .reviewedUserId("ykarychkovskyi")
             .opinionMessage("very cool mentor")
             .date(DATE_STRING)
             .build();
 
     final Opinion OPINION_3 = Opinion.builder()
             .id("633ca01f45ef711325f9d810")
-            .opinionUserID("atyranski")
-            .reviewedUserID("abaranski")
+            .opinionUserId("atyranski")
+            .reviewedUserId("abaranski")
             .opinionMessage("nice bald-beard bro")
             .date(DATE_STRING)
             .build();
 
     final OpinionDTO OPINION_DTO_1 = OpinionDTO.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
-            .reviewedUserID("pbogdan")
+            .opinionUserId("atyranski")
+            .reviewedUserId("pbogdan")
             .opinionMessage("a really nice byczeq")
             .date(DATE_TIMESTAMP)
             .build();
 
     final OpinionDTO OPINION_DTO_2 = OpinionDTO.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
-            .reviewedUserID("ykarychkovskyi")
+            .opinionUserId("atyranski")
+            .reviewedUserId("ykarychkovskyi")
             .opinionMessage("very cool mentor")
             .date(DATE_TIMESTAMP)
             .build();
 
     final OpinionDTO OPINION_DTO_3 = OpinionDTO.builder()
             .id("633ca01f45ef711325f9d810")
-            .opinionUserID("atyranski")
-            .reviewedUserID("abaranski")
+            .opinionUserId("atyranski")
+            .reviewedUserId("abaranski")
             .opinionMessage("nice bald-beard bro")
             .date(DATE_TIMESTAMP)
             .build();

@@ -14,14 +14,12 @@ public class OpinionExceptionHandler extends ResponseEntityExceptionHandler {
     // 400
     @ExceptionHandler(value = { IncorrectOpinionException.class })
     protected ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
-        final String bodyOfResponse = "Provided Opinion is incorrect";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     // 404
     @ExceptionHandler(value = { OpinionNotFoundException.class })
     protected ResponseEntity<Object> handleNotFound(final RuntimeException ex, final WebRequest request) {
-        final String bodyOfResponse = "Opinion with provided ID not found";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 }
