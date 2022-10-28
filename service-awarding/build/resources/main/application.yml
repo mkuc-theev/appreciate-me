@@ -1,6 +1,0 @@
-spring:
-  config:
-    import: classpath:application-common.yml
-
-server:
-  port: ${services.awarding.port}
