@@ -57,7 +57,9 @@ public class RewardService {
         Integer opinionsAmount = getOpinionsAmountForUser(userId)
                 .orElseThrow(FailedToGetRewardsException::new);
 
-        List<RewardDTO> rewards = repository.getAllWithRequiredOpinionAmountLessOrEvenThan(opinionsAmount);
+        long currentDate = RewardUtils.getCurrentDateLong();
+
+        List<RewardDTO> rewards = repository.getAllWithRequiredOpinionAmountLessOrEvenThan(opinionsAmount, currentDate);
         return RewardUtils.mapToRewardList(rewards);
     }
 

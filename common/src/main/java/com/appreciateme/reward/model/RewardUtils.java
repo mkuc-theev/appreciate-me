@@ -107,5 +107,14 @@ public class RewardUtils {
                         ZONE)
                 .format(FORMATTER);
     }
+
+    /**
+     * Get current date in correct format as long
+     */
+    public static long getCurrentDateLong() {
+        return LocalDateTime.now().atZone(ZONE)
+                .toInstant()
+                .toEpochMilli();
+    }
 }
 

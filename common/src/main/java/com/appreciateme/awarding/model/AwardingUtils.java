@@ -1,6 +1,7 @@
 package com.appreciateme.awarding.model;
 
 import com.appreciateme.reward.model.Reward;
+import com.appreciateme.reward.model.RewardUtils;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -98,6 +99,23 @@ public class AwardingUtils {
                         ZONE)
                 .plusDays(daysOffset)
                 .format(FORMATTER);
+    }
+
+    public static OwnedReward getOwnedReward(Reward reward) {
+        OwnedReward ownedReward = mapToOwnedReward(reward);
+        ownedReward.setDateFrom(AwardingUtils.getCurrentDate());
+        ownedReward.setDateTo(AwardingUtils.getFutureDate(reward.getAvailabilityDays()));
+
+        return ownedReward;
+    }
+
+
+    public static boolean isAvailable(String dateFrom, String dateTo) {
+        long currentDate = RewardUtils.mapStringDateToLong(getCurrentDate());
+        long rewardDateFrom = RewardUtils.mapStringDateToLong(dateFrom);
+        long rewardDateTo = RewardUtils.mapStringDateToLong(dateTo);
+
+        return rewardDateFrom <= currentDate && currentDate <= rewardDateTo;
     }
 }
 

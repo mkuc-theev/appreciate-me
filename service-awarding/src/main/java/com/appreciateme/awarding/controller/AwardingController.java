@@ -1,7 +1,6 @@
 package com.appreciateme.awarding.controller;
 
 import com.appreciateme.awarding.model.Awarding;
-import com.appreciateme.reward.model.Reward;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -40,8 +38,8 @@ public class AwardingController {
 // POST
     @PostMapping("reward/claim")
     @ResponseStatus(HttpStatus.CREATED)
-    public void claimReward(@RequestParam String userId, @RequestBody Reward reward) {
-        service.claimReward(userId, reward);
+    public void claimReward(@RequestParam String userId, @RequestParam String rewardId) {
+        service.claimReward(userId, rewardId);
     }
 
 // PUT

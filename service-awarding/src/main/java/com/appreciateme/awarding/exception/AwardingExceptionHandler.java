@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class AwardingExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
-     * 400 The server cannot or will not process the request due to an apparent client error
+     * 400 - The server cannot or will not process the request due to an apparent client error
      * (e.g., malformed request syntax, size too large, invalid request message framing
      * or deceptive request routing)
      * @param ex
@@ -22,6 +22,19 @@ public class AwardingExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = { IncorrectAwardingException.class })
     protected ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    /**
+     * 403 - The request contained valid data and was understood by the server, but the server is refusing action.
+     * This may be due to the user not having the necessary permissions for a resource or needing an account of some sort,
+     * or attempting a prohibited action
+     * @param ex
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(value = { UnableToClaimRewardException.class })
+    protected ResponseEntity<Object> handleForbidden(final RuntimeException ex, final WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
     /**

@@ -2,13 +2,16 @@ package com.appreciateme.awarding.controller;
 
 import com.appreciateme.awarding.exception.AwardingNotFoundException;
 import com.appreciateme.awarding.exception.FailedToGetOpinionsAmountException;
+import com.appreciateme.awarding.exception.FailedToGetRewardException;
 import com.appreciateme.awarding.exception.NoSuchRewardInAwardingException;
-import com.appreciateme.awarding.exception.TooFewOpinionsException;
+import com.appreciateme.awarding.exception.UnableToClaimRewardException;
+import com.appreciateme.awarding.exception.UnableToUseRewardException;
 import com.appreciateme.awarding.model.Awarding;
 import com.appreciateme.awarding.model.AwardingUtils;
 import com.appreciateme.awarding.model.AwardingDTO;
 import com.appreciateme.awarding.model.OwnedReward;
 import com.appreciateme.reward.model.Reward;
+import com.appreciateme.reward.model.RewardUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -51,41 +54,60 @@ public class AwardingService {
     }
 
     /**
-     * Add provided reward to Awarding object for particular user, or create new if doesn't exist.
+     * Add provided reward to Awarding object for particular user, or create new if it doesn't exist.
      * This method make a request to OpinionMicroservice to get number of unused opinions for this user.
      * @param userId    identifier of user, who wants to get this reward
-     * @param reward    Reward object which should be added to particular user's Awarding object
+     * @param rewardId    identifier of reward, which should be added to particular user's Awarding object
      */
-    public void claimReward(String userId, Reward reward) {
+    public void claimReward(String userId, String rewardId) {
+        Reward reward = obtainRewardFromRewardService(rewardId)
+                .orElseThrow(() -> new FailedToGetRewardException(rewardId));
+
+        validateClaimRequest(userId, reward);
+
+        OwnedReward ownedReward = AwardingUtils.getOwnedReward(reward);
+
+        AwardingDTO awardingDTO = getOrCreateAwarding(userId);
+        awardingDTO.getRewards().add(ownedReward);
+
+        repository.save(awardingDTO);
+
+        notifyOpinionsToUseUsersOpinions(userId, reward.getRequiredOpinionAmount());
+    }
+
+    private void validateClaimRequest(String userId, Reward reward) {
         Integer userOpinionsAmount = obtainOpinionsAmountFromOpinionServiceForUser(userId)
                 .orElseThrow(FailedToGetOpinionsAmountException::new);
 
-        if (userOpinionsAmount < reward.getRequiredOpinionAmount()) {
-            throw new TooFewOpinionsException(userOpinionsAmount, reward.getRequiredOpinionAmount());
+        System.out.printf("SPRAWDZAM: %b, %b\n",reward.getDateTo() != null, AwardingUtils.isAvailable(reward.getDateFrom(), reward.getDateTo()) );
+        if (reward.getDateTo() != null && !AwardingUtils.isAvailable(reward.getDateFrom(), reward.getDateTo())) {
+            throw new UnableToClaimRewardException(reward.getDateFrom(), reward.getDateTo());
         }
 
-        Optional<AwardingDTO> awardingDTOOptional = repository.findById(userId);
-        AwardingDTO awardingDTO = awardingDTOOptional.orElse(
+        if (userOpinionsAmount < reward.getRequiredOpinionAmount()) {
+            throw new UnableToClaimRewardException(userOpinionsAmount, reward.getRequiredOpinionAmount());
+        }
+    }
+
+    private AwardingDTO getOrCreateAwarding(String userId) {
+        return repository.findById(userId).orElse(
                 repository.save(
                         AwardingDTO.builder()
                                 .userId(userId)
                                 .rewards(new LinkedList<>())
                                 .build()));
-
-        OwnedReward ownedReward = AwardingUtils.mapToOwnedReward(reward);
-        ownedReward.setDateFrom(AwardingUtils.getCurrentDate());
-        ownedReward.setDateTo(AwardingUtils.getFutureDate(reward.getAvailabilityDays()));
-
-        awardingDTO.getRewards().add(ownedReward);
-        repository.save(awardingDTO);
-
-        notifyOpinionsToUseUsersOpinions(userId, reward.getRequiredOpinionAmount());
     }
 
     private Optional<Integer> obtainOpinionsAmountFromOpinionServiceForUser(String userId) {
         RestTemplate restTemplate = new RestTemplate();
         final String url = "http://localhost:8002/opinions/unused/reviewedUser/amount/" + userId;
         return Optional.ofNullable(restTemplate.getForObject(url, Integer.class));
+    }
+
+    private Optional<Reward> obtainRewardFromRewardService(String rewardId) {
+        RestTemplate restTemplate = new RestTemplate();
+        final String url = "http://localhost:8006/rewards/" + rewardId;
+        return Optional.ofNullable(restTemplate.getForObject(url, Reward.class));
     }
 
     private void notifyOpinionsToUseUsersOpinions(String userId, int amount) {
@@ -107,6 +129,10 @@ public class AwardingService {
                 .filter(reward -> reward.getRewardId().equals(rewardId))
                 .findAny()
                 .orElseThrow(() -> new NoSuchRewardInAwardingException(userId, rewardId));
+
+        if (AwardingUtils.isAvailable(ownedReward.getDateFrom(), ownedReward.getDateTo())) {
+            throw new UnableToUseRewardException(ownedReward.getDateFrom(), ownedReward.getDateTo());
+        }
 
         ownedReward.setUsed(true);
         repository.save(awardingDTO);
