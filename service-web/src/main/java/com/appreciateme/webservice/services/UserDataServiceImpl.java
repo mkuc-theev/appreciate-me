@@ -1,8 +1,7 @@
 package com.appreciateme.webservice.services;
 
 import com.appreciateme.usersservice.model.User;
-import com.appreciateme.webservice.model.CreateUserFormData;
-import com.appreciateme.webservice.model.MicroserviceData;
+import com.appreciateme.webservice.MicroserviceData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import java.util.List;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserDataServiceImpl implements UserDataService {
 
     @Autowired
     MicroserviceData microserviceData;
@@ -39,7 +38,8 @@ public class UserServiceImpl implements UserService {
                 .build()
                 .send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
-        TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
+        TypeReference<List<User>> typeReference = new TypeReference<>() {
+        };
 
         return new ObjectMapper().readValue(httpResponse.body(), typeReference);
     }
@@ -56,8 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUserFromForm(CreateUserFormData formData) throws IOException, URISyntaxException, InterruptedException {
-        System.out.println(new ObjectMapper().writeValueAsString(formData));
+    public void createUserFromForm(User formData) throws IOException, URISyntaxException, InterruptedException {
         HttpRequest httpRequest = HttpRequest
                 .newBuilder(new URI(microserviceData.getUsersURI() + "/users/"))
                 .timeout(Duration.of(10, SECONDS))
@@ -69,6 +68,19 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         HttpClient.newHttpClient().send(httpRequest, HttpResponse.BodyHandlers.ofString());
+    }
+
+    @Override
+    public User getUserById(String id) throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest httpRequest = HttpRequest
+                .newBuilder(new URI(microserviceData.getUsersURI() + "/users/findById?id=" + id))
+                .timeout(Duration.of(10, SECONDS))
+                .GET()
+                .build();
+
+        String response = HttpClient.newHttpClient().send(httpRequest, HttpResponse.BodyHandlers.ofString()).body();
+        TypeReference<User> typeReference = new TypeReference<>() {};
+        return new ObjectMapper().readValue(response, typeReference);
     }
 
 

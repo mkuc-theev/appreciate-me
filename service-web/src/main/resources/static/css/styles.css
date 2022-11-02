@@ -22,7 +22,6 @@ h1 {
     width: 100%;
     padding: 0.5vw;
     font-size: 3rem;
-    text-decoration: none;
     background-color: #203647;
 }
 .user-container {
@@ -35,7 +34,7 @@ h1 {
     width: 50%;
     margin: auto;
 }
-.create-user-form-container {
+.create-user-form-container, .create-opinion-form-container {
     display: flex;
     flex-direction: column;
     background-color: var(--light-fg-color);
@@ -46,7 +45,7 @@ h1 {
     margin: auto;
 }
 
-input[type=text], input[type=email], input[type=number] {
+input[type=text], input[type=email], input[type=number], textarea, select {
     font-size: 1.8rem;
     color: white;
     box-sizing: border-box;
@@ -95,6 +94,13 @@ label {
     margin: 0.5vw;
     width: auto;
 }
+
+a {
+    text-decoration: none;
+    color:white;
+}
+
+
 .button {
     float: right;
     font-size: 1em;

@@ -1,4 +1,4 @@
-package com.appreciateme.predefservice;
+package com.appreciateme.predef.model;
 
 public class PredefMark {
     private String id;

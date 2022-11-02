@@ -13,7 +13,7 @@ public interface OpinionRepository extends MongoRepository<OpinionDTO, String> {
      * @param id    identifier of User
      * @return      list of Opinions made by this user
      */
-    @Query("{'opinionUser': ?0}")
+    @Query("{'opinionUserID': ?0}")
     List<OpinionDTO> findByOpinionUserId(String id);
 
     /**
@@ -21,7 +21,7 @@ public interface OpinionRepository extends MongoRepository<OpinionDTO, String> {
      * @param id    identifier of User
      * @return      list of Opinions for this user
      */
-    @Query("{'reviewedUser': ?0}")
+    @Query("{'reviewedUserID': ?0}")
     List<OpinionDTO> findByReviewedUserId(String id);
 
     /**
