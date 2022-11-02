@@ -32,7 +32,6 @@ public class OpinionRestController {
             throws URISyntaxException, IOException, InterruptedException {
         model.addAttribute("formData", new Opinion());
         model.addAttribute("users", userDataService.getAllUsers());
-        model.addAttribute("selectedUserID", id);
         return "opinions/create";
     }
 

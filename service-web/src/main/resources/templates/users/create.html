@@ -3,13 +3,16 @@
 <head>
   <meta charset="ISO-8859-1"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link th:href="@{~/css/styles.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/main.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/buttons.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/containers.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/forms.css}" rel="stylesheet"/>
   <link href=' http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
   <title>appreciate.me</title>
 </head>
 <body>
 <main>
-  <div class="create-user-form-container">
+  <div class="container">
       <span class="form-title">Create a new user</span><br>
   <form th:object="${formData}" th:action="@{/users/create}" method="post">
       <label for="firstName">First name</label><br>

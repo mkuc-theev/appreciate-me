@@ -1,0 +1,40 @@
+:root {
+    --main-bg-color: #12232E;
+    --main-fg-color: #007CC7;
+    --light-fg-color: #4DA8DA;
+    --shadow-fg-color: #203647;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--light-fg-color);
+    box-sizing: border-box;
+    padding: 0.5vw;
+    border-radius: 0.5vmin;
+    width: 50%;
+    margin: auto;
+}
+
+.container-element {
+    display: block;
+    align-items: center;
+    font-size: 2.4rem;
+    background-color: var(--main-fg-color);
+    padding: 0.5vw;
+    margin: 0.5vw;
+    border-radius: 0.5vmin;
+    box-shadow: 0.1vw 0.1vw 0.1vw 0.1vw var(--shadow-fg-color);
+    width: auto;
+}
+
+.container-element-blank {
+    display: block;
+    align-items: center;
+    font-size: 2.4rem;
+    background-color: var(--light-fg-color);
+    padding: 0.5vw;
+    padding-left: 1vw;
+    margin: 0.5vw;
+    width: auto;
+}
