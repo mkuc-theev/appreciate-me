@@ -1,4 +1,4 @@
-package com.appreciateme.opinion.exception;
+package com.appreciateme.awarding.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class OpinionExceptionHandler extends ResponseEntityExceptionHandler {
+public class AwardingExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * 400 - The server cannot or will not process the request due to an apparent client error
@@ -19,9 +19,22 @@ public class OpinionExceptionHandler extends ResponseEntityExceptionHandler {
      * @param request
      * @return
      */
-    @ExceptionHandler(value = { IncorrectOpinionException.class })
+    @ExceptionHandler(value = { IncorrectAwardingException.class })
     protected ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    /**
+     * 403 - The request contained valid data and was understood by the server, but the server is refusing action.
+     * This may be due to the user not having the necessary permissions for a resource or needing an account of some sort,
+     * or attempting a prohibited action
+     * @param ex
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(value = { UnableToClaimRewardException.class })
+    protected ResponseEntity<Object> handleForbidden(final RuntimeException ex, final WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
     /**
@@ -31,7 +44,7 @@ public class OpinionExceptionHandler extends ResponseEntityExceptionHandler {
      * @param request
      * @return
      */
-    @ExceptionHandler(value = { OpinionNotFoundException.class })
+    @ExceptionHandler(value = { AwardingNotFoundException.class, NoSuchRewardInAwardingException.class })
     protected ResponseEntity<Object> handleNotFound(final RuntimeException ex, final WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
