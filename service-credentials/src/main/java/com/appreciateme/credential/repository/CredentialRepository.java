@@ -12,4 +12,6 @@ public interface CredentialRepository extends MongoRepository<Credential, String
 
 
   boolean existsByEmail(String email);
+
+  void deleteByEmail(String email);
 }

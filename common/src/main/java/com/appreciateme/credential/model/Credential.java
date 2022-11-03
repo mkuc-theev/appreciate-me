@@ -1,9 +1,9 @@
 package com.appreciateme.credential.model;
 
+import java.util.Random;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -11,6 +11,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "credential")
 public class Credential {
+
+  private static String PASSWORD_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
+  private static int DEFAULT_PASSWORD_LENGTH = 16;
+
 
   private String email;
   private String password;
@@ -22,4 +26,16 @@ public class Credential {
         && credential.getPassword() != null && !credential.getPassword().isEmpty()
         && credential.getRole() != null;
   }
+
+  public static String generateDefaultLengthRandomPassword() {
+    StringBuilder builder = new StringBuilder();
+
+    while (builder.length() < DEFAULT_PASSWORD_LENGTH) {
+      builder.append(
+          PASSWORD_CHARACTERS.charAt(new Random().nextInt(PASSWORD_CHARACTERS.length())));
+    }
+    System.out.println(builder);
+    return builder.toString();
+  }
+
 }

@@ -1,9 +1,12 @@
 package com.appreciateme.usersservice.controller;
 
+import com.appreciateme.credential.model.Credential;
+import com.appreciateme.credential.model.Role;
 import com.appreciateme.usersservice.model.User;
 import com.appreciateme.usersservice.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,17 +17,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
+  @Value("${services.credentials.host}")
+  private String credentialsHost;
+  @Value("${services.credentials.port}")
+  private String credentialsPort;
   @Autowired
   private UserService userService;
 
+
   @PostMapping(value = "/")
   public ResponseEntity<?> add(@RequestBody User user) {
-    if (!User.isUserCorrect(user)) {
+    if (!User.isUserCorrect(user) || userService.existsByEmail(user.getEmail())) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    String endpoint = "http://%s:%s/credentials/".formatted(credentialsHost,
+        credentialsPort);
+    RestTemplate restTemplate = new RestTemplate();
+
+    ResponseEntity<?> e = restTemplate.postForEntity(endpoint,
+        new Credential(user.getEmail(), Credential.generateDefaultLengthRandomPassword(),
+            Role.USER),
+        ResponseEntity.class);
+
+    if (e.getStatusCode() != HttpStatus.CREATED) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
@@ -57,7 +79,7 @@ public class UserController {
 
   @GetMapping(value = "/findByEmail")
   public ResponseEntity<User> getByEmail(@RequestParam String email) {
-    if(userService.existsByEmail(email)) {
+    if (userService.existsByEmail(email)) {
       return ResponseEntity.ok(userService.getByEmail(email));
     } else {
       return ResponseEntity.notFound().build();

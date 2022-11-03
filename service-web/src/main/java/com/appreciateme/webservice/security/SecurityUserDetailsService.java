@@ -1,7 +1,7 @@
 package com.appreciateme.webservice.security;
 
 import com.appreciateme.credential.model.Credential;
-import com.appreciateme.webservice.model.MicroserviceData;
+import com.appreciateme.webservice.MicroserviceData;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
