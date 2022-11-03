@@ -21,3 +21,6 @@ services:
   tags:
     host: 'localhost'
     port: '8005'
+  credentials:
+    host: 'localhost'
+    port: '8007'

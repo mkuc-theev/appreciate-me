@@ -80,7 +80,7 @@ public class UserServiceTests {
   }
 
   @Test
-  void getUserByMail_UserWasNotFound_ThenReturnValidUser() {
+  void getUserByMail_UserWasNotFound_ThenThrowRuntimeException() {
 
     final String email = "random_email@mail.com";
 
@@ -104,7 +104,7 @@ public class UserServiceTests {
   }
 
   @Test
-  void getUserById_UserWasNotFound_ThenReturnValidUser() {
+  void getUserById_UserWasNotFound_ThenThrowRuntimeException() {
 
     final String id = "takiegoChlopaNieMa";
 
