@@ -1,6 +1,5 @@
 package com.appreciateme.usersservice;
 
-import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -11,7 +10,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.appreciateme.credential.model.Credential;
 import com.appreciateme.usersservice.controller.UserController;
 import com.appreciateme.usersservice.model.Sex;
 import com.appreciateme.usersservice.model.User;
@@ -58,19 +56,16 @@ public class UserControllerTests {
 
   @MockBean
   UserService userService;
-
+  @Autowired
+  ObjectMapper mapper;
   @Autowired
   private RestTemplate mockRestTemplate;
   private MockRestServiceServer mockServer;
-
-  @Autowired
-  ObjectMapper mapper;
 
   @BeforeEach
   public void init() {
     mockServer = MockRestServiceServer.createServer(mockRestTemplate);
   }
-
 
 
   @Test
@@ -180,7 +175,8 @@ public class UserControllerTests {
 
     final String endpoint = DOMAIN;
 
-    mockServer.expect(ExpectedCount.once(), requestTo(new URI("http://localhost:8007/credentials/")))
+    mockServer.expect(ExpectedCount.once(),
+            requestTo(new URI("http://localhost:8007/credentials/")))
         .andExpect(method(HttpMethod.POST))
         .andRespond(withStatus(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON));
 

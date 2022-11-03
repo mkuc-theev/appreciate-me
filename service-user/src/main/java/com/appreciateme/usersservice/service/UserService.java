@@ -12,7 +12,9 @@ public class UserService {
 
   private final UserRepository repository;
 
-  public void add(User user) {repository.insert(user);}
+  public void add(User user) {
+    repository.insert(user);
+  }
 
   public List<User> getAll() {
     return repository.findAll();

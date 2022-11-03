@@ -89,7 +89,16 @@ public class UserController {
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<User> delete(@PathVariable String id) {
-    userService.deleteById(id);
-    return ResponseEntity.status(HttpStatus.OK).build();
+    if (userService.existsById(id)) {
+      String email = getById(id).getBody().getEmail();
+
+      String endpoint = "http://%s:%s/credentials/delete?email=%s".formatted(credentialsHost,
+          credentialsPort, email);
+      userService.deleteById(id);
+      restTemplate.delete(endpoint);
+      return ResponseEntity.status(HttpStatus.OK).build();
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 }

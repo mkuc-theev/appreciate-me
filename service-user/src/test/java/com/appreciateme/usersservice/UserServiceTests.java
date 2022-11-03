@@ -4,7 +4,6 @@ import com.appreciateme.usersservice.model.Sex;
 import com.appreciateme.usersservice.model.User;
 import com.appreciateme.usersservice.repository.UserRepository;
 import com.appreciateme.usersservice.service.UserService;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -49,7 +48,6 @@ public class UserServiceTests {
       Sex.MALE);
   private final UserRepository userRepository = Mockito.mock(UserRepository.class);
   private final UserService userService = new UserService(userRepository);
-
 
 
   @Test
