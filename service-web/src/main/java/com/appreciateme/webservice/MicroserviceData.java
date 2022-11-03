@@ -1,4 +1,4 @@
-package com.appreciateme.webservice.model;
+package com.appreciateme.webservice;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.appreciateme.tagservice;
+package com.appreciateme.tag.model;
 
 public class Tag {
 

@@ -3,12 +3,14 @@ package com.appreciateme.opinion.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Data
 public class Opinion {
@@ -36,16 +38,16 @@ public class Opinion {
     private String reviewedUserID;
 
     /**
-     * Date of creating particular opinion
-     */
-    @Field("date")
-    private String date;
-
-    /**
      * Custom opinion message made by opinionUser
      */
     @Field("opinionMessage")
     private String opinionMessage;
+
+    /**
+     * Date of creating particular opinion
+     */
+    @Field("date")
+    private String date;
 
     /**
      * Verify if provided String represents date in correct format

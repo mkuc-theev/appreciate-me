@@ -3,22 +3,26 @@
 <head>
   <meta charset="ISO-8859-1"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link th:href="@{~/css/styles.css}" rel="stylesheet"/>
+  <link th:href="@{~/css/main.css}" rel="stylesheet"/>
+  <link th:href="@{~/css/buttons.css}" rel="stylesheet"/>
+  <link th:href="@{~/css/containers.css}" rel="stylesheet"/>
   <link href=' http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
   <title>appreciate.me</title>
 </head>
 <body>
   <div class="top-bar">appreciate.me</div><br>
-  <div class="user-container">
-    <div class="users-top-bar">
+  <div class="container">
+    <div class="container-element-blank">
       <span><b>User list</b></span>
       <a th:href="@{/users/create}" role="button" class="button add-user-button" title="Add a user">&#10010;</a>
     </div>
-    <div class="user" th:each="user: ${users}">
-      <span th:text="${user.getFirstName}">First Name </span>
-      <span th:text="${user.getLastName}">Last Name</span>
-      <a role="button" class="button write-opinion-button" title="Give this user a fist bump">&#9998;</a>
-      <a th:href="@{/users/deleteId(id=${user.getId})}" role="button" class="button remove-user-button" title="Remove this user">&#10006;</a>
+    <div class="container-element" th:each="user: ${users}">
+      <a th:href="@{/users/user(id=${user.getId()})}">
+        <span th:text="${user.getFirstName()}">First Name </span>
+        <span th:text="${user.getLastName()}">Last Name</span>
+      </a>
+      <a th:href="@{/opinions/create(id=${user.getId()})}" role="button" class="button write-opinion-button" title="Give this user a fist bump">&#9998;</a>
+      <a th:href="@{/users/deleteId(id=${user.getId()})}" role="button" class="button remove-user-button" title="Remove this user">&#10006;</a>
     </div>
   </div>
 </body>

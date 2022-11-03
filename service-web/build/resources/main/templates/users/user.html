@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="ISO-8859-1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link th:href="@{~/css/main.css}" rel="stylesheet"/>
+  <link th:href="@{~/css/containers.css}" rel="stylesheet"/>
+  <link href=' http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+  <title>appreciate.me</title>
+</head>
+<body>
+<div class="top-bar">appreciate.me</div><br>
+<div class="user-data-container">
+  <h1>
+    <span th:text="${userData.getFirstName}">First Name</span>
+    <span th:text="${userData.getLastName}">Last Name</span>
+  </h1><br>
+  <span th:if="${userData.getSex.name() == 'MALE'}">&#9794; Male</span>
+  <span th:unless="${userData.getSex.name() == 'MALE'}">&#9792; Female</span>
+  <br><span th:text="${userData.getAge}">Age</span> years old<br>
+  Email address: <span th:text="${userData.getEmail}">Email address</span><br>
+  <div class="container">
+    <span>Opinions for this user:</span><br>
+    <div class="opinion" th:each="opinion,iterator: ${userData.getOpinions}">
+      From <a th:href="@{~/users/user(id=${userData.getReviewers[iterator.index].getId})}">
+      <span th:text="${userData.getReviewers[iterator.index].getFirstName}">Reviewer First Name</span>
+      <span th:text="${userData.getReviewers[iterator.index].getLastName}">Reviewer Last Name</span>
+    </a><br>
+      On <span th:text="${opinion.getDate}">Date</span><br><br>
+      <span th:text="${opinion.getOpinionMessage}">Message contents</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

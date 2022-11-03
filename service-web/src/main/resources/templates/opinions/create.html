@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="ISO-8859-1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link th:href="@{~/css/main.css}" rel="stylesheet"/>
+  <link th:href="@{~/css/buttons.css}" rel="stylesheet"/>
+  <link th:href="@{~/css/containers.css}" rel="stylesheet"/>
+  <link th:href="@{~/css/forms.css}" rel="stylesheet"/>
+  <link href=' http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+  <title>appreciate.me</title>
+</head>
+<body>
+  <main>
+    <div class="top-bar">appreciate.me</div><br>
+    <div class="container">
+      <span class="form-title">Write a new opinion</span><br>
+      <form th:object="${formData}" th:action="@{/opinions/create}" method="post">
+        <label for="opinionUserID">Opinion author (to be deprecated)</label><br>
+        <select id="opinionUserID" th:field="*{opinionUserID}" required>
+          <option
+                  th:each="option : ${users}"
+                  th:value="${option.getId()}"
+                  th:text="${#strings.concat(option.getFirstName(), ' ', option.getLastName())}">
+          </option>
+        </select><br>
+        <label for="reviewedUserID">Recipient</label><br>
+        <select id="reviewedUserID" th:field="*{reviewedUserID}" required>
+          <option
+                  th:each="option : ${users}"
+                  th:selected="${#strings.equals(option.getId(), #request.getParameter('id'))}"
+                  th:value="${option.getId()}"
+                  th:text="${#strings.concat(option.getFirstName(), ' ', option.getLastName())}"
+                  th:disabled="${#strings.equals(formData.getOpinionUserID(), option.getId())}">
+          </option>
+        </select><br>
+        <label for="opinionMessage">Message</label>
+        <textarea id="opinionMessage" rows="4" cols="50" th:field="*{opinionMessage}" required>
+          Put the opinion contents here.
+        </textarea>
+        <button type="submit" class = "button submit-button">Write opinion</button>
+      </form>
+      <span th:text="${#request.getParameter('id')}"></span>
+    </div>
+  </main>
+</body>
+</html>

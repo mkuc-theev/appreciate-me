@@ -1,0 +1,56 @@
+.button {
+    float: right;
+    font-size: 1em;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: 150ms;
+    border: none;
+    color: white;
+}
+
+.submit-button {
+    display: inline-block;
+    font-size: 2rem;
+    height: fit-content;
+    width: fit-content;
+    padding: 1vw;
+    margin: 0.5vw;
+    border-radius: 10vw;
+    background-color: var(--main-fg-color);
+}
+.submit-button:hover {
+    background-color: #00619e;
+}
+
+.write-opinion-button {
+    padding: 0;
+    height: 1.2em;
+    width: 1.2em;
+    border-radius: 0 0.5vmin 0.5vmin 0;
+    background-color: #4CAF50;
+}
+.write-opinion-button:hover {
+    background-color: #2ba630;
+}
+
+.remove-user-button {
+    padding: 0;
+    height: 1.2em;
+    width: 1.2em;
+    border-radius: 0.5vmin 0 0 0.5vmin;
+    background-color: #f44336;
+}
+.remove-user-button:hover {
+    background-color: #ee2415;
+}
+
+.add-user-button {
+    padding: 0;
+    height: 1.2em;
+    width: 1.2em;
+    border-radius: 0.5vmin;
+    background-color: var(--main-fg-color);
+}
+.add-user-button:hover {
+    background-color: #00619e;
+}

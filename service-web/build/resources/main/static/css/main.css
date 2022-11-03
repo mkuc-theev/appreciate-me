@@ -1,0 +1,35 @@
+:root {
+    --main-bg-color: #12232E;
+    --main-fg-color: #007CC7;
+    --light-fg-color: #4DA8DA;
+    --shadow-fg-color: #203647;
+}
+
+html {
+    font-size: 62.5%;
+    color: white;
+    font-family: Ubuntu;
+}
+
+body {
+    background-color: var(--main-bg-color);
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    font-size: 2.4rem;
+}
+
+.top-bar {
+    height: fit-content;
+    width: 100%;
+    padding: 0.5vw;
+    font-size: 3rem;
+    background-color: #203647;
+}
+
+a {
+    text-decoration: none;
+    color:white;
+}
