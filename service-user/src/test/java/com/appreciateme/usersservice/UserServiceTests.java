@@ -18,40 +18,35 @@ public class UserServiceTests {
       "Barański",
       "abaranski@griddynamics.com",
       22,
-      Sex.MALE,
-      BigDecimal.valueOf(333333));
+      Sex.MALE);
 
   final User USER_2 = new User("atyranski",
       "Arkadiusz",
       "Tyranski",
       "atyranski@griddynamics.com",
       21,
-      Sex.MALE,
-      BigDecimal.valueOf(999999));
+      Sex.MALE);
 
   final User USER_3 = new User("pbogdan",
       "Paweł",
       "Bogdan",
       "pbogdan@griddynamics.com",
       38,
-      Sex.MALE,
-      BigDecimal.valueOf(888888));
+      Sex.MALE);
 
   final User USER_4 = new User("mkuc",
       "Michał",
       "Kuć",
       "mkuc@griddynamics.com",
       21,
-      Sex.MALE,
-      BigDecimal.valueOf(777777));
+      Sex.MALE);
 
   final User INVALID_USER = new User("mariusz",
       "Mariusz",
       "",
       "mmodaodwa@gmail.com",
       -1,
-      Sex.MALE,
-      BigDecimal.valueOf(444444));
+      Sex.MALE);
   private final UserRepository userRepository = Mockito.mock(UserRepository.class);
   private final UserService userService = new UserService(userRepository);
 

@@ -12,7 +12,6 @@ import com.appreciateme.usersservice.model.Sex;
 import com.appreciateme.usersservice.model.User;
 import com.appreciateme.usersservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -29,19 +28,17 @@ public class UserControllerTests {
   final String DOMAIN = "/users/";
 
   final User USER_1 = new User("abaranski", "Adam", "Barański", "abaranski@griddynamics.com", 22,
-      Sex.MALE, BigDecimal.valueOf(333333));
+      Sex.MALE);
 
   final User USER_2 = new User("atyranski", "Arkadiusz", "Tyranski", "atyranski@griddynamics.com",
-      21, Sex.MALE, BigDecimal.valueOf(999999));
+      21, Sex.MALE);
 
   final User USER_3 = new User("pbogdan", "Paweł", "Bogdan", "pbogdan@griddynamics.com", 38,
-      Sex.MALE, BigDecimal.valueOf(888888));
+      Sex.MALE);
 
-  final User USER_4 = new User("mkuc", "Michał", "Kuć", "mkuc@griddynamics.com", 21, Sex.MALE,
-      BigDecimal.valueOf(777777));
+  final User USER_4 = new User("mkuc", "Michał", "Kuć", "mkuc@griddynamics.com", 21, Sex.MALE);
 
-  final User INVALID_USER = new User("mariusz", "Mariusz", "", "mmodaodwa@gmail.com", -1, Sex.MALE,
-      BigDecimal.valueOf(444444));
+  final User INVALID_USER = new User("mariusz", "Mariusz", "", "mmodaodwa@gmail.com", -1, Sex.MALE);
 
 
   @Autowired
@@ -173,9 +170,9 @@ public class UserControllerTests {
     final String endpoint = DOMAIN;
 
     mockMvc.perform(
-        post(endpoint).contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .content(mapper.writeValueAsString(INVALID_USER)))
+            post(endpoint).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(INVALID_USER)))
         .andExpect(status().isBadRequest());
   }
 }
