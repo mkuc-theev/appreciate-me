@@ -29,7 +29,8 @@ public class UserController {
   private String credentialsPort;
   @Autowired
   private UserService userService;
-
+  @Autowired
+  private RestTemplate restTemplate;
 
   @PostMapping(value = "/")
   public ResponseEntity<?> add(@RequestBody User user) {
@@ -39,7 +40,7 @@ public class UserController {
 
     String endpoint = "http://%s:%s/credentials/".formatted(credentialsHost,
         credentialsPort);
-    RestTemplate restTemplate = new RestTemplate();
+    System.out.println(endpoint);
 
     ResponseEntity<?> e = restTemplate.postForEntity(endpoint,
         new Credential(user.getEmail(), Credential.generateDefaultLengthRandomPassword(),

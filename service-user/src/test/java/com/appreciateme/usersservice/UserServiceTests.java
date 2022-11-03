@@ -50,6 +50,8 @@ public class UserServiceTests {
   private final UserRepository userRepository = Mockito.mock(UserRepository.class);
   private final UserService userService = new UserService(userRepository);
 
+
+
   @Test
   void getAllUsers_thenReturnList() {
 

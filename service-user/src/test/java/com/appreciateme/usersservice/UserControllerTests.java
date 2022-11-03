@@ -1,25 +1,37 @@
 package com.appreciateme.usersservice;
 
+import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.appreciateme.credential.model.Credential;
 import com.appreciateme.usersservice.controller.UserController;
 import com.appreciateme.usersservice.model.Sex;
 import com.appreciateme.usersservice.model.User;
 import com.appreciateme.usersservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URI;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.client.ExpectedCount;
+import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 
 
 @WebMvcTest(UserController.class)
@@ -48,7 +60,18 @@ public class UserControllerTests {
   UserService userService;
 
   @Autowired
+  private RestTemplate mockRestTemplate;
+  private MockRestServiceServer mockServer;
+
+  @Autowired
   ObjectMapper mapper;
+
+  @BeforeEach
+  public void init() {
+    mockServer = MockRestServiceServer.createServer(mockRestTemplate);
+  }
+
+
 
   @Test
   void getAllUsers_GET_thenReturnStatusOk() throws Exception {
@@ -156,6 +179,10 @@ public class UserControllerTests {
   void createValidUser_POST_thenReturnStatusCreated() throws Exception {
 
     final String endpoint = DOMAIN;
+
+    mockServer.expect(ExpectedCount.once(), requestTo(new URI("http://localhost:8007/credentials/")))
+        .andExpect(method(HttpMethod.POST))
+        .andRespond(withStatus(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON));
 
     mockMvc.perform(
             post(endpoint).contentType(MediaType.APPLICATION_JSON)

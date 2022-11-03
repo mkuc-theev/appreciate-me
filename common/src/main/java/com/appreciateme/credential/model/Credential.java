@@ -34,7 +34,6 @@ public class Credential {
       builder.append(
           PASSWORD_CHARACTERS.charAt(new Random().nextInt(PASSWORD_CHARACTERS.length())));
     }
-    System.out.println(builder);
     return builder.toString();
   }
 
