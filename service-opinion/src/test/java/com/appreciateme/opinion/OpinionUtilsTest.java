@@ -65,30 +65,30 @@ public class OpinionUtilsTest {
 
 
     @Test
-    @DisplayName("[ 1] given OpinionDTO - when toOpinion() - return Opinion")
-    void givenOpinionDTO_whenToOpinion_thenReturnOpinion() {
+    @DisplayName("[ 1] given OpinionDTO - when mapToOpinion() - return Opinion")
+    void givenOpinionDTO_whenMapToOpinion_thenReturnOpinion() {
         Opinion opinion = OpinionUtils.mapToOpinion(OPINION_DTO_1);
 
         assertEquals(OPINION_1, opinion);
     }
 
     @Test
-    @DisplayName("[ 2] given Opinion - when toDto() - return OpinionDTO")
-    void givenOpinion_whenToDto_thenReturnOpinionDTO() {
+    @DisplayName("[ 2] given Opinion - when mapToDto() - return OpinionDTO")
+    void givenOpinion_whenMapToDto_thenReturnOpinionDTO() {
         OpinionDTO opinionDTO = OpinionUtils.mapToDto(OPINION_1);
 
         assertEquals(OPINION_DTO_1, opinionDTO);
     }
 
     @Test
-    @DisplayName("[ 3] given List<Opinion> - when toDtoList() - return List<OpinionDTO>")
-    void givenListOfOpinion_whenToDtoList_thenReturnListOfOpinionDTO() {
+    @DisplayName("[ 3] given List<Opinion> - when mapToDtoList() - return List<OpinionDTO>")
+    void givenListOfOpinion_whenMapToDtoList_thenReturnListOfOpinionDTO() {
         List<Opinion> opinions = List.of(OPINION_1, OPINION_2, OPINION_3);
         List<OpinionDTO> opinionDTOs = List.of(OPINION_DTO_1, OPINION_DTO_2, OPINION_DTO_3);
 
-        List<OpinionDTO> opinionDTOList = OpinionUtils.mapToDtoList(opinions);
+        List<OpinionDTO> resultList = OpinionUtils.mapToDtoList(opinions);
 
-        assertEquals(opinionDTOs, opinionDTOList);
+        assertEquals(opinionDTOs, resultList);
     }
 
     @Test

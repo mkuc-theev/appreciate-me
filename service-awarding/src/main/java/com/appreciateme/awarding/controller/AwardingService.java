@@ -79,7 +79,6 @@ public class AwardingService {
         Integer userOpinionsAmount = obtainOpinionsAmountFromOpinionServiceForUser(userId)
                 .orElseThrow(FailedToGetOpinionsAmountException::new);
 
-        System.out.printf("SPRAWDZAM: %b, %b\n",reward.getDateTo() != null, AwardingUtils.isAvailable(reward.getDateFrom(), reward.getDateTo()) );
         if (reward.getDateTo() != null && !AwardingUtils.isAvailable(reward.getDateFrom(), reward.getDateTo())) {
             throw new UnableToClaimRewardException(reward.getDateFrom(), reward.getDateTo());
         }
@@ -130,7 +129,7 @@ public class AwardingService {
                 .findAny()
                 .orElseThrow(() -> new NoSuchRewardInAwardingException(userId, rewardId));
 
-        if (AwardingUtils.isAvailable(ownedReward.getDateFrom(), ownedReward.getDateTo())) {
+        if (!AwardingUtils.isAvailable(ownedReward.getDateFrom(), ownedReward.getDateTo())) {
             throw new UnableToUseRewardException(ownedReward.getDateFrom(), ownedReward.getDateTo());
         }
 

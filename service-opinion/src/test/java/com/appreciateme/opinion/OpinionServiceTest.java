@@ -76,7 +76,7 @@ public class OpinionServiceTest {
     private static final OpinionService service = new OpinionService(repository);
 
     @Test
-    @DisplayName("[ 1] given existing opinions - when getAllOpinions() - then return List<OpinionDTO>")
+    @DisplayName("[ 1] given existing opinions - when getAll() - then return List<OpinionDTO>")
     public void givenExistingOpinions_whenGetAllOpinions_thenReturnListOpinionsDTO() {
         final List<OpinionDTO> opinionDTOs = List.of(OPINION_DTO_1, OPINION_DTO_2, OPINION_DTO_3);
         final List<Opinion> opinions = OpinionUtils.mapToOpinionList(opinionDTOs);
@@ -94,7 +94,7 @@ public class OpinionServiceTest {
     }
 
     @Test
-    @DisplayName("[ 2] given existing opinion id - when getOpinionById() - then return OpinionDTO")
+    @DisplayName("[ 2] given existing opinion id - when getById() - then return OpinionDTO")
     public void givenExistingOpinionId_whenGetOpinionById_thenReturnOpinionDTO() {
         final String id = "633ca00a45ef711325f9d80f";
         final Opinion expectedOpinion = OpinionUtils.mapToOpinion(OPINION_DTO_1);
@@ -112,7 +112,7 @@ public class OpinionServiceTest {
     }
 
     @Test
-    @DisplayName("[ 3] given not existing opinion id - when getOpinionById() then throw OpinionNotFoundException")
+    @DisplayName("[ 3] given not existing opinion id - when getById() - then throw OpinionNotFoundException")
     public void givenNotExistingOpinionId_whenGetOpinionById_thenThrowOpinionNotFoundException() {
         final String opinionId = "655ca00a45ef711325f9d80f";
 
@@ -162,7 +162,7 @@ public class OpinionServiceTest {
     }
 
     @Test
-    @DisplayName("[ 7] given correct Opinion - when isOpinionCorrect - then return true")
+    @DisplayName("[ 7] given correct Opinion - when isOpinionCorrect - then return CORRECT")
     void givenCorrectOpinion_whenIsOpinionCorrect_thenReturnTrue() {
         final OpinionCorrectnessStatus result = Opinion.isOpinionCorrect(OPINION_1);
 
