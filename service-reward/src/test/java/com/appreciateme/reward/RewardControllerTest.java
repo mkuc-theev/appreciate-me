@@ -24,7 +24,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,8 +35,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @WebMvcTest(RewardController.class)
 public class RewardControllerTest {
 
-    final String DATE_STRING = "2022-03-09 08:00:00";
-    final long DATE_TIMESTAMP = 1646809200000L;
     final String DOMAIN = "rewards";
 
     final Reward REWARD_1 = Reward.builder()

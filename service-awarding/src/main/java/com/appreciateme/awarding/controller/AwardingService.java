@@ -5,13 +5,13 @@ import com.appreciateme.awarding.exception.FailedToGetOpinionsAmountException;
 import com.appreciateme.awarding.exception.FailedToGetRewardException;
 import com.appreciateme.awarding.exception.NoSuchRewardInAwardingException;
 import com.appreciateme.awarding.exception.UnableToClaimRewardException;
-import com.appreciateme.awarding.exception.UnableToUseRewardException;
+import com.appreciateme.awarding.exception.UnableToUseOwnedRewardException;
 import com.appreciateme.awarding.model.Awarding;
 import com.appreciateme.awarding.model.AwardingUtils;
 import com.appreciateme.awarding.model.AwardingDTO;
-import com.appreciateme.awarding.model.OwnedReward;
+import com.appreciateme.awarding.model.OwnedRewardDTO;
+import com.appreciateme.awarding.model.OwnedRewardUtils;
 import com.appreciateme.reward.model.Reward;
-import com.appreciateme.reward.model.RewardUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -65,10 +65,10 @@ public class AwardingService {
 
         validateClaimRequest(userId, reward);
 
-        OwnedReward ownedReward = AwardingUtils.getOwnedReward(reward);
+        OwnedRewardDTO ownedRewardDTO = OwnedRewardUtils.mapToDto(OwnedRewardUtils.getOwnedReward(reward));
 
         AwardingDTO awardingDTO = getOrCreateAwarding(userId);
-        awardingDTO.getRewards().add(ownedReward);
+        awardingDTO.getRewards().add(ownedRewardDTO);
 
         repository.save(awardingDTO);
 
@@ -79,7 +79,7 @@ public class AwardingService {
         Integer userOpinionsAmount = obtainOpinionsAmountFromOpinionServiceForUser(userId)
                 .orElseThrow(FailedToGetOpinionsAmountException::new);
 
-        if (reward.getDateTo() != null && !AwardingUtils.isAvailable(reward.getDateFrom(), reward.getDateTo())) {
+        if (reward.getDateTo() != null && !OwnedRewardUtils.isAvailable(reward.getDateFrom(), reward.getDateTo())) {
             throw new UnableToClaimRewardException(reward.getDateFrom(), reward.getDateTo());
         }
 
@@ -124,13 +124,13 @@ public class AwardingService {
         AwardingDTO awardingDTO = repository.findById(userId)
                 .orElseThrow(() -> new AwardingNotFoundException(userId));
 
-        OwnedReward ownedReward = awardingDTO.getRewards().stream()
+        OwnedRewardDTO ownedReward = awardingDTO.getRewards().stream()
                 .filter(reward -> reward.getRewardId().equals(rewardId))
                 .findAny()
                 .orElseThrow(() -> new NoSuchRewardInAwardingException(userId, rewardId));
 
-        if (!AwardingUtils.isAvailable(ownedReward.getDateFrom(), ownedReward.getDateTo())) {
-            throw new UnableToUseRewardException(ownedReward.getDateFrom(), ownedReward.getDateTo());
+        if (!OwnedRewardUtils.isAvailable(ownedReward.getDateFrom(), ownedReward.getDateTo())) {
+            throw new UnableToUseOwnedRewardException(ownedReward.getDateFrom(), ownedReward.getDateTo());
         }
 
         ownedReward.setUsed(true);

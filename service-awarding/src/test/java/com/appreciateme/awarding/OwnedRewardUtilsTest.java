@@ -1,10 +1,8 @@
 package com.appreciateme.awarding;
 
-import com.appreciateme.awarding.model.Awarding;
-import com.appreciateme.awarding.model.AwardingDTO;
-import com.appreciateme.awarding.model.AwardingUtils;
 import com.appreciateme.awarding.model.OwnedReward;
 import com.appreciateme.awarding.model.OwnedRewardDTO;
+import com.appreciateme.awarding.model.OwnedRewardUtils;
 import com.appreciateme.reward.model.Reward;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AwardingUtilsTest {
+public class OwnedRewardUtilsTest {
 
     final Reward REWARD = Reward.builder()
             .id("6351508c881167185d79e3d0")
@@ -93,62 +91,51 @@ public class AwardingUtilsTest {
             .used(false)
             .build();
 
-    final Awarding AWARDING_1 = Awarding.builder()
-            .userId("abaranski")
-            .rewards(List.of(OWNED_REWARD_1, OWNED_REWARD_2))
-            .build();
-
-    final Awarding AWARDING_2 = Awarding.builder()
-            .userId("pbogdan")
-            .rewards(List.of(OWNED_REWARD_2, OWNED_REWARD_3))
-            .build();
-
-    final AwardingDTO AWARDING_DTO_1 = AwardingDTO.builder()
-            .userId("abaranski")
-            .rewards(List.of(OWNED_REWARD_DTO_1, OWNED_REWARD_DTO_2))
-            .build();
-
-    final AwardingDTO AWARDING_DTO_2 = AwardingDTO.builder()
-            .userId("pbogdan")
-            .rewards(List.of(OWNED_REWARD_DTO_2, OWNED_REWARD_DTO_3))
-            .build();
-
     @Test
-    @DisplayName("[ 1] given AwardingDTO - when mapToAwarding() - then return Awarding")
-    void givenAwardingDTO_whenMapToAwardingDTO_thenReturnAwarding() {
-        Awarding awarding = AwardingUtils.mapToAwarding(AWARDING_DTO_1);
+    @DisplayName("[ 1] given OwnedRewardDTO - when mapToOwnedReward() - then return OwnedReward")
+    void givenOwnedRewardDTO_whenMapToOwnedReward_thenReturnOwnedReward() {
+        OwnedReward ownedReward = OwnedRewardUtils.mapToOwnedReward(OWNED_REWARD_DTO_1);
 
-        assertEquals(AWARDING_1, awarding);
+        assertEquals(OWNED_REWARD_1, ownedReward);
     }
 
     @Test
-    @DisplayName("[ 2] given Awarding - when mapToDto() - then return AwardingDTO")
-    void givenAwarding_whenMapToDto_thenReturnAwardingDTO() {
-        AwardingDTO awardingDTO = AwardingUtils.mapToDto(AWARDING_1);
+    @DisplayName("[ 2] given OwnedReward - when mapToDto() - then return OwnedRewardDTO")
+    void givenOwnedReward_whenMapToDto_thenReturnOwnedRewardDto() {
+        OwnedRewardDTO ownedRewardDTO = OwnedRewardUtils.mapToDto(OWNED_REWARD_1);
 
-        assertEquals(AWARDING_DTO_1, awardingDTO);
+        assertEquals(OWNED_REWARD_DTO_1, ownedRewardDTO);
     }
 
     @Test
-    @DisplayName("[ 3] given List<AwardingDTO> - when mapToAwardingList() - then return List<Awarding>")
-    void givenListOfAwardingDTO_whenMapToAwardingList_thenReturnListOfAwarding() {
-        List<Awarding> awardings = List.of(AWARDING_1, AWARDING_2);
-        List<AwardingDTO> awardingDTOs = List.of(AWARDING_DTO_1, AWARDING_DTO_2);
+    @DisplayName("[ 3] given List<OwnedRewardDTO> - when mapToOwnedRewardList() - then return List<OwnedReward>")
+    void givenListOfOwnedRewardDTO_whenMapToOwnedRewardList_thenReturnListOfOwnedReward() {
+        List<OwnedReward> ownedRewards = List.of(OWNED_REWARD_1, OWNED_REWARD_2, OWNED_REWARD_3);
+        List<OwnedRewardDTO> ownedRewardDTOs = List.of(OWNED_REWARD_DTO_1, OWNED_REWARD_DTO_2, OWNED_REWARD_DTO_3);
 
-        List<Awarding> result = AwardingUtils.mapToAwardingList(awardingDTOs);
+        List<OwnedReward> result = OwnedRewardUtils.mapToOwnedRewardList(ownedRewardDTOs);
 
-        assertEquals(awardings, result);
+        assertEquals(ownedRewards, result);
     }
 
     @Test
-    @DisplayName("[ 4] given List<Awarding> - when mapToDtoList() - then return List<AwardingDTO>")
-    void givenListOfAwarding_whenMapToDtoList_thenReturnListOfAwardingDTO() {
-        List<Awarding> awardings = List.of(AWARDING_1, AWARDING_2);
-        List<AwardingDTO> awardingDTOs = List.of(AWARDING_DTO_1, AWARDING_DTO_2);
+    @DisplayName("[ 4] given List<OwnedReward> - when mapToDtoList() - then return List<OwnedRewardDTO>")
+    void givenListOfOwnedReward_whenMapToDtoList_thenReturnListOfOwnedRewardDto() {
+        List<OwnedReward> ownedRewards = List.of(OWNED_REWARD_1, OWNED_REWARD_2, OWNED_REWARD_3);
+        List<OwnedRewardDTO> ownedRewardDTOs = List.of(OWNED_REWARD_DTO_1, OWNED_REWARD_DTO_2, OWNED_REWARD_DTO_3);
 
-        List<AwardingDTO> result = AwardingUtils.mapToDtoList(awardings);
+        List<OwnedRewardDTO> result = OwnedRewardUtils.mapToDtoList(ownedRewards);
 
-        assertEquals(awardingDTOs, result);
+        assertEquals(ownedRewardDTOs, result);
     }
 
+    @Test
+    @DisplayName("[ 5] given Reward - when mapToOwnedReward() - then return OwnedReward")
+    void givenReward_whenMapToOwnedReward_thenReturnOwnedReward() {
+        OwnedReward reward = OwnedRewardUtils.getOwnedReward(REWARD);
+        reward.setDateFrom(OWNED_REWARD_1.getDateFrom());
+        reward.setDateTo(OWNED_REWARD_1.getDateTo());
+
+        assertEquals(OWNED_REWARD_1, reward);
+    }
 }
