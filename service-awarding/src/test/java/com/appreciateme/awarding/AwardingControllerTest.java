@@ -2,6 +2,7 @@ package com.appreciateme.awarding;
 
 import com.appreciateme.awarding.controller.AwardingController;
 import com.appreciateme.awarding.controller.AwardingService;
+import com.appreciateme.awarding.exception.AwardingNotFoundException;
 import com.appreciateme.awarding.model.Awarding;
 import com.appreciateme.awarding.model.AwardingDTO;
 import com.appreciateme.awarding.model.OwnedReward;
@@ -16,11 +17,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -123,9 +127,6 @@ public class AwardingControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
     @MockBean
     AwardingService service;
 
@@ -151,6 +152,95 @@ public class AwardingControllerTest {
                 .andExpect(jsonPath("$[1].rewards", hasSize(AWARDING_2.getRewards().size())));
     }
 
+    @Test
+    @DisplayName("[ 2] given user id - when GET /awardings/:id - then return status OK")
+    void givenAwarding_whenGETAwardingsId_thenReturnStatusOK()
+            throws Exception {
 
+        final String id = AWARDING_1.getUserId();
+        final String endpoint = String.format("/%s/%s", DOMAIN, id);
+
+        when(service.getById(eq(id)))
+                .thenReturn(AWARDING_1);
+
+        mockMvc.perform(get(endpoint)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.userId").value(AWARDING_1.getUserId()))
+                .andExpect(jsonPath("$.rewards", hasSize(AWARDING_1.getRewards().size())));
+    }
+
+    @Test
+    @DisplayName("[ 3] given id of user not present in Awardings - when GET /awardings/:id - then return status NOT_FOUND")
+    void givenIdOfUserNotPresentInAwardings_whenGETAwardingsId_then()
+            throws Exception {
+
+        final String id = "huehue";
+        final String endpoint = String.format("/%s/%s", DOMAIN, id);
+        final String expectedMessage = String.format("Reward with ID = %s not found", id);
+
+        when(service.getById(id))
+                .thenThrow(new AwardingNotFoundException(id));
+
+        mockMvc.perform(get(endpoint)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(result ->
+                        assertTrue(
+                                result.getResolvedException() instanceof AwardingNotFoundException))
+                .andExpect(result ->
+                        assertEquals(
+                                expectedMessage,
+                                Objects.requireNonNull(result.getResolvedException()).getMessage()));
+    }
+
+    @Test
+    @DisplayName("[ 4] given none - when DELETE /awardings - then return status OK")
+    void givenNone_whenDELETEAwardings_thenReturnStatusOK()
+            throws Exception {
+
+        final String endpoint = String.format("/%s", DOMAIN);
+
+        mockMvc.perform(delete(endpoint)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("[ 5] given Awarding - when DELETE /awardings/:id - then return status OK")
+    void givenAwarding_whenDELETEAwardingsId_thenReturnStatusOK()
+            throws Exception {
+
+        final String id = AWARDING_DTO_1.getUserId();
+        final String endpoint = String.format("/%s/%s", DOMAIN, id);
+
+        mockMvc.perform(delete(endpoint)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("[ 6] given id of user not present in awardings - when DELETE /awardings/:id - then return status NOT_FOUND")
+    void givenIdOfUserNotPresentInAwardings_whenDELETEAwardingsId_thenThrowAwardingNotFoundException()
+            throws Exception {
+
+        final String id = "huehue";
+        final String endpoint = String.format("/%s/%s", DOMAIN, id);
+        final String expectedMessage = String.format("Reward with ID = %s not found", id);
+
+        when(service.delete(id))
+                .thenThrow(new AwardingNotFoundException(id));
+
+        mockMvc.perform(delete(endpoint))
+                .andExpect(status().isNotFound())
+                .andExpect(result ->
+                        assertTrue(
+                                result.getResolvedException() instanceof AwardingNotFoundException))
+                .andExpect(result ->
+                        assertEquals(
+                                expectedMessage,
+                                Objects.requireNonNull(result.getResolvedException()).getMessage()));
+    }
 
 }

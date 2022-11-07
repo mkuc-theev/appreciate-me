@@ -130,7 +130,7 @@ public class RewardControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(records.size())))
-                .andExpect(jsonPath("$[0].id").value(REWARD_1.getId()))
+                .andExpect(jsonPath("$[0].id").value(REWARD_DTO_1.getId()))
                 .andExpect(jsonPath("$[0].companyName").value(REWARD_1.getCompanyName()))
                 .andExpect(jsonPath("$[0].value").value(REWARD_1.getValue()))
                 .andExpect(jsonPath("$[0].requiredOpinionAmount").value(REWARD_1.getRequiredOpinionAmount()))
@@ -139,8 +139,8 @@ public class RewardControllerTest {
                 .andExpect(jsonPath("$[0].dateTo").value(REWARD_1.getDateTo()))
                 .andExpect(jsonPath("$[0].availabilityDays").value(REWARD_1.getAvailabilityDays()))
                 .andExpect(jsonPath("$[0].service").value(REWARD_1.isService()))
-                .andExpect(jsonPath("$[1].id").value(REWARD_2.getId()))
-                .andExpect(jsonPath("$[2].id").value(REWARD_2.getId()));
+                .andExpect(jsonPath("$[1].id").value(REWARD_DTO_2.getId()))
+                .andExpect(jsonPath("$[2].id").value(REWARD_DTO_2.getId()));
     }
 
     @Test
@@ -158,7 +158,7 @@ public class RewardControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.id").value(REWARD_1.getId()))
+                .andExpect(jsonPath("$.id").value(REWARD_DTO_1.getId()))
                 .andExpect(jsonPath("$.companyName").value(REWARD_1.getCompanyName()))
                 .andExpect(jsonPath("$.value").value(REWARD_1.getValue()))
                 .andExpect(jsonPath("$.requiredOpinionAmount").value(REWARD_1.getRequiredOpinionAmount()))
@@ -170,7 +170,7 @@ public class RewardControllerTest {
     }
 
     @Test
-    @DisplayName("[ 3] given id of not existing Reward - when GET /rewards/:id - then throw RewardNotFoundException")
+    @DisplayName("[ 3] given id of not existing Reward - when GET /rewards/:id - then return status NOT_FOUND")
     void givenIdOfNotExistingReward_whenGETRewardsId_thenThrowRewardNotFoundException()
             throws Exception {
 
@@ -208,7 +208,7 @@ public class RewardControllerTest {
         mockMvc.perform(get(endpoint).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(rewards.size())))
-                .andExpect(jsonPath("$[0].id").value(REWARD_1.getId()))
+                .andExpect(jsonPath("$[0].id").value(REWARD_DTO_1.getId()))
                 .andExpect(jsonPath("$[0].companyName").value(REWARD_1.getCompanyName()))
                 .andExpect(jsonPath("$[0].value").value(REWARD_1.getValue()))
                 .andExpect(jsonPath("$[0].requiredOpinionAmount").value(REWARD_1.getRequiredOpinionAmount()))
@@ -217,7 +217,7 @@ public class RewardControllerTest {
                 .andExpect(jsonPath("$[0].dateTo").value(REWARD_1.getDateTo()))
                 .andExpect(jsonPath("$[0].availabilityDays").value(REWARD_1.getAvailabilityDays()))
                 .andExpect(jsonPath("$[0].service").value(REWARD_1.isService()))
-                .andExpect(jsonPath("$[1].id").value(REWARD_2.getId()));
+                .andExpect(jsonPath("$[1].id").value(REWARD_DTO_2.getId()));
     }
 
     @Test
@@ -240,7 +240,7 @@ public class RewardControllerTest {
     }
 
     @Test
-    @DisplayName("[ 6] given incorrect reward - when POST /rewards - then throw IncorrectRewardException")
+    @DisplayName("[ 6] given incorrect reward - when POST /rewards - then return status BAD_REQUEST")
     void givenIncorrectReward_whenPOSTRewards_thenThrowIncorrectRewardException()
             throws Exception {
 
@@ -296,7 +296,7 @@ public class RewardControllerTest {
     }
 
     @Test
-    @DisplayName("[ 8] given id of not existing reward - when PUT /rewards - then throw RewardNotFoundException")
+    @DisplayName("[ 8] given id of not existing reward - when PUT /rewards - then return status NOT_FOUND")
     void givenIdOfNotExistingReward_whenPutRewards_thenThrowRewardNotFoundException()
             throws Exception {
 
@@ -348,7 +348,7 @@ public class RewardControllerTest {
     }
 
     @Test
-    @DisplayName("[11] given id of not existing reward - when DELETE /rewards/:id - then throw RewardNotFoundException")
+    @DisplayName("[11] given id of not existing reward - when DELETE /rewards/:id - then return status NOT_FOUND")
     void givenIdOfNotExistingReward_whenDELETERewardsId_thenThrowRewardNotFoundException()
             throws Exception {
 

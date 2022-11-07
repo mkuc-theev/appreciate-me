@@ -129,7 +129,7 @@ public class OpinionControllerTest {
     }
 
     @Test
-    @DisplayName("[ 3] given not existing opinion id - when GET /opinions/:id - then throw OpinionNotFoundException")
+    @DisplayName("[ 3] given not existing opinion id - when GET /opinions/:id - then return status NOT_FOUND")
     void givenNotExistingOpinionId_whenGetOpinionsId_thenThrowOpinionNotFoundException()
             throws Exception {
 
@@ -200,7 +200,7 @@ public class OpinionControllerTest {
     }
 
     @Test
-    @DisplayName("[ 6] given incorrect opinion - when POST /opinions - then throw IncorrectOpinionException")
+    @DisplayName("[ 6] given incorrect opinion - when POST /opinions - then return status BAD_REQUEST")
     void givenIncorrectOpinion_whenPostOpinions_thenThrowIncorrectOpinionException()
             throws Exception {
 
@@ -255,7 +255,7 @@ public class OpinionControllerTest {
     }
 
     @Test
-    @DisplayName("[ 8] given opinion with not existing id - when PUT /opinions - then throw OpinionNotFoundException")
+    @DisplayName("[ 8] given opinion with not existing id - when PUT /opinions - then return status NOT_FOUND")
     void givenOpinionWithNotExistingId_whenPutOpinions_thenThrowOpinionNotFoundException()
             throws Exception {
 
@@ -310,7 +310,7 @@ public class OpinionControllerTest {
     }
 
     @Test
-    @DisplayName("[11] given not existing opinion id - when DELETE /opinions/:id - then throw OpinionNotFoundException")
+    @DisplayName("[11] given not existing opinion id - when DELETE /opinions/:id - then return status NOT_FOUND")
     void givenNotExistingOpinionId_whenDeleteOpinionsId_thenThrowOpinionNotFoundException()
             throws Exception {
 
