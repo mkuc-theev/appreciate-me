@@ -25,7 +25,7 @@
           </option>
         </select><br>
         <label for="reviewedUserID">Recipient</label><br>
-        <select id="reviewedUserID" th:field="*{reviewedUserID}" required>
+        <select id="reviewedUserID" name="reviewedUserID" required>
           <option
                   th:each="option : ${users}"
                   th:selected="${#strings.equals(option.getId(), #request.getParameter('id'))}"
@@ -40,7 +40,6 @@
         </textarea>
         <button type="submit" class = "button submit-button">Write opinion</button>
       </form>
-      <span th:text="${#request.getParameter('id')}"></span>
     </div>
   </main>
 </body>
