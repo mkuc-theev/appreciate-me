@@ -1,26 +1,16 @@
 package com.appreciateme.credential.service;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import com.appreciateme.credential.model.Credential;
 import com.appreciateme.credential.model.Role;
 import com.appreciateme.credential.repository.CredentialRepository;
-import com.appreciateme.credential.service.CredentialService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
 class CredentialServiceTest {
 
@@ -44,8 +34,7 @@ class CredentialServiceTest {
 
   private final CredentialService credentialService = new CredentialService(repository);
 
-
-
+  @DisplayName("Test of getAll() method of CredentialService - return list of all credentials")
   @Test
   void getAllUsers_thenReturnCorrectList() {
 
@@ -57,19 +46,24 @@ class CredentialServiceTest {
 
   }
 
+  @DisplayName("[1 ] given invalid email - when credentialService.findByEmail(email) - then throw RuntimeException")
   @Test
-  void getCredentialByMail_mailNotFound_thenThrowExceptionOptional() {
+  void getCredentialByEmail_emailNotFound_thenThrowRuntimeException() {
 
     final String email = "wrongemailexample@gmail.com";
 
     Mockito.when(repository.findByEmail(email))
         .thenReturn(Optional.empty());
 
-    Assertions.assertThrows(RuntimeException.class, () -> credentialService.getByEmail(email));
+    assertThatThrownBy(() -> credentialService.getByEmail(email))
+        .isInstanceOf(RuntimeException.class)
+        .hasMessageContaining("No such credentials");
+
   }
 
+  @DisplayName("[3 ] given correct email - when credentialService.findByEmail(email) - then return credential")
   @Test
-  void getCredentialByMail_mailFound_thenReturn() {
+  void getCredentialByMail_mailFound_thenReturnCredentials() {
 
     final String email = "abaranski@griddynamics.com";
 
@@ -78,7 +72,6 @@ class CredentialServiceTest {
 
     Assertions.assertEquals(credentialService.getByEmail(email), SAMPLE_1);
   }
-
 
 
 }

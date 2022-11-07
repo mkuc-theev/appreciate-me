@@ -63,7 +63,7 @@ class CredentialControllerTest {
   @Autowired
   ObjectMapper mapper;
 
-  @DisplayName("Test 1. Get credentials of all users - then return list of credentials and status Ok.")
+  @DisplayName("[1 ] given List<Credential> - when GET /credentials/ - then return List<Credential> and status Ok.")
   @Test
   void getAllCredentials_GET_thenReturnStatusOk() throws Exception {
     String endpoint = DOMAIN;
@@ -79,9 +79,9 @@ class CredentialControllerTest {
         .andExpect(jsonPath("$[3]").value(SAMPLE_4));
   }
 
-  @DisplayName("Test 2. Get credentials by email not present in the database - then return status Not Found.")
+  @DisplayName("[2 ] given not existing email - when GET /credentials/findByEmail - then return status NOT FOUND.")
   @Test
-  void getCredentialByInvalidEmail_GET_thenThrowException() throws Exception {
+  void getCredentialByInvalidEmail_GET_thenReturnStatusNotFound() throws Exception {
     String invalidEmail = "takiegomailaniema@gmail.com";
     String endpoint = DOMAIN + BY_EMAIL + invalidEmail;
 
@@ -91,9 +91,9 @@ class CredentialControllerTest {
         .andExpect(status().isNotFound());
   }
 
-  @DisplayName("Test 3. Get credentials by email present in the database - then return credential and status Ok.")
+  @DisplayName("[3 ] given correct email - when GET /credentials/findByEmail - then return Credential and status OK")
   @Test
-  void getCredentialByExistingEmail_GET_thenReturnOk() throws Exception {
+  void getCredentialByExistingEmail_GET_thenReturnStatusOk() throws Exception {
     String email = SAMPLE_1.getEmail();
     String endpoint = DOMAIN + BY_EMAIL + email;
 
@@ -106,64 +106,71 @@ class CredentialControllerTest {
   }
 
 
-  @DisplayName("Test 4. Get credentials by email present in the database - then return credential and status Ok.")
+  @DisplayName("[4 ] given invalid email - when POST /credentials/ - then return status BAD REQUEST")
   @Test
   void addCredentialWithInvalidMail_POST_thenReturnStatusBadRequest() throws Exception {
-    String endpoint = DOMAIN;
 
     mockMvc.perform(
-            post(endpoint).contentType(MediaType.APPLICATION_JSON)
+            post(DOMAIN).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(INVALID_SAMPLE_MAIL_WITHOUT_AT_SIGN)))
         .andExpect(status().isBadRequest());
   }
 
-  @DisplayName("Test 5. Add credentials with mail without @ mark - then return status Bad Request.")
+  @DisplayName("[5 ] given credential with null mail - when POST /credentials/ - then return status BAD REQUEST.")
   @Test
   void addCredentialWithNullMail_POST_thenReturnStatusBadRequest() throws Exception {
-    String endpoint = DOMAIN;
 
     mockMvc.perform(
-            post(endpoint).contentType(MediaType.APPLICATION_JSON)
+            post(DOMAIN).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(INVALID_SAMPLE_MAIL_NULL)))
         .andExpect(status().isBadRequest());
   }
 
-  @DisplayName("Test 6. Add credentials with null password - then return status Bad Request.")
+  @DisplayName("[6 ] given credential with null password - when POST /credentials/ - then return status BAD REQUEST.")
   @Test
   void addCredentialWithNullPassword_POST_thenReturnStatusBadRequest() throws Exception {
-    String endpoint = DOMAIN;
 
     mockMvc.perform(
-            post(endpoint).contentType(MediaType.APPLICATION_JSON)
+            post(DOMAIN).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(INVALID_SAMPLE_PASSWORD_NULL)))
         .andExpect(status().isBadRequest());
   }
 
-  @DisplayName("Test 7. Add credentials with empty password - then return status Bad Request.")
+  @DisplayName("[7 ] given credential with empty password - when POST /credentials/ - then return status BAD REQUEST.")
   @Test
   void addCredentialWithEmptyPassword_POST_thenReturnStatusBadRequest() throws Exception {
-    String endpoint = DOMAIN;
 
     mockMvc.perform(
-            post(endpoint).contentType(MediaType.APPLICATION_JSON)
+            post(DOMAIN).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(INVALID_SAMPLE_PASSWORD_EMPTY)))
         .andExpect(status().isBadRequest());
   }
 
-  @DisplayName("Test 8. Add valid credentials - then return status Ok.")
+  @DisplayName("[8 ] given credential with correct data - when POST /credentials/ - then return status CREATED.")
   @Test
-  void addValidCredential_POST_thenReturnStatus() throws Exception {
-    String endpoint = DOMAIN;
+  void addValidCredential_POST_thenReturnStatusCreated() throws Exception {
 
-    mockMvc.perform(post(endpoint).contentType(MediaType.APPLICATION_JSON)
+    mockMvc.perform(post(DOMAIN).contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .content(mapper.writeValueAsString(VALID_SAMPLE)))
         .andExpect(status().isCreated());
 
+  }
+
+  @DisplayName("[9 ] given credential with valid data but with already occupied email - when POST /credentials/ - then return status CONFLICT.")
+  @Test
+  void addValidCredentials_POST_emailAlreadyOccupied() throws Exception {
+
+    Mockito.when(service.existsByEmail(SAMPLE_1.getEmail())).thenReturn(true);
+
+    mockMvc.perform(post(DOMAIN).contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .content(mapper.writeValueAsString(SAMPLE_1)))
+        .andExpect(status().isConflict());
   }
 
 

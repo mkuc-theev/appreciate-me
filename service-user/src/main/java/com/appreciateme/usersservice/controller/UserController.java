@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -34,21 +35,24 @@ public class UserController {
 
   @PostMapping(value = "/")
   public ResponseEntity<?> add(@RequestBody User user) {
-    if (!User.isUserCorrect(user) || userService.existsByEmail(user.getEmail())) {
+    if (!User.isUserCorrect(user)) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    if (userService.existsByEmail(user.getEmail())) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
     String endpoint = "http://%s:%s/credentials/".formatted(credentialsHost,
         credentialsPort);
-    System.out.println(endpoint);
 
-    ResponseEntity<?> e = restTemplate.postForEntity(endpoint,
-        new Credential(user.getEmail(), Credential.generateDefaultLengthRandomPassword(),
-            Role.USER),
-        ResponseEntity.class);
-
-    if (e.getStatusCode() != HttpStatus.CREATED) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    try {
+      ResponseEntity<?> e = restTemplate.postForEntity(endpoint,
+          new Credential(user.getEmail(), Credential.generateDefaultLengthRandomPassword(),
+              Role.USER),
+          ResponseEntity.class);
+    } catch (HttpClientErrorException.Conflict e) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
     userService.add(user);
