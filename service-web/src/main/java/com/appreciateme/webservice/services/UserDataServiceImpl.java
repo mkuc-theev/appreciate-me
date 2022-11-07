@@ -4,6 +4,7 @@ import com.appreciateme.usersservice.model.User;
 import com.appreciateme.webservice.MicroserviceData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,7 +81,12 @@ public class UserDataServiceImpl implements UserDataService {
 
         String response = HttpClient.newHttpClient().send(httpRequest, HttpResponse.BodyHandlers.ofString()).body();
         TypeReference<User> typeReference = new TypeReference<>() {};
+
+        try {
         return new ObjectMapper().readValue(response, typeReference);
+        } catch (MismatchedInputException e) {
+            return new User(); //returns dummy User object with preset values
+        }
     }
 
 

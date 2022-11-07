@@ -29,7 +29,16 @@
     border-radius: 0 0.5vmin 0.5vmin 0;
     background-color: #4CAF50;
 }
-.write-opinion-button:hover {
+
+.write-opinion-button-solo {
+    padding: 0;
+    height: 1.2em;
+    width: 1.2em;
+    border-radius: 0.5vmin;
+    background-color: #295B29;
+}
+
+.write-opinion-button:hover, .write-opinion-button-solo:hover {
     background-color: #2ba630;
 }
 

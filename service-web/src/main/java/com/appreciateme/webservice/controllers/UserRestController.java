@@ -67,15 +67,24 @@ public class UserRestController {
     @GetMapping("/user")
     public String viewUser(@RequestParam(name = "id") String id, Model model)
             throws URISyntaxException, IOException, InterruptedException {
-        List<Opinion> opinionData = opinionDataService.getAllOpinionsForUser(id);
+        List<Opinion> incomingOpinionData = opinionDataService.getAllOpinionsForUser(id);
+        List<Opinion> outgoingOpinionData = opinionDataService.getAllOpinionsByUser(id);
         List<User> reviewerData = new ArrayList<>();
-        for (Opinion opinion : opinionData) {
-            reviewerData.add(userDataService.getUserById(opinion.getOpinionUserID()));
+        List<User> reviewedUserData = new ArrayList<>();
+        if (incomingOpinionData.size() > 0) {
+            for (Opinion opinion : incomingOpinionData) {
+                reviewerData.add(userDataService.getUserById(opinion.getOpinionUserID()));
+            }
+        }
+        if(outgoingOpinionData.size() > 0) {
+            for (Opinion opinion : outgoingOpinionData) {
+                reviewedUserData.add(userDataService.getUserById(opinion.getReviewedUserID()));
+            }
         }
         model.addAttribute("userData",
                 new UserData(userDataService.getUserById(id),
-                        opinionData,
-                        reviewerData));
+                        outgoingOpinionData, incomingOpinionData,
+                        reviewerData, reviewedUserData));
         return "users/user";
     }
 }

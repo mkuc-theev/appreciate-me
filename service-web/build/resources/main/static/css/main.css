@@ -17,8 +17,16 @@ body {
     margin: 0;
 }
 
+span {
+    margin: 0;
+}
+
 h1 {
     font-size: 2.4rem;
+}
+
+p {
+    font-size: 1.6rem;
 }
 
 .top-bar {
@@ -32,4 +40,21 @@ h1 {
 a {
     text-decoration: none;
     color:white;
+}
+
+hr {
+    display: block; 
+    height: 1px;
+    border: 0;
+    border-top: 1px solid var(--shadow-fg-color);
+    margin: 0.45em 0; 
+    padding: 0;
+}
+
+.small {
+    font-size: 1.2rem;
+}
+
+.big {
+    font-size: 2rem;
 }
