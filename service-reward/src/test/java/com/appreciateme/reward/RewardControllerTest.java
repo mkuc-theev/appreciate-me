@@ -120,7 +120,10 @@ public class RewardControllerTest {
     void givenListOfReward_whenGETRewards_thenReturnStatusOK()
             throws Exception {
 
-        final List<Reward> records = List.of(REWARD_1, REWARD_2, REWARD_3);
+        final List<Reward> records = List.of(
+                RewardUtils.mapToReward(REWARD_DTO_1),
+                RewardUtils.mapToReward(REWARD_DTO_2),
+                RewardUtils.mapToReward(REWARD_DTO_3));
         final String endpoint = String.format("/%s", DOMAIN);
 
         when(service.getAll())
@@ -140,7 +143,7 @@ public class RewardControllerTest {
                 .andExpect(jsonPath("$[0].availabilityDays").value(REWARD_1.getAvailabilityDays()))
                 .andExpect(jsonPath("$[0].service").value(REWARD_1.isService()))
                 .andExpect(jsonPath("$[1].id").value(REWARD_DTO_2.getId()))
-                .andExpect(jsonPath("$[2].id").value(REWARD_DTO_2.getId()));
+                .andExpect(jsonPath("$[2].id").value(REWARD_DTO_3.getId()));
     }
 
     @Test
@@ -148,25 +151,25 @@ public class RewardControllerTest {
     void givenReward_whenGETRewardsId_thenReturnStatusOK()
             throws Exception {
 
-        final String id = REWARD_DTO_1.getId();
-        final String endpoint = String.format("/%s/%s", DOMAIN, id);
+        final Reward rewardWithId = RewardUtils.mapToReward(REWARD_DTO_1);
+        final String endpoint = String.format("/%s/%s", DOMAIN, rewardWithId.getId());
 
-        when(service.getById(id))
-                .thenReturn(REWARD_1);
+        when(service.getById(rewardWithId.getId()))
+                .thenReturn(rewardWithId);
 
         mockMvc.perform(get(endpoint)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.id").value(REWARD_DTO_1.getId()))
-                .andExpect(jsonPath("$.companyName").value(REWARD_1.getCompanyName()))
-                .andExpect(jsonPath("$.value").value(REWARD_1.getValue()))
-                .andExpect(jsonPath("$.requiredOpinionAmount").value(REWARD_1.getRequiredOpinionAmount()))
-                .andExpect(jsonPath("$.description").value(REWARD_1.getDescription()))
-                .andExpect(jsonPath("$.dateFrom").value(REWARD_1.getDateFrom()))
-                .andExpect(jsonPath("$.dateTo").value(REWARD_1.getDateTo()))
-                .andExpect(jsonPath("$.availabilityDays").value(REWARD_1.getAvailabilityDays()))
-                .andExpect(jsonPath("$.service").value(REWARD_1.isService()));
+                .andExpect(jsonPath("$.id").value(rewardWithId.getId()))
+                .andExpect(jsonPath("$.companyName").value(rewardWithId.getCompanyName()))
+                .andExpect(jsonPath("$.value").value(rewardWithId.getValue()))
+                .andExpect(jsonPath("$.requiredOpinionAmount").value(rewardWithId.getRequiredOpinionAmount()))
+                .andExpect(jsonPath("$.description").value(rewardWithId.getDescription()))
+                .andExpect(jsonPath("$.dateFrom").value(rewardWithId.getDateFrom()))
+                .andExpect(jsonPath("$.dateTo").value(rewardWithId.getDateTo()))
+                .andExpect(jsonPath("$.availabilityDays").value(rewardWithId.getAvailabilityDays()))
+                .andExpect(jsonPath("$.service").value(rewardWithId.isService()));
     }
 
     @Test
@@ -200,7 +203,9 @@ public class RewardControllerTest {
 
         final String id = "atyranski";
         final String endpoint = String.format("/%s/user/%s", DOMAIN, id);
-        final List<Reward> rewards = List.of(REWARD_1, REWARD_2);
+        final List<Reward> rewards = List.of(
+                RewardUtils.mapToReward(REWARD_DTO_1),
+                RewardUtils.mapToReward(REWARD_DTO_2));
 
         when(service.getAllForUser(id))
                 .thenReturn(rewards);
