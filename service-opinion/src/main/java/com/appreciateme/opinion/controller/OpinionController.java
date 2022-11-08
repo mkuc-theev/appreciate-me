@@ -68,6 +68,12 @@ public class OpinionController {
         return service.useOpinions(userId, amount);
     }
 
+    @PutMapping("/remove/user/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Opinion> handleUserRemoval(@PathVariable String id) {
+        return service.replaceUserToDeleted(id);
+    }
+
 // DELETE
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
