@@ -10,7 +10,7 @@
     <title>appreciate.me</title>
 </head>
 <body>
-<div class="top-bar">appreciate.me</div>
+<div class="top-bar"><a th:href="@{~/}">appreciate.me</a></div>
 <br>
 <div class="container">
     <span class="container-title">User details</span>
@@ -33,7 +33,9 @@
             <a class="button write-opinion-button-solo" role="button"
                th:href="@{/opinions/create(id=${userData.getId()})}" title="Give this user a fist bump">&#9998;</a>
         </div>
-        <div class="container-element" th:if="${userData.getReviewers().size() == 0}">This user has not received any opinioins.</div>
+        <div class="container-element" th:if="${userData.getReviewers().size() == 0}">This user has not received any
+            opinioins.
+        </div>
         <div class="container-element" th:each="opinion,iterator: ${userData.getIncomingOpinions}">
             From <a th:href="@{~/users/user(id=${userData.getReviewers[iterator.index].getId})}">
             <span th:text="${userData.getReviewers[iterator.index].getFirstName}">Reviewer First Name</span>
@@ -48,7 +50,9 @@
         <div class="container-element-blank">
             <span class="container-title">Opinions by this user:</span>
         </div>
-        <div class="container-element" th:if="${userData.getReviewedUsers().size() == 0}">This user has not written any opinioins.</div>
+        <div class="container-element" th:if="${userData.getReviewedUsers().size() == 0}">This user has not written any
+            opinioins.
+        </div>
         <div class="container-element" th:each="opinion,iterator: ${userData.getOutgoingOpinions}">
             To <a th:href="@{~/users/user(id=${userData.getReviewedUsers[iterator.index].getId})}">
             <span th:text="${userData.getReviewedUsers[iterator.index].getFirstName}">Reviewed User First Name</span>

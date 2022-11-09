@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="ISO-8859-1"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{~/css/main.css}" rel="stylesheet"/>
-    <link th:href="@{~/css/buttons.css}" rel="stylesheet"/>
-    <link th:href="@{~/css/containers.css}" rel="stylesheet"/>
-    <link th:href="@{~/css/forms.css}" rel="stylesheet"/>
-  <link href=' http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
-  <title>appreciate.me</title>
+    <meta charset="ISO-8859-1"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="stylesheet" th:href="@{~/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/buttons.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/containers.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/forms.css}"/>
+    <link href=' http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <title>appreciate.me</title>
 </head>
 <body>
+<div class="top-bar"><a th:href="@{~/}">appreciate.me</a></div>
+<br>
 <main>
-  <div class="container">
-      <span class="form-title">Create a new user</span><br>
-  <form th:object="${formData}" th:action="@{/users/create}" method="post">
-      <label for="firstName">First name</label><br>
-      <input id="firstName" type="text" th:field="*{firstName}" required>
-      <label for="lastName">Last name</label><br>
-      <input id="lastName" type="text" th:field="*{lastName}" required>
-      <label for="email">Email address</label><br>
-      <input id="email" type="email" th:field="*{email}" required>
-      <label for="age">Age</label><br>
-      <input id="age"  type="number" th:field="*{age}" required>
+    <div class="container">
+        <span class="form-title">Create a new user</span><br>
+        <form method="post" th:action="@{/users/create}" th:object="${formData}">
+            <label for="firstName">First name</label><br>
+            <input id="firstName" required th:field="*{firstName}" type="text">
+            <label for="lastName">Last name</label><br>
+            <input id="lastName" required th:field="*{lastName}" type="text">
+            <label for="email">Email address</label><br>
+            <input id="email" required th:field="*{email}" type="email">
+            <label for="age">Age</label><br>
+            <input id="age" required th:field="*{age}" type="number">
 
-      <label>Sex</label><br><br>
-      <button type="submit" class = "button submit-button">Create user</button>
-      <span class="radio-button">
+            <label>Sex</label><br><br>
+            <button class="button submit-button" type="submit">Create user</button>
+            <span class="radio-button">
           <label for="male">Male</label>
-          <input id="male" name="sex" value="MALE" type="radio" th:field="*{sex}" required>
+          <input id="male" name="sex" required th:field="*{sex}" type="radio" value="MALE">
       </span><br><br>
-      <span class="radio-button">
+            <span class="radio-button">
           <label for="female">Female</label>
-          <input id="female" name="sex" value="FEMALE" type="radio" th:field="*{sex}" required>
+          <input id="female" name="sex" required th:field="*{sex}" type="radio" value="FEMALE">
       </span>
-  </form>
-  </div>
+        </form>
+    </div>
 </main>
 </body>
 </html>

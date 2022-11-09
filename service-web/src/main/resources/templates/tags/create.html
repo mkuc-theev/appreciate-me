@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="ISO-8859-1"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="stylesheet" th:href="@{~/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/buttons.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/containers.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/forms.css}"/>
+    <link href=' http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <title>appreciate.me</title>
+</head>
+<body>
+<div class="top-bar"><a th:href="@{~/}">appreciate.me</a></div>
+<br>
+<main>
+    <div class="container">
+        <span class="form-title">Add a tag</span><br>
+        <form method="post" th:action="@{/tags/create}" th:object="${formData}">
+            <label for="name">Tag name</label><br>
+            <input id="name" required th:field="*{name}" type="text">
+            <button class="button submit-button" type="submit">Add tag</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

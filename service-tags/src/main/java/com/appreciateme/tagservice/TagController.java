@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tags")
-public class TagRestController {
+public class TagController {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     @Autowired

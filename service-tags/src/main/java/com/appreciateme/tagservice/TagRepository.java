@@ -10,4 +10,6 @@ public interface TagRepository extends MongoRepository<TagDTO, String> {
     Optional<TagDTO> findById(String s);
 
     List<TagDTO> findAll();
+
+    void deleteById(String s);
 }

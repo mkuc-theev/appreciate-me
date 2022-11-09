@@ -21,7 +21,7 @@ public class MicroserviceData {
     private String notificationsHost;
     @Value("${services.notifications.port}")
     private String notificationsPort;
-    @Value("${services.tags.port}")
+    @Value("${services.tags.host}")
     private String tagsHost;
     @Value("${services.tags.port}")
     private String tagsPort;

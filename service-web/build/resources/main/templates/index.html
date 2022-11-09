@@ -1,14 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="ISO-8859-1"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/styles.css" rel="stylesheet"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link th:href="@{~/css/containers.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/menu.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{~/css/main.css}"/>
     <link href=' http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
     <title>appreciate.me</title>
 </head>
 <body>
-<h1>appreciate.me</h1>
-<p>This is a test page, magic is yet to happen</p>
+<div class="top-bar"><a th:href="@{~/}">appreciate.me</a></div>
+<br>
+<div class="container">
+    <h2>Welcome to appreciate.me</h2>
+    <p2>Show your co-workers some love by writing them personalized messages for everyone to see! Every "fist bump"
+        counts towards a reward that can be redeemed for real-life benefits.</p2>
+</div><br>
+<div class="menu">
+    <a class="menu-item" th:href="@{~/users/}">
+        <span>Users</span>
+    </a>
+    <a class="menu-item" th:href="@{~/opinions/create/}">
+        <span>Write a bump</span>
+    </a>
+    <a class="menu-item" th:href="@{~/tags/}">
+        <span>Manage tags</span>
+    </a>
+    <a class="menu-item" th:href="@{~/opinions/create/}">
+        <span>Manage templates</span>
+    </a>
+    <a class="menu-item" th:href="@{~/opinions/create/}">
+        <span>Manage rewards</span>
+    </a>
+</div>
 </body>
 </html>

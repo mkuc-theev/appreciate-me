@@ -42,7 +42,18 @@
     background-color: #2ba630;
 }
 
-.remove-user-button {
+.remove-button-solo {
+    padding: 0;
+    height: 1.2em;
+    width: 1.2em;
+    border-radius: 0.5vmin;
+    background-color: #f44336;
+}
+.remove-button-solo:hover {
+    background-color: #ee2415;
+}
+
+.remove-button {
     padding: 0;
     height: 1.2em;
     width: 1.2em;
@@ -53,7 +64,7 @@
     background-color: #ee2415;
 }
 
-.add-user-button {
+.add-button {
     padding: 0;
     height: 1.2em;
     width: 1.2em;
