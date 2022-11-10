@@ -1,35 +1,44 @@
 package com.appreciateme.credential.service;
 
 import com.appreciateme.credential.model.Credential;
-import com.appreciateme.credential.repository.CredentialRepository;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-public class CredentialService {
+public interface CredentialService {
 
-  private final CredentialRepository repository;
+  /**
+   * Insert new credentials
+   *
+   * @param toAdd opinion to be added
+   */
+  void add(Credential toAdd);
 
-  public void add(Credential toInsert) {
-    repository.insert(toInsert);
-  }
+  /**
+   * Get a list of all credentials
+   *
+   * @return List of all credentials
+   */
+  List<Credential> getAll();
 
-  public List<Credential> getAll() {
-    return repository.findAll();
-  }
+  /**
+   * Get credentials by email
+   *
+   * @param email email associated to credentials
+   * @return Credential object
+   */
+  Credential getByEmail(String email);
 
-  public Credential getByEmail(String email) {
-    return repository.findByEmail(email)
-        .orElseThrow(() -> new RuntimeException("No such credentials for given email!"));
-  }
+  /**
+   * Check whether credentials with given mail exists
+   *
+   * @param email email associated to credentials
+   * @return true if credential with given email exists, false otherwise
+   */
+  boolean existsByEmail(String email);
 
-  public boolean existsByEmail(String email) {
-    return repository.existsByEmail(email);
-  }
-
-  public void removeByEmail(String email) {
-    repository.deleteByEmail(email);
-  }
+  /**
+   * Remove credentials associated with given mail
+   *
+   * @param email email associated to credentials
+   */
+  void removeByEmail(String email);
 }

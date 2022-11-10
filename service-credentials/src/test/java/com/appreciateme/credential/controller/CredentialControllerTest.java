@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.appreciateme.credential.model.Credential;
 import com.appreciateme.credential.model.Role;
-import com.appreciateme.credential.service.CredentialService;
+import com.appreciateme.credential.service.CredentialServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -59,7 +59,7 @@ class CredentialControllerTest {
   @Autowired
   MockMvc mockMvc;
   @MockBean
-  CredentialService service;
+  CredentialServiceImpl service;
   @Autowired
   ObjectMapper mapper;
 

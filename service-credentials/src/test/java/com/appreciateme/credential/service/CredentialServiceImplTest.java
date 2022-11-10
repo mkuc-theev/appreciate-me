@@ -12,7 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class CredentialServiceTest {
+class CredentialServiceImplTest {
 
   private final Credential SAMPLE_1 = new Credential("abaranski@griddynamics.com", "4b12ui421984",
       Role.USER);
@@ -32,7 +32,7 @@ class CredentialServiceTest {
 
   private final CredentialRepository repository = Mockito.mock(CredentialRepository.class);
 
-  private final CredentialService credentialService = new CredentialService(repository);
+  private final CredentialServiceImpl credentialServiceImpl = new CredentialServiceImpl(repository);
 
   @DisplayName("Test of getAll() method of CredentialService - return list of all credentials")
   @Test
@@ -40,7 +40,7 @@ class CredentialServiceTest {
 
     Mockito.when(repository.findAll()).thenReturn(credentialDatabase);
 
-    final List<Credential> credentialsFromService = credentialService.getAll();
+    final List<Credential> credentialsFromService = credentialServiceImpl.getAll();
 
     Assertions.assertEquals(credentialsFromService, credentialDatabase);
 
@@ -55,7 +55,7 @@ class CredentialServiceTest {
     Mockito.when(repository.findByEmail(email))
         .thenReturn(Optional.empty());
 
-    assertThatThrownBy(() -> credentialService.getByEmail(email))
+    assertThatThrownBy(() -> credentialServiceImpl.getByEmail(email))
         .isInstanceOf(RuntimeException.class)
         .hasMessageContaining("No such credentials");
 
@@ -70,7 +70,7 @@ class CredentialServiceTest {
     Mockito.when(repository.findByEmail(email))
         .thenReturn(Optional.of(SAMPLE_1));
 
-    Assertions.assertEquals(credentialService.getByEmail(email), SAMPLE_1);
+    Assertions.assertEquals(credentialServiceImpl.getByEmail(email), SAMPLE_1);
   }
 
 
