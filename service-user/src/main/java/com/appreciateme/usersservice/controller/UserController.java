@@ -1,9 +1,12 @@
 package com.appreciateme.usersservice.controller;
 
+import com.appreciateme.credential.model.Credential;
+import com.appreciateme.credential.model.Role;
 import com.appreciateme.usersservice.model.User;
 import com.appreciateme.usersservice.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,18 +17,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
+  @Value("${services.credentials.host}")
+  private String credentialsHost;
+  @Value("${services.credentials.port}")
+  private String credentialsPort;
   @Autowired
   private UserService userService;
+  @Autowired
+  private RestTemplate restTemplate;
 
   @PostMapping(value = "/")
   public ResponseEntity<?> add(@RequestBody User user) {
     if (!User.isUserCorrect(user)) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    if (userService.existsByEmail(user.getEmail())) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
+
+    String endpoint = "http://%s:%s/credentials/".formatted(credentialsHost,
+        credentialsPort);
+
+    try {
+      ResponseEntity<?> e = restTemplate.postForEntity(endpoint,
+          new Credential(user.getEmail(), Credential.generateDefaultLengthRandomPassword(),
+              Role.USER),
+          ResponseEntity.class);
+    } catch (HttpClientErrorException.Conflict e) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
     userService.add(user);
@@ -57,7 +84,7 @@ public class UserController {
 
   @GetMapping(value = "/findByEmail")
   public ResponseEntity<User> getByEmail(@RequestParam String email) {
-    if(userService.existsByEmail(email)) {
+    if (userService.existsByEmail(email)) {
       return ResponseEntity.ok(userService.getByEmail(email));
     } else {
       return ResponseEntity.notFound().build();
@@ -66,7 +93,16 @@ public class UserController {
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<User> delete(@PathVariable String id) {
-    userService.deleteById(id);
-    return ResponseEntity.status(HttpStatus.OK).build();
+    if (userService.existsById(id)) {
+      String email = getById(id).getBody().getEmail();
+
+      String endpoint = "http://%s:%s/credentials/delete?email=%s".formatted(credentialsHost,
+          credentialsPort, email);
+      userService.deleteById(id);
+      restTemplate.delete(endpoint);
+      return ResponseEntity.status(HttpStatus.OK).build();
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 }

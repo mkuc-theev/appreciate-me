@@ -7,4 +7,5 @@ include 'service-notification'
 include 'service-tags'
 include 'common'
 include 'service-web'
+include 'service-credentials'
 

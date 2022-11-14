@@ -57,3 +57,4 @@ atlassian-ide-plugin.xml
 /service-user/build/
 /common/build/
 /service-tags/build/
+/service-credentials/build/

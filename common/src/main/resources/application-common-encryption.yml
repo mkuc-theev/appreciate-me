@@ -10,8 +10,8 @@ spring:
           auth: 'true'
     host: smtp.gmail.com
     username: app.appreciate.me
-    password: ENC(wTwvZy4Rud5L7uArE2XM0cf7O7F0O1KmZsyFtyvUaz4=)
-    port: '587'
+    password: ENC(wKk1ImnnqKxcNunikh/+GWSxLgjkzqA6)
+    port: 587
 
 jasypt:
   encryptor:
