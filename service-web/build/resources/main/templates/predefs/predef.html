@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="ISO-8859-1"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="stylesheet" th:href="@{~/css/menu.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/buttons.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/containers.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/forms.css}"/>
+    <link href=" http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+    <title>appreciate.me</title>
+</head>
+<body>
+<div class="top-bar"><a th:href="@{~/}">appreciate.me</a></div>
+<br>
+<div class="container">
+    <h1>Template details</h1>
+    <div class="container-element">
+        <span class="big" th:text="${predef.getName()}">Template name</span>
+        <hr />
+        <p th:text="${predef.getContent()}">Template contents</p>
+    </div>
+</div>
+</body>
+</html>

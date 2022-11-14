@@ -1,6 +1,6 @@
 package com.appreciateme.webservice.services;
 
-import com.appreciateme.tag.model.Tag;
+import com.appreciateme.predef.model.PredefMark;
 import com.appreciateme.webservice.MicroserviceData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,15 +19,15 @@ import java.util.List;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 @Service
-public class TagDataServiceImpl implements TagDataService {
-
+public class PredefDataServiceImpl implements PredefDataService {
+    
     @Autowired
     MicroserviceData microserviceData;
 
     @Override
-    public List<Tag> getAllTags() throws IOException, InterruptedException, URISyntaxException {
+    public List<PredefMark> getAllPredefs() throws URISyntaxException, IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest
-                .newBuilder(new URI(microserviceData.getTagsURI() + "/tags/"))
+                .newBuilder(new URI(microserviceData.getPredefsURI() + "/predefs/"))
                 .timeout(Duration.of(10, SECONDS))
                 .GET()
                 .build();
@@ -37,16 +37,15 @@ public class TagDataServiceImpl implements TagDataService {
                 .send(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .body();
 
-        TypeReference<List<Tag>> typeReference = new TypeReference<>() {
-        };
+        TypeReference<List<PredefMark>> typeReference = new TypeReference<>() {};
 
         return new ObjectMapper().readValue(response, typeReference);
     }
 
     @Override
-    public void createTagFromForm(Tag formData) throws IOException, InterruptedException, URISyntaxException {
+    public void createPredefFromForm(PredefMark formData) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest
-                .newBuilder(new URI(microserviceData.getTagsURI() + "/tags/save"))
+                .newBuilder(new URI(microserviceData.getPredefsURI() + "/predefs/save"))
                 .timeout(Duration.of(10, SECONDS))
                 .POST(HttpRequest
                         .BodyPublishers
@@ -59,13 +58,32 @@ public class TagDataServiceImpl implements TagDataService {
     }
 
     @Override
-    public void removeTag(String id) throws URISyntaxException, IOException, InterruptedException {
+    public void deletePredefById(String id) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest
-                .newBuilder(new URI(microserviceData.getTagsURI() + "/tags/deleteID?id=" + id))
+                .newBuilder(new URI(microserviceData.getPredefsURI() + "/predefs/deleteID?id=" + id))
                 .timeout(Duration.of(10, SECONDS))
                 .DELETE()
                 .build();
 
         HttpClient.newHttpClient().send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+    }
+
+    @Override
+    public PredefMark getPredefById(String id) throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest httpRequest = HttpRequest
+                .newBuilder(new URI(microserviceData.getPredefsURI() + "/predefs/byID?id=" + id))
+                .timeout(Duration.of(10, SECONDS))
+                .GET()
+                .build();
+
+        String response = HttpClient
+                .newHttpClient()
+                .send(httpRequest, HttpResponse.BodyHandlers.ofString())
+                .body();
+
+        TypeReference<PredefMark> typeReference = new TypeReference<>() {};
+
+        return new ObjectMapper().readValue(response, typeReference);
     }
 }
