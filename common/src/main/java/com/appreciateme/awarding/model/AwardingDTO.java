@@ -16,7 +16,7 @@ public class AwardingDTO {
 
     @Id
     private String userId;
-    private List<OwnedReward> rewards;
+    private List<OwnedRewardDTO> rewards;
 
 }
 

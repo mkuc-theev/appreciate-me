@@ -1,8 +1,5 @@
 package com.appreciateme.awarding.model;
 
-import com.appreciateme.reward.model.Reward;
-import com.appreciateme.reward.model.RewardUtils;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -45,7 +42,7 @@ public class AwardingUtils {
     public static AwardingDTO mapToDto(Awarding awarding) {
         return AwardingDTO.builder()
                 .userId(awarding.getUserId())
-                .rewards(awarding.getRewards())
+                .rewards(OwnedRewardUtils.mapToDtoList(awarding.getRewards()))
                 .build();
     }
 
@@ -57,23 +54,7 @@ public class AwardingUtils {
     public static Awarding mapToAwarding(AwardingDTO awardingDTO) {
         return Awarding.builder()
                 .userId(awardingDTO.getUserId())
-                .rewards(awardingDTO.getRewards())
-                .build();
-    }
-
-    /**
-     * Map specified Reward object into OwnedReward object
-     * @param reward        Reward object
-     * @return              OwnedReward object
-     */
-    public static OwnedReward mapToOwnedReward(Reward reward) {
-        return OwnedReward.builder()
-                .rewardId(reward.getId())
-                .companyName(reward.getCompanyName())
-                .isService(reward.isService())
-                .value(reward.getValue())
-                .description(reward.getDescription())
-                .used(false)
+                .rewards(OwnedRewardUtils.mapToOwnedRewardList(awardingDTO.getRewards()))
                 .build();
     }
 
@@ -99,23 +80,6 @@ public class AwardingUtils {
                         ZONE)
                 .plusDays(daysOffset)
                 .format(FORMATTER);
-    }
-
-    public static OwnedReward getOwnedReward(Reward reward) {
-        OwnedReward ownedReward = mapToOwnedReward(reward);
-        ownedReward.setDateFrom(AwardingUtils.getCurrentDate());
-        ownedReward.setDateTo(AwardingUtils.getFutureDate(reward.getAvailabilityDays()));
-
-        return ownedReward;
-    }
-
-
-    public static boolean isAvailable(String dateFrom, String dateTo) {
-        long currentDate = RewardUtils.mapStringDateToLong(getCurrentDate());
-        long rewardDateFrom = RewardUtils.mapStringDateToLong(dateFrom);
-        long rewardDateTo = RewardUtils.mapStringDateToLong(dateTo);
-
-        return rewardDateFrom <= currentDate && currentDate <= rewardDateTo;
     }
 }
 
