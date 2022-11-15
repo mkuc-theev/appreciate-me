@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,6 +49,12 @@ public class Opinion {
      */
     @Field("date")
     private String date;
+
+    /**
+     * List of all tags assigned to opinion
+     */
+    @Field("tags")
+    private List<String> tags;
 
     /**
      * Verify if provided String represents date in correct format

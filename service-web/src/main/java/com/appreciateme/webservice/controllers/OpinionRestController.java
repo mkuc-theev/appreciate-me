@@ -2,6 +2,8 @@ package com.appreciateme.webservice.controllers;
 
 import com.appreciateme.opinion.model.Opinion;
 import com.appreciateme.webservice.services.OpinionDataService;
+import com.appreciateme.webservice.services.PredefDataService;
+import com.appreciateme.webservice.services.TagDataService;
 import com.appreciateme.webservice.services.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,11 +29,19 @@ public class OpinionRestController {
     @Autowired
     UserDataService userDataService;
 
+    @Autowired
+    PredefDataService predefDataService;
+
+    @Autowired
+    TagDataService tagDataService;
+
     @GetMapping("/create")
     public String showCreateOpinionForm(Model model, @RequestParam(required = false, name = "id") String id)
             throws URISyntaxException, IOException, InterruptedException {
         model.addAttribute("formData", new Opinion());
         model.addAttribute("users", userDataService.getAllUsers());
+        model.addAttribute("predefs", predefDataService.getAllPredefs());
+        model.addAttribute("tagList", tagDataService.getAllTags());
         return "opinions/create";
     }
 

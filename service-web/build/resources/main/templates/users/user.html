@@ -41,7 +41,13 @@
             <span th:text="${userData.getReviewers[iterator.index].getFirstName}">Reviewer First Name</span>
             <span th:text="${userData.getReviewers[iterator.index].getLastName}">Reviewer Last Name</span>
         </a><br>
-            <span class="small">On <span th:text="${opinion.getDate}">Date</span></span>
+            <span class="small">On <span th:text="${opinion.getDate}">Date</span></span><br>
+            <span class="small">Tags: </span>
+            <th:block th:each="tag,iterator : ${opinion.getTags()}">
+                <span class="small" th:if="${opinion.getTags().size() == 0}" th:text="None">If no elements</span>
+                <span class="small" th:if="${iterator.index == opinion.getTags().size() - 1}" th:text="${tag}">If last element</span>
+                <span class="small" th:unless="${iterator.index == opinion.getTags().size() - 1}" th:text="|${tag}, |">If not last element</span>
+            </th:block>
             <hr/>
             <p th:text="${opinion.getOpinionMessage}">Message contents</p>
         </div>
@@ -58,7 +64,13 @@
             <span th:text="${userData.getReviewedUsers[iterator.index].getFirstName}">Reviewed User First Name</span>
             <span th:text="${userData.getReviewedUsers[iterator.index].getLastName}">Reviewed User Last Name</span>
         </a><br>
-            <span class="small">On <span th:text="${opinion.getDate}">Date</span></span>
+            <span class="small">On <span th:text="${opinion.getDate}">Date</span></span><br>
+            <span class="small">Tags: </span>
+            <th:block th:each="tag,iterator : ${opinion.getTags()}">
+                <span class="small" th:if="${opinion.getTags().size() == 0}" th:text="None">If no elements</span>
+                <span class="small" th:if="${iterator.index == opinion.getTags().size() - 1}" th:text="${tag}">If last element</span>
+                <span class="small" th:unless="${iterator.index == opinion.getTags().size() - 1}" th:text="|${tag}, |">If not last element</span>
+            </th:block>
             <hr/>
             <p th:text="${opinion.getOpinionMessage}">Message contents</p>
         </div>

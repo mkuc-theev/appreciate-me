@@ -12,9 +12,19 @@ input[type=text], input[type=email], input[type=number], textarea, select {
     width: 100%;
     background-color: var(--main-fg-color);
     padding: 0.5vw;
-    margin: 0.3vw;
+    margin: 0.5vw;
     margin-left: 0;
+    box-shadow: 0.1vw 0.1vw 0.1vw 0.1vw var(--shadow-fg-color);
+    border-style: none;
     border-radius: 0.7vmin;
+}
+
+input[type="checkbox"] { 
+    position: absolute;
+}
+input[type="checkbox"] ~ label { 
+    padding-left:1.4em;
+    display:inline-block;
 }
 
 .form-title {
@@ -22,8 +32,14 @@ input[type=text], input[type=email], input[type=number], textarea, select {
 }
 
 label {
+    overflow: hidden;
     font-size: 1.8rem;
     color: white;
+}
+
+textarea {
+    font-family: Ubuntu;
+    font-size: 1.6rem;
 }
 
 .radio-button {
@@ -33,4 +49,8 @@ label {
     background-color: var(--main-fg-color);
     border-radius: 1vw;
     padding: 0.3vw;
+}
+
+.bordered {
+    border: 1px inset #006fb4;
 }

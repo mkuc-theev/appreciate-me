@@ -49,6 +49,7 @@ public class OpinionUtils {
                 .reviewedUserID(opinion.getReviewedUserID())
                 .opinionMessage(opinion.getOpinionMessage())
                 .date(mapStringDateToLong(opinion.getDate()))
+                .tags(opinion.getTags())
                 .build();
     }
 
@@ -64,6 +65,7 @@ public class OpinionUtils {
                 .reviewedUserID(opinionDTO.getReviewedUserID())
                 .opinionMessage(opinionDTO.getOpinionMessage())
                 .date(mapLongToStringDate(opinionDTO.getDate()))
+                .tags(opinionDTO.getTags())
                 .build();
     }
 

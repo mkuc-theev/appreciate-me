@@ -35,13 +35,42 @@
                         th:value="${option.getId()}">
                 </option>
             </select><br>
+            <label>Tags</label><br>
+            <div class="container-element">
+            <th:block th:each="tag : ${tagList}">
+                <tr>
+                    <td>
+                        <input type="checkbox" th:field="*{tags}" th:value="${tag.getName()}" name="tags" />
+                        <label class="medium" th:text="${tag.getName()}">Tag name</label>
+                    </td>
+                </tr>
+            </th:block>
+            </div>
             <label for="opinionMessage">Message</label>
-            <textarea cols="50" id="opinionMessage" required rows="4" th:field="*{opinionMessage}">
-          Put the opinion contents here.
-        </textarea>
+            <div class="container-element">
+                <select class="no-shadow bordered" th:onchange="updateTextbox(this)">
+                    <option value="">No template</option>
+                    <option
+                        th:each="predef : ${predefs}"
+                        th:text="${predef.getName()}"
+                        th:title="${predef.getContent()}"
+                        th:value="${predef.getContent()}"
+                        ></option>
+                </select>
+                <textarea class="no-shadow bordered" cols="50" id="opinionMessage" required rows="4" th:field="*{opinionMessage}">
+                    Put the opinion contents here.
+                </textarea>
+            </div>
             <button class="button submit-button" type="submit">Write opinion</button>
         </form>
     </div>
 </main>
+
+<script th:inline="javascript">
+    function updateTextbox(content) {
+        document.getElementById("opinionMessage").value = content.value;
+    }
+</script>
 </body>
+</html>
 </html>

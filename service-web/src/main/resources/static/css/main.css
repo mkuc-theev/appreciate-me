@@ -63,10 +63,22 @@ hr {
     padding: 0;
 }
 
+td {
+    white-space: nowrap;
+}
+
 .small {
     font-size: 1.2rem;
 }
 
+.medium {
+    font-size: 1.6rem;
+}
+
 .big {
     font-size: 2rem;
+}
+
+.no-shadow {
+    box-shadow: none;
 }

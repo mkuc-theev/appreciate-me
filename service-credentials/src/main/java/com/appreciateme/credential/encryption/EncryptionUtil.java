@@ -2,6 +2,7 @@ package com.appreciateme.credential.encryption;
 
 import org.jasypt.encryption.pbe.PBEStringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class EncryptionUtil {
   public EncryptionUtil() {
 
   }
-
+  @Autowired
   public void setPrivateKey(@Value("${encryption.database.privateKey}") String privateKey) {
     textEncryptor.setPassword(privateKey);
     this.privateKey = privateKey;
