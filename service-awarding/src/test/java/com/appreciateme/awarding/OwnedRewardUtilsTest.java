@@ -9,6 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.appreciateme.awarding.TestObjects.OWNED_REWARD_1;
+import static com.appreciateme.awarding.TestObjects.OWNED_REWARD_2;
+import static com.appreciateme.awarding.TestObjects.OWNED_REWARD_3;
+import static com.appreciateme.awarding.TestObjects.OWNED_REWARD_DTO_1;
+import static com.appreciateme.awarding.TestObjects.OWNED_REWARD_DTO_2;
+import static com.appreciateme.awarding.TestObjects.OWNED_REWARD_DTO_3;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OwnedRewardUtilsTest {
@@ -23,72 +29,6 @@ public class OwnedRewardUtilsTest {
             .dateFrom("2022-03-09 08:00:00")
             .dateTo("2023-06-09 08:00:00")
             .availabilityDays(30)
-            .build();
-
-    final OwnedReward OWNED_REWARD_1 = OwnedReward.builder()
-            .rewardId("6351508c881167185d79e3d0")
-            .companyName("Tektura Cafe")
-            .isService(true)
-            .value(1.0)
-            .description("Darmowe szkolenie Latte Art")
-            .dateFrom("2022-04-01 08:00:00")
-            .dateTo("2022-05-01 08:00:00")
-            .used(false)
-            .build();
-
-    final OwnedReward OWNED_REWARD_2 = OwnedReward.builder()
-            .rewardId("6357c098efc10f0e8db69d20")
-            .companyName("Żabka")
-            .isService(false)
-            .value(0.5)
-            .description("Duży hot-dog za 50% taniej!")
-            .dateFrom("2022-04-01 08:00:00")
-            .dateTo("2022-05-01 08:00:00")
-            .used(true)
-            .build();
-
-    final OwnedReward OWNED_REWARD_3 = OwnedReward.builder()
-            .rewardId("6351508c881167185d79e3d0")
-            .companyName("Castorama")
-            .isService(false)
-            .value(0.75)
-            .description("Taker firmy LOOOL za 75% taniej!")
-            .dateFrom("2022-04-01 08:00:00")
-            .dateTo("2022-05-01 08:00:00")
-            .used(false)
-            .build();
-
-    final OwnedRewardDTO OWNED_REWARD_DTO_1 = OwnedRewardDTO.builder()
-            .rewardId("6351508c881167185d79e3d0")
-            .companyName("Tektura Cafe")
-            .isService(true)
-            .value(1.0)
-            .description("Darmowe szkolenie Latte Art")
-            .dateFrom(1648792800000L)
-            .dateTo(1651384800000L)
-            .used(false)
-            .build();
-
-    final OwnedRewardDTO OWNED_REWARD_DTO_2 = OwnedRewardDTO.builder()
-            .rewardId("6357c098efc10f0e8db69d20")
-            .companyName("Żabka")
-            .isService(false)
-            .value(0.5)
-            .description("Duży hot-dog za 50% taniej!")
-            .dateFrom(1648792800000L)
-            .dateTo(1651384800000L)
-            .used(true)
-            .build();
-
-    final OwnedRewardDTO OWNED_REWARD_DTO_3 = OwnedRewardDTO.builder()
-            .rewardId("6351508c881167185d79e3d0")
-            .companyName("Castorama")
-            .isService(false)
-            .value(0.75)
-            .description("Taker firmy LOOOL za 75% taniej!")
-            .dateFrom(1648792800000L)
-            .dateTo(1651384800000L)
-            .used(false)
             .build();
 
     @Test
