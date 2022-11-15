@@ -44,4 +44,18 @@ public interface OpinionRepository extends MongoRepository<OpinionDTO, String> {
             "{ $limit: ?1 }",
             "{ $set: { 'used': true } }"})
     List<OpinionDTO> useOpinionsForUser(String userId, int opinionsAmount);
+
+    /**
+     * Replace specified user id in both opinionUserId's and reviewedUserId's into
+     * provided replacement.
+     * @param id            id of specified user to remove
+     * @param replacement   replacement for its id
+     * @return              list of updated opinions
+     */
+    @Aggregation(pipeline = {
+            "{ $match: { $or: [ { 'reviewedUserId': ?0 }, {'opinionUserId': ?0} ] } }",
+            "{ $set: { 'reviewedUserId': { $cond: [ { $eq: ['$reviewedUserId', ?0] }, ?1, $reviewedUserId ] } } }",
+            "{ $set: { 'opinionUserId': { $cond: [ { $eq: ['$opinionUserId', ?0] }, ?1, $opinionUserId ] } } }"
+    })
+    List<OpinionDTO> replaceUserToDeleted(String id, String replacement);
 }

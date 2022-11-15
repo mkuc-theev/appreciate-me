@@ -17,7 +17,9 @@ import java.util.List;
 @Slf4j
 public class OpinionService {
 
+    private final String DELETION_REPLACEMENT = "DELETED_USER";
     private final OpinionRepository repository;
+
 
     /**
      * Get a list of all opinions
@@ -104,7 +106,22 @@ public class OpinionService {
     public List<Opinion> useOpinions(String userId, int amount) {
         List<OpinionDTO> opinions = repository.useOpinionsForUser(userId, amount);
 
-        for(OpinionDTO opinionDTO: opinions) {
+        for (OpinionDTO opinionDTO: opinions) {
+            repository.save(opinionDTO);
+        }
+
+        return OpinionUtils.mapToOpinionList(opinions);
+    }
+
+    /**
+     * Handle user removal. Mark its id's in opinions made for / by this user with proper replacement.
+     * @param userId    if of user to be removed
+     * @return          list of opinions that were updated
+     */
+    public List<Opinion> replaceUserToDeleted(String userId) {
+        List<OpinionDTO> opinions = repository.replaceUserToDeleted(userId, DELETION_REPLACEMENT);
+
+        for (OpinionDTO opinionDTO: opinions) {
             repository.save(opinionDTO);
         }
 
