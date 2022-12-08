@@ -4,16 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Data
+@NoArgsConstructor
 public class Opinion {
 
     private final static String DATE_REGEX =
@@ -22,39 +21,33 @@ public class Opinion {
     /**
      * Auto-generated identifier of opinion
      */
-    @Field("id")
     private String id;
 
     /**
      * ID of user which made specific opinion
      */
-    @Field("opinionUser")
-    private String opinionUserID;
+    private String opinionUserId;
 
     /**
      * ID of user which has been reviewed by
      * user with ID specified in 'opinionUserId
      */
-    @Field("reviewedUser")
-    private String reviewedUserID;
-
-    /**
-     * Custom opinion message made by opinionUser
-     */
-    @Field("opinionMessage")
-    private String opinionMessage;
+    private String reviewedUserId;
 
     /**
      * Date of creating particular opinion
      */
-    @Field("date")
     private String date;
 
     /**
-     * List of all tags assigned to opinion
+     * Custom opinion message made by opinionUser
      */
-    @Field("tags")
-    private List<String> tags;
+    private String opinionMessage;
+
+    /**
+     * Flag to mark if user used this opinion to claim a reward
+     */
+    private boolean used;
 
     /**
      * Verify if provided String represents date in correct format
@@ -68,35 +61,35 @@ public class Opinion {
     }
 
     /**
-     * Verify provided Opinion is not a null, has id, opinionUserId, ReviewedUserId and date
+     * Verify correctness of provided Opinion
      * @param opinion   opinion object to check
-     * @return          true if opinion is correct, false if not
+     * @return          OpinionCorrectnessStatus value according to state
      */
-    public static boolean isOpinionCorrect(Opinion opinion) {
+    public static OpinionCorrectnessStatus isOpinionCorrect(Opinion opinion) {
         if (opinion == null) {
-            return false;
+            return OpinionCorrectnessStatus.EMPTY_OPINION;
         }
 
         if (opinion.getId() != null && opinion.getId().isEmpty()) {
-            return false;
+            return OpinionCorrectnessStatus.EMPTY_ID;
         }
 
-        if (opinion.getOpinionUserID() == null || opinion.getOpinionUserID().isEmpty()) {
-            return false;
+        if (opinion.getOpinionUserId() == null || opinion.getOpinionUserId().isEmpty()) {
+            return OpinionCorrectnessStatus.OPINION_USER_ID_EMPTY;
         }
 
-        if (opinion.getReviewedUserID() == null || opinion.getReviewedUserID().isEmpty()) {
-            return false;
+        if (opinion.getReviewedUserId() == null || opinion.getReviewedUserId().isEmpty()) {
+            return OpinionCorrectnessStatus.REVIEWED_USER_ID_EMPTY;
         }
 
         if (opinion.getDate() != null && opinion.getDate().isEmpty()) {
-            return false;
+            return OpinionCorrectnessStatus.EMPTY_DATE;
         }
 
-        if (opinion.getDate() != null && !opinion.getDate().isEmpty()) {
-            return isDateFormatCorrect(opinion.getDate());
+        if (opinion.getDate() != null && !opinion.getDate().isEmpty() && !isDateFormatCorrect(opinion.getDate())) {
+            return OpinionCorrectnessStatus.INCORRECT_DATE;
         }
 
-        return true;
+        return OpinionCorrectnessStatus.CORRECT;
     }
 }

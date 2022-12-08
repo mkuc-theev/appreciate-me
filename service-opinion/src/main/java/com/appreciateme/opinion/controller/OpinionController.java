@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,7 @@ public class OpinionController {
 
     private final OpinionService service;
 
+// GET
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Opinion> getAll() {
@@ -34,36 +36,45 @@ public class OpinionController {
         return service.getById(id);
     }
 
-    @GetMapping("opinionUser/{id}")
+    @GetMapping("unused/reviewedUser/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Opinion> getByOpinionUserId(@PathVariable String id) {
-        return service.getByOpinionUserId(id);
+    public List<Opinion> getAllUnusedByReviewedUserId(@PathVariable String userId) {
+        return service.getAllUnusedByReviewedUserId(userId);
     }
 
-    @GetMapping("reviewedUser/{id}")
+    @GetMapping("unused/reviewedUser/amount/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Opinion> getByReviewedUserId(@PathVariable String id) {
-        return service.getByReviewedUserId(id);
+    public Integer getAmountOfUnusedOpinionsByReviewedUserId(@PathVariable String userId) {
+        return service.getAllUnusedByReviewedUserId(userId).size();
     }
 
-    @GetMapping("date/{date}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Opinion> getByDate(@PathVariable String date) {
-        return service.getByDate(date);
-    }
-
+// POST
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public String add(@RequestBody Opinion opinionRequest) {
         return service.add(opinionRequest);
     }
 
+// PUT
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public Opinion update(@RequestBody Opinion opinionRequest) {
         return service.update(opinionRequest);
     }
 
+    @PutMapping("/use/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Opinion> useOpinionsToClaimReward(@PathVariable String userId, @RequestParam int amount) {
+        return service.useOpinions(userId, amount);
+    }
+
+    @PutMapping("/remove/user/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Opinion> handleUserRemoval(@PathVariable String id) {
+        return service.replaceUserToDeleted(id);
+    }
+
+// DELETE
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
     public boolean clear() {

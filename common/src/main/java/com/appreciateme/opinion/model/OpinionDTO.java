@@ -16,9 +16,10 @@ public class OpinionDTO {
 
     @Id
     private String id;
-    private String opinionUserID;
-    private String reviewedUserID;
-    private String opinionMessage;
+    private String opinionUserId;
+    private String reviewedUserId;
     private long date;
+    private String opinionMessage;
+    private boolean used;
     private List<String> tags;
 }

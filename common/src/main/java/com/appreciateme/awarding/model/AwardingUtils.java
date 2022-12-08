@@ -1,0 +1,85 @@
+package com.appreciateme.awarding.model;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+public class AwardingUtils {
+
+    public static final ZoneId ZONE = ZoneId.of("Europe/Warsaw");
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
+
+    /**
+     * Map list of Awardings into list of AwardingDTOs
+     * @param awardings     list of Awardings
+     * @return              same list of AwardingDTOs
+     */
+    public static List<AwardingDTO> mapToDtoList(List<Awarding> awardings) {
+        return awardings.stream()
+                .map(AwardingUtils::mapToDto)
+                .toList();
+    }
+
+    /**
+     * Map list of AwardingDTOs into list of Awardings
+     * @param awardingDTOs  list of AwardingDTOs
+     * @return              same list of Awardings
+     */
+    public static List<Awarding> mapToAwardingList(List<AwardingDTO> awardingDTOs) {
+        return awardingDTOs.stream()
+                .map(AwardingUtils::mapToAwarding)
+                .toList();
+    }
+
+    /**
+     * Map specified Awarding object into AwardingDTO object
+     * @param awarding      Awarding object
+     * @return              AwardingDTO object
+     */
+    public static AwardingDTO mapToDto(Awarding awarding) {
+        return AwardingDTO.builder()
+                .userId(awarding.getUserId())
+                .rewards(OwnedRewardUtils.mapToDtoList(awarding.getRewards()))
+                .build();
+    }
+
+    /**
+     * Map specified AwardingDTO object into Awarding object
+     * @param awardingDTO   AwardingDTO object
+     * @return              Awarding object
+     */
+    public static Awarding mapToAwarding(AwardingDTO awardingDTO) {
+        return Awarding.builder()
+                .userId(awardingDTO.getUserId())
+                .rewards(OwnedRewardUtils.mapToOwnedRewardList(awardingDTO.getRewards()))
+                .build();
+    }
+
+    /**
+     * Get current date in correct form as String
+     * @return      date as String in format 'yyyy-MM-dd HH:mm:ss'
+     */
+    public static String getCurrentDate() {
+        return LocalDateTime.ofInstant(
+                        Instant.now(),
+                        ZONE)
+                .format(FORMATTER);
+    }
+
+    /**
+     * Get future date
+     * @param daysOffset    amount of days to add
+     * @return              future date (current date + provided days amount)
+     */
+    public static String getFutureDate(long daysOffset) {
+        return LocalDateTime.ofInstant(
+                        Instant.now(),
+                        ZONE)
+                .plusDays(daysOffset)
+                .format(FORMATTER);
+    }
+}
+

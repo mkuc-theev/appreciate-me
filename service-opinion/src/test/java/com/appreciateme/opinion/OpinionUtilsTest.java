@@ -17,78 +17,78 @@ public class OpinionUtilsTest {
 
     final Opinion OPINION_1 = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
-            .reviewedUserID("pbogdan")
+            .opinionUserId("atyranski")
+            .reviewedUserId("pbogdan")
             .opinionMessage("a really nice byczeq")
             .date(DATE_STRING)
             .build();
 
     final Opinion OPINION_2 = Opinion.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
-            .reviewedUserID("ykarychkovskyi")
+            .opinionUserId("atyranski")
+            .reviewedUserId("ykarychkovskyi")
             .opinionMessage("very cool mentor")
             .date(DATE_STRING)
             .build();
 
     final Opinion OPINION_3 = Opinion.builder()
             .id("633ca01f45ef711325f9d810")
-            .opinionUserID("atyranski")
-            .reviewedUserID("abaranski")
+            .opinionUserId("atyranski")
+            .reviewedUserId("abaranski")
             .opinionMessage("nice bald-beard bro")
             .date(DATE_STRING)
             .build();
 
     final OpinionDTO OPINION_DTO_1 = OpinionDTO.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
-            .reviewedUserID("pbogdan")
+            .opinionUserId("atyranski")
+            .reviewedUserId("pbogdan")
             .opinionMessage("a really nice byczeq")
             .date(DATE_TIMESTAMP)
             .build();
 
     final OpinionDTO OPINION_DTO_2 = OpinionDTO.builder()
             .id("633ca00a45ef711325f9d80f")
-            .opinionUserID("atyranski")
-            .reviewedUserID("ykarychkovskyi")
+            .opinionUserId("atyranski")
+            .reviewedUserId("ykarychkovskyi")
             .opinionMessage("very cool mentor")
             .date(DATE_TIMESTAMP)
             .build();
 
     final OpinionDTO OPINION_DTO_3 = OpinionDTO.builder()
             .id("633ca01f45ef711325f9d810")
-            .opinionUserID("atyranski")
-            .reviewedUserID("abaranski")
+            .opinionUserId("atyranski")
+            .reviewedUserId("abaranski")
             .opinionMessage("nice bald-beard bro")
             .date(DATE_TIMESTAMP)
             .build();
 
 
     @Test
-    @DisplayName("[ 1] given OpinionDTO - when toOpinion() - return Opinion")
-    void givenOpinionDTO_whenToOpinion_thenReturnOpinion() {
+    @DisplayName("[ 1] given OpinionDTO - when mapToOpinion() - return Opinion")
+    void givenOpinionDTO_whenMapToOpinion_thenReturnOpinion() {
         Opinion opinion = OpinionUtils.mapToOpinion(OPINION_DTO_1);
 
         assertEquals(OPINION_1, opinion);
     }
 
     @Test
-    @DisplayName("[ 2] given Opinion - when toDto() - return OpinionDTO")
-    void givenOpinion_whenToDto_thenReturnOpinionDTO() {
+    @DisplayName("[ 2] given Opinion - when mapToDto() - return OpinionDTO")
+    void givenOpinion_whenMapToDto_thenReturnOpinionDTO() {
         OpinionDTO opinionDTO = OpinionUtils.mapToDto(OPINION_1);
 
         assertEquals(OPINION_DTO_1, opinionDTO);
     }
 
     @Test
-    @DisplayName("[ 3] given List<Opinion> - when toDtoList() - return List<OpinionDTO>")
-    void givenListOfOpinion_whenToDtoList_thenReturnListOfOpinionDTO() {
+    @DisplayName("[ 3] given List<Opinion> - when mapToDtoList() - return List<OpinionDTO>")
+    void givenListOfOpinion_whenMapToDtoList_thenReturnListOfOpinionDTO() {
         List<Opinion> opinions = List.of(OPINION_1, OPINION_2, OPINION_3);
         List<OpinionDTO> opinionDTOs = List.of(OPINION_DTO_1, OPINION_DTO_2, OPINION_DTO_3);
 
-        List<OpinionDTO> opinionDTOList = OpinionUtils.mapToDtoList(opinions);
+        List<OpinionDTO> resultList = OpinionUtils.mapToDtoList(opinions);
 
-        assertEquals(opinionDTOs, opinionDTOList);
+        assertEquals(opinionDTOs, resultList);
     }
 
     @Test

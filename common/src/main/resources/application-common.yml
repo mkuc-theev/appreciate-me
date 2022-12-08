@@ -21,6 +21,12 @@ services:
   tags:
     host: 'localhost'
     port: '8005'
-  credentials:
+  rewards:
+    host: 'localhost'
+    port: '8006'
+  awarding:
     host: 'localhost'
     port: '8007'
+  credentials:
+    host: 'localhost'
+    port: '8008'

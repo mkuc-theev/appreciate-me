@@ -11,17 +11,28 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class OpinionExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // 400
+    /**
+     * 400 - The server cannot or will not process the request due to an apparent client error
+     * (e.g., malformed request syntax, size too large, invalid request message framing
+     * or deceptive request routing)
+     * @param ex
+     * @param request
+     * @return
+     */
     @ExceptionHandler(value = { IncorrectOpinionException.class })
     protected ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
-        final String bodyOfResponse = "Provided Opinion is incorrect";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
-    // 404
+    /**
+     * 404 - The requested resource could not be found but may be available in the future.
+     * Subsequent requests by the client are permissible.
+     * @param ex
+     * @param request
+     * @return
+     */
     @ExceptionHandler(value = { OpinionNotFoundException.class })
     protected ResponseEntity<Object> handleNotFound(final RuntimeException ex, final WebRequest request) {
-        final String bodyOfResponse = "Opinion with provided ID not found";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 }
