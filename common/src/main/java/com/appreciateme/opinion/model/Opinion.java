@@ -50,6 +50,11 @@ public class Opinion {
     private boolean used;
 
     /**
+     * Collection of all tags attached to the opinion
+     */
+    private List<String> tags;
+
+    /**
      * Verify if provided String represents date in correct format
      * @param date      String with date to check
      * @return          true if date is in correct format, false if not
